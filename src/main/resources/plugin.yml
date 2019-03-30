@@ -1,0 +1,6 @@
+name: ganmatoso
+version: ${project.version}
+main: ga.ganma.minigames.Minigames
+commands:
+  toso:
+    description: tosogame command.
