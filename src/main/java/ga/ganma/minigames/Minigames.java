@@ -19,6 +19,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.scoreboard.*;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 public final class Minigames extends JavaPlugin implements Listener {
     static boolean start;
     static boolean hunter;
@@ -45,6 +48,7 @@ public final class Minigames extends JavaPlugin implements Listener {
     static int jailX;
     static int jailY;
     static int jailZ;
+    static HashMap<Player, String> issprint = new HashMap<Player, String>();
 
     @Override
     public void onEnable() {
@@ -135,14 +139,10 @@ public final class Minigames extends JavaPlugin implements Listener {
         if (start) {
             sprintpl = e.getPlayer();
             if (e.isSprinting()) {
-                sprintpl.removeScoreboardTag("walk");
-                sprintpl.addScoreboardTag("sprint");
-                sprint();
+                issprint.put(sprintpl,"sprint");
             }
             else{
-                sprintpl.removeScoreboardTag("sprint");
-                sprintpl.addScoreboardTag("walk");
-                walk();
+                issprint.put(sprintpl,"walk");
             }
         }
     }
@@ -225,13 +225,6 @@ public final class Minigames extends JavaPlugin implements Listener {
         return econ;
     }
 
-    public void sprint(){
-        new Timer().runTaskTimer(this,0,20);
-    }
-
-    public void walk(){
-        new Timer2().runTaskTimer(this,20,30);
-    }
     @Override
     public void onDisable() {
         getLogger().info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));

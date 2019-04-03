@@ -56,6 +56,7 @@ public class gametimer extends BukkitRunnable {
         }
         if (Minigames.gametime == 1){
             Bukkit.getServer().broadcastMessage(Minigames.GAME + "逃走中が終了しました！");
+            Minigames.start = false;
             this.cancel();
         }
         Minigames.gametime --;

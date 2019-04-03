@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -98,6 +99,8 @@ public class tosoCommand implements CommandExecutor {
             Bukkit.getServer().broadcastMessage(Minigames.GAME + "5秒後にテレポートとタイマーをスタートします。");
             Minigames.gametime = 3660;
             new gametimer().runTaskTimer(Minigames.plg, 100, 20);
+            new Timer().runTaskTimer(Minigames.plg,0,30);
+            new Timer2().runTaskTimer(Minigames.plg,0,50);
         } else p.sendMessage(Minigames.GAME + ChatColor.RED + "まだハンターを決めていません！");
     }
 
