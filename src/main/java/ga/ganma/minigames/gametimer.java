@@ -3,7 +3,6 @@ package ga.ganma.minigames;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -62,7 +61,7 @@ public class gametimer extends BukkitRunnable {
         Minigames.gametime --;
         if(Minigames.gametime < 3601){
             int pr = Minigames.prize;
-            Minigames.prize = pr + 100;
+            Minigames.prize = pr + Minigames.moneytanka;
         }
         Minigames.main.unregister();
         Minigames.main = Minigames.board.registerNewObjective("main", "dummy");
@@ -73,7 +72,26 @@ public class gametimer extends BukkitRunnable {
         Minigames.Stime.setScore(0);
         Minigames.Smoney = Minigames.main.getScore(ChatColor.GOLD +  "賞金" + ChatColor.WHITE + "：" + Minigames.prize + "円");
         Minigames.Smoney.setScore(1);
-        Minigames.tanka = Minigames.main.getScore("賞金単価：" + ChatColor.DARK_GREEN + "1秒100円");
+        Minigames.tanka = Minigames.main.getScore("賞金単価：" + ChatColor.DARK_GREEN + "1秒" + ChatColor.WHITE + Minigames.moneytanka + ChatColor.DARK_GREEN + "円");
         Minigames.tanka.setScore(-1);
+
+        for (Player p:Bukkit.getOnlinePlayers()){
+            if (!(Minigames.jailcount.get(p).isEmpty())){
+                if (Minigames.jailcount.get(p).equalsIgnoreCase("three")){
+                    Minigames.jailcount.put(p,"two");
+                }
+                else if (Minigames.jailcount.get(p).equalsIgnoreCase("two")){
+                    Minigames.jailcount.put(p,"one");
+                }
+                else if (Minigames.jailcount.get(p).equalsIgnoreCase("one")){
+                    Minigames.jailcount.put(p,"zero");
+                }
+                else if(Minigames.jailcount.get(p).equalsIgnoreCase("zero")){
+                    Minigames.jailcount.put(p,null);
+                    p.teleport(Minigames.jailL);
+                    p.sendMessage(ChatColor.GRAY + "牢屋にテレポートしました");
+                }
+            }
+        }
     }
 }

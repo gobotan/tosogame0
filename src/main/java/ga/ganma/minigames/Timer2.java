@@ -7,8 +7,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class Timer2 extends BukkitRunnable {
     @Override
     public void run() {
-            for (Player pl: Bukkit.getServer().getOnlinePlayers()){
-                if(Minigames.issprint.get(pl).equals("walk")){
+        if (Minigames.issprint != null) {
+            for (Player pl : Bukkit.getServer().getOnlinePlayers()) {
+                if (Minigames.issprint.get(pl).equals("walk")) {
                     int food = pl.getFoodLevel();
                     food++;
                     pl.setFoodLevel(food);
@@ -16,3 +17,4 @@ public class Timer2 extends BukkitRunnable {
             }
         }
     }
+}

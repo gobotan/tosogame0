@@ -49,6 +49,8 @@ public final class Minigames extends JavaPlugin implements Listener {
     static int jailY;
     static int jailZ;
     static HashMap<Player, String> issprint = new HashMap<Player, String>();
+    static int moneytanka;
+    static HashMap<Player, String> jailcount = new HashMap<Player, String>();
 
     @Override
     public void onEnable() {
@@ -117,8 +119,8 @@ public final class Minigames extends JavaPlugin implements Listener {
                     Player ByPlayer = (Player) e.getDamager();
                     fromplayer = (Player) e.getEntity();
                     if (Hunter.getPlayers().contains(ByPlayer) && Runner.getPlayers().contains(fromplayer)) {
-                        new jail().runTaskLater(this, 60);
                         fromplayer.sendMessage("あなたは確保されました。3秒後に牢屋へテレポートします。");
+                        jailcount.put(fromplayer,"three");
                         jailL = new Location(
                                 ByPlayer.getWorld(),
                                 getConfig().getInt("jail.x"),
