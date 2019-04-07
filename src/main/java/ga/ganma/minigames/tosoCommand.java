@@ -1,9 +1,6 @@
 package ga.ganma.minigames;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-import static ga.ganma.minigames.Minigames.hunter;
+import static ga.ganma.minigames.Minigames.*;
 import static org.bukkit.Bukkit.getServer;
 
 public class tosoCommand implements CommandExecutor {
@@ -52,6 +49,9 @@ public class tosoCommand implements CommandExecutor {
                             Minigames.moneytanka = tanka;
                             getServer().broadcastMessage("賞金単価を1秒" + Minigames.moneytanka + "円に変更しました");
                         }
+                    }else if(args[0].equalsIgnoreCase("prize")){
+                        if(!start)
+                        Minigames.sendmoney();
                     }
                 } else {
                     p.sendMessage(ChatColor.GRAY + "/toso start と打つと逃走中がスタートします。");
@@ -96,7 +96,19 @@ public class tosoCommand implements CommandExecutor {
     void start() {
         if (Minigames.hunter) {
             Minigames.start = true;
-
+            Minigames.plg.getConfig();
+            Minigames.resL = new Location(
+                    p.getWorld(),
+                    plg.getConfig().getInt("res.x"),
+                    plg.getConfig().getInt("res.y"),
+                    plg.getConfig().getInt("res.z")
+            );
+            Minigames.hunterL = new Location(
+                    p.getWorld(),
+                    plg.getConfig().getInt("box.x"),
+                    plg.getConfig().getInt("box.y"),
+                    plg.getConfig().getInt("box.z")
+            );
             getServer().broadcastMessage(Minigames.GAME + "逃走中が開始しました！");
             getServer().broadcastMessage(Minigames.GAME + "制限時間は60分");
             getServer().broadcastMessage(Minigames.GAME + "ハンター放出まで残り1分です！残り時間が3600秒になるとハンターが放出します！");
@@ -129,7 +141,6 @@ public class tosoCommand implements CommandExecutor {
                 randamhunter.add(pl);
             }
         }
-        p.sendMessage("" + randamhunter.size() + "");
         hunterkimekime();
     }
 

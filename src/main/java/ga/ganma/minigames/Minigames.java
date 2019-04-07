@@ -5,7 +5,9 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +22,7 @@ import net.milkbowl.vault.permission.Permission;
 import org.bukkit.scoreboard.*;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Set;
 
 public final class Minigames extends JavaPlugin implements Listener {
     static boolean start;
@@ -35,22 +37,21 @@ public final class Minigames extends JavaPlugin implements Listener {
     static Team Jailer;
     final static String GAME = ("[" + ChatColor.RED + "ZOSU鯖逃走中" + ChatColor.WHITE + "]");
     static Player sprintpl;
-    static FileConfiguration config;
     static public int prize;
     static int gametime = 3600;
     static Objective main;
     static Score Stime;
     static Score Smoney;
     static Score tanka;
-    static Minigames plg;
-    static Player fromplayer;
     static Location jailL;
-    static int jailX;
-    static int jailY;
-    static int jailZ;
-    static HashMap<Player, String> issprint = new HashMap<Player, String>();
+    static Location resL;
+    static Location hunterL;
+    static Location lobbyL;
+    static HashMap<Player, Boolean> issprint = new HashMap<Player, Boolean>();
     static int moneytanka;
     static HashMap<Player, String> jailcount = new HashMap<Player, String>();
+    public static Minigames plg;
+    FileConfiguration config;
 
     @Override
     public void onEnable() {
@@ -111,40 +112,46 @@ public final class Minigames extends JavaPlugin implements Listener {
 
     @EventHandler
     public void b(EntityDamageByEntityEvent e) {
+        boolean isHunter;
+        boolean isRunner;
         if (start) {
-            EntityType ByEntity = e.getDamager().getType();
-            EntityType fromEntity = e.getEntity().getType();
-            if (ByEntity == EntityType.PLAYER) {
-                if (fromEntity == EntityType.PLAYER) {
-                    Player ByPlayer = (Player) e.getDamager();
-                    fromplayer = (Player) e.getEntity();
-                    if (Hunter.getPlayers().contains(ByPlayer) && Runner.getPlayers().contains(fromplayer)) {
-                        fromplayer.sendMessage("あなたは確保されました。3秒後に牢屋へテレポートします。");
-                        jailcount.put(fromplayer,"three");
-                        jailL = new Location(
-                                ByPlayer.getWorld(),
-                                getConfig().getInt("jail.x"),
-                                getConfig().getInt("jail.y"),
-                                getConfig().getInt("jail.z")
-                        );
-                        Runner.removePlayer(fromplayer);
-                        Jailer.addPlayer(fromplayer);
+                Set<String> tosoMember = Runner.getEntries();
+                Set<String> huntMember = Hunter.getEntries();
+                Entity ByEntity = e.getDamager();
+                Entity fromEntity = e.getEntity();
+                if (ByEntity instanceof Player) {
+                    if (fromEntity instanceof Player) {
+                        Player ByPlayer = (Player) e.getDamager();
+                        isHunter = huntMember.contains(ByPlayer.getName());
+                        Player fromplayer = (Player) e.getEntity();
+                        isRunner = tosoMember.contains(fromplayer.getName());
+                        if (isHunter && isRunner) {
+                            fromplayer.sendMessage("あなたは確保されました。3秒後に牢屋へテレポートします。");
+                            jailcount.put(fromplayer, "three");
+                            jailL = new Location(
+                                    ByPlayer.getWorld(),
+                                    getConfig().getInt("jail.x"),
+                                    getConfig().getInt("jail.y"),
+                                    getConfig().getInt("jail.z")
+                            );
+                            Runner.removePlayer(fromplayer);
+                            Jailer.addPlayer(fromplayer);
+                        }
                     }
                 }
+                e.setCancelled(true);
             }
-            e.setCancelled(true);
         }
-    }
 
     @EventHandler
     public void c(PlayerToggleSprintEvent e) {
         if (start) {
             sprintpl = e.getPlayer();
             if (e.isSprinting()) {
-                issprint.put(sprintpl,"sprint");
+                issprint.put(sprintpl,true);
             }
             else{
-                issprint.put(sprintpl,"walk");
+                issprint.put(sprintpl,false);
             }
         }
     }
@@ -159,7 +166,6 @@ public final class Minigames extends JavaPlugin implements Listener {
                 config.set("jail.x", (int)l.getX());
                 config.set("jail.y", (int)l.getY());
                 config.set("jail.z", (int)l.getZ());
-                config.set("jail.world",l.getWorld().getName());
                 saveConfig();
                 pl.sendMessage(ChatColor.GRAY + "牢獄の座標を設定しました。");
                 e.setCancelled(true);
@@ -168,7 +174,6 @@ public final class Minigames extends JavaPlugin implements Listener {
                 config.set("box.x", (int)l.getX());
                 config.set("box.y", (int)l.getY());
                 config.set("box.z", (int)l.getZ());
-                config.set("box.world",l.getWorld());
                 saveConfig();
                 pl.sendMessage(ChatColor.GRAY + "ハンターのスポーン地点の座標を設定しました。");
                 e.setCancelled(true);
@@ -177,7 +182,6 @@ public final class Minigames extends JavaPlugin implements Listener {
                 config.set("lobby.x", (int)l.getX());
                 config.set("lobby.y", (int)l.getY());
                 config.set("lobby.z", (int)l.getZ());
-                config.set("lobby.world",l.getWorld());
                 saveConfig();
                 pl.sendMessage(ChatColor.GRAY + "ロビーの座標を設定しました。");
                 e.setCancelled(true);
@@ -186,7 +190,6 @@ public final class Minigames extends JavaPlugin implements Listener {
                 config.set("res.x", (int)l.getX());
                 config.set("res.y", (int)l.getY());
                 config.set("res.z", (int)l.getZ());
-                config.set("res.world",l.getWorld());
                 saveConfig();
                 pl.sendMessage(ChatColor.GRAY + "復活地点の座標を設定しました。");
                 e.setCancelled(true);
@@ -209,6 +212,14 @@ public final class Minigames extends JavaPlugin implements Listener {
             Hunter.removePlayer(pl);
         }
         pl.setPlayerListName(pl.getName() + "[" + ChatColor.AQUA + "逃走者" + ChatColor.WHITE + "]");
+
+        Minigames.lobbyL = new Location(
+                pl.getWorld(),
+                plg.getConfig().getInt("lobby.x"),
+                plg.getConfig().getInt("lobby.y"),
+                plg.getConfig().getInt("lobby.z")
+        );
+        pl.teleport(lobbyL);
     }
 
     private boolean setupEconomy() {
@@ -232,15 +243,12 @@ public final class Minigames extends JavaPlugin implements Listener {
         getLogger().info(String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
     }
 
-    public void sendmoney(){
-        for(Player winner:getServer().getOnlinePlayers()){
-            for(String tags:winner.getScoreboardTags()){
-                if(tags.equalsIgnoreCase("winner")){
+    static public void sendmoney(){
+        for(Player winner:Bukkit.getServer().getOnlinePlayers()){
+            if(Runner.getPlayers().contains(winner)){
                     econ.depositPlayer(winner,prize);
-
                 }
-            }
-            getServer().broadcastMessage(ChatColor.DARK_AQUA + "無事に逃げ切った人に賞金" + ChatColor.RED + prize + "円を渡しました！");
         }
+        Bukkit.getServer().broadcastMessage(ChatColor.DARK_AQUA + "無事に逃げ切った人に賞金" + ChatColor.RED + prize + ChatColor.DARK_AQUA + "円を渡しました！");
     }
 }
