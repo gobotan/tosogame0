@@ -20,9 +20,9 @@ import static org.bukkit.Bukkit.getServer;
 
 public class Eventget implements Listener {
     FileConfiguration config;
-    static String missionS;
+    static public String missionS;
 
-    public Eventget(Plugin pl){
+    public Eventget(Plugin pl) {
         pl.getServer().getPluginManager().registerEvents(this, pl);
     }
 
@@ -53,14 +53,13 @@ public class Eventget implements Listener {
                         Runner.removePlayer(fromplayer);
                         Jailer.addPlayer(fromplayer);
                         e.setDamage(0d);
-                    }
-                    else {
+                    } else {
                         e.setCancelled(true);
                     }
                 }
             }
         }
-        if(e.getEntity() instanceof Player){
+        if (e.getEntity() instanceof Player) {
             ((Player) e.getEntity()).damage(0d);
         }
     }
@@ -72,12 +71,12 @@ public class Eventget implements Listener {
             sprintpl = e.getPlayer();
             if (e.isSprinting()) {
                 issprint.put(sprintpl, true);
-                if(huntMember.contains(sprintpl.getName())){
+                if (huntMember.contains(sprintpl.getName())) {
                     sprintpl.setWalkSpeed(0.3f);
                 }
             } else {
                 issprint.put(sprintpl, false);
-                if(huntMember.contains(sprintpl.getName())){
+                if (huntMember.contains(sprintpl.getName())) {
                     sprintpl.setWalkSpeed(0.15f);
                 }
             }
@@ -89,13 +88,13 @@ public class Eventget implements Listener {
         if (e.getCurrentItem().getItemMeta() != null) {
             Player pl = (Player) e.getWhoClicked();
             String clickItem = e.getCurrentItem().getItemMeta().getDisplayName();
-             config = plg.getConfig();
+            config = plg.getConfig();
             if (clickItem.equals(tosoCommand.menu1data.getDisplayName()) && !e.isShiftClick()) {
                 Location l = pl.getLocation();
                 this.config.set("jail.x", (int) l.getX());
                 this.config.set("jail.y", (int) l.getY());
                 this.config.set("jail.z", (int) l.getZ());
-                this.config.set("jail.boolean",true);
+                this.config.set("jail.boolean", true);
                 plg.saveConfig();
                 plg.reloadConfig();
                 pl.sendMessage(ChatColor.GRAY + "牢獄の座標を設定しました。");
@@ -105,7 +104,7 @@ public class Eventget implements Listener {
                 this.config.set("box.x", (int) l.getX());
                 this.config.set("box.y", (int) l.getY());
                 this.config.set("box.z", (int) l.getZ());
-                this.config.set("box.boolean",true);
+                this.config.set("box.boolean", true);
                 plg.saveConfig();
                 plg.reloadConfig();
                 pl.sendMessage(ChatColor.GRAY + "ハンターのスポーン地点の座標を設定しました。");
@@ -115,7 +114,7 @@ public class Eventget implements Listener {
                 this.config.set("lobby.x", (int) l.getX());
                 this.config.set("lobby.y", (int) l.getY());
                 this.config.set("lobby.z", (int) l.getZ());
-                this.config.set("lobby.boolean",true);
+                this.config.set("lobby.boolean", true);
                 plg.saveConfig();
                 plg.reloadConfig();
                 pl.sendMessage(ChatColor.GRAY + "ロビーの座標を設定しました。");
@@ -125,7 +124,7 @@ public class Eventget implements Listener {
                 this.config.set("res.x", (int) l.getX());
                 this.config.set("res.y", (int) l.getY());
                 this.config.set("res.z", (int) l.getZ());
-                this.config.set("res.boolean",true);
+                this.config.set("res.boolean", true);
                 plg.saveConfig();
                 plg.reloadConfig();
                 pl.sendMessage(ChatColor.GRAY + "復活地点の座標を設定しました。");
@@ -135,7 +134,7 @@ public class Eventget implements Listener {
                 this.config.set("mission1.x", (int) l.getX());
                 this.config.set("mission1.y", (int) l.getY());
                 this.config.set("mission1.z", (int) l.getZ());
-                this.config.set("mission1.boolean",true);
+                this.config.set("mission1.boolean", true);
                 plg.saveConfig();
                 plg.reloadConfig();
                 pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標1を設定しました。");
@@ -145,7 +144,7 @@ public class Eventget implements Listener {
                 this.config.set("mission2.x", (int) l.getX());
                 this.config.set("mission2.y", (int) l.getY());
                 this.config.set("mission2.z", (int) l.getZ());
-                this.config.set("mission2.boolean",true);
+                this.config.set("mission2.boolean", true);
                 plg.saveConfig();
                 plg.reloadConfig();
                 pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標2を設定しました。");
@@ -155,7 +154,7 @@ public class Eventget implements Listener {
                 this.config.set("mission3.x", (int) l.getX());
                 this.config.set("mission3.y", (int) l.getY());
                 this.config.set("mission3.z", (int) l.getZ());
-                this.config.set("mission3.boolean",true);
+                this.config.set("mission3.boolean", true);
                 plg.saveConfig();
                 plg.reloadConfig();
                 pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標3を設定しました。");
@@ -170,10 +169,13 @@ public class Eventget implements Listener {
                 plg.reloadConfig();
                 pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標4を設定しました。");
                 e.setCancelled(true);
-            }else if(clickItem.equalsIgnoreCase(phone.missionlistmeta.getDisplayName()) && !e.isShiftClick()){
+            } else if (clickItem.equalsIgnoreCase(phone.missionlistmeta.getDisplayName()) && !e.isShiftClick()) {
                 pl.closeInventory();
-                if(mission.ismission) { pl.sendMessage(missionS); }
-                else{ pl.sendMessage("現在発動されているミッションはありません。");}
+                if (mission.ismission && missionS != null) {
+                    pl.sendMessage(missionS);
+                } else {
+                    pl.sendMessage("現在発動されているミッションはありません。");
+                }
             } else if (clickItem.equalsIgnoreCase(tosoCommand.closedata.getDisplayName()) && !e.isShiftClick()) {
                 e.setCancelled(true);
                 pl.closeInventory();
@@ -197,7 +199,7 @@ public class Eventget implements Listener {
                 Hunter.removePlayer(pl);
             }
             pl.setPlayerListName(pl.getName() + "[" + ChatColor.AQUA + "逃走者" + ChatColor.WHITE + "]");
-            if(plg.getConfig().getBoolean("lobby.boolean")) {
+            if (plg.getConfig().getBoolean("lobby.boolean")) {
                 Minigames.lobbyL = new Location(
                         pl.getWorld(),
                         plg.getConfig().getInt("lobby.x"),
@@ -214,7 +216,7 @@ public class Eventget implements Listener {
                     pl.getInventory().setHelmet(null);
                 }
             }
-        } else if(!Hunter.getEntries().contains(pl.getName()) || Runner.getEntries().contains(pl.getName())) {
+        } else if (!Hunter.getEntries().contains(pl.getName()) || Runner.getEntries().contains(pl.getName())) {
             if (gametime < 1800) {
                 config = plg.getConfig();
                 pl.sendMessage("ゲームが開始してから30分以上経っているため、牢屋にスポーンしました。");
@@ -238,7 +240,7 @@ public class Eventget implements Listener {
                     pl.teleport(resL);
                     Runner.addPlayer(pl);
                     pl.setSneaking(true);
-                }else {
+                } else {
                     pl.sendMessage("あなたはすでに確保されているため、牢屋にテレポートしました。");
                     jailL = new Location(
                             pl.getWorld(),
@@ -249,7 +251,7 @@ public class Eventget implements Listener {
                     pl.teleport(jailL);
                 }
             }
-        }else if(Hunter.getEntries().contains(pl.getName())){
+        } else if (Hunter.getEntries().contains(pl.getName())) {
             pl.sendMessage("途中でログアウトしたため、ハンターボックスにテレポートしました。");
             pl.teleport(hunterL);
         }
@@ -258,41 +260,57 @@ public class Eventget implements Listener {
     }
 
     @EventHandler
-    public void e(PlayerCommandPreprocessEvent e){
-        for (Player p:getServer().getOnlinePlayers()){
-            if(p.isOp()){
+    public void e(PlayerCommandPreprocessEvent e) {
+        for (Player p : getServer().getOnlinePlayers()) {
+            if (p.isOp()) {
                 p.sendMessage(ChatColor.GRAY + "[コマンドログ]" + e.getPlayer().getName() + "：" + e.getMessage());
             }
         }
     }
 
     @EventHandler
-    public void g(EntityInteractEvent e){
+    public void g(EntityInteractEvent e) {
         e.setCancelled(true);
     }
 
     @EventHandler
-    public  void h(FoodLevelChangeEvent e){
+    public void h(FoodLevelChangeEvent e) {
         e.setCancelled(true);
     }
 
     @EventHandler
-    public void i(EntityDamageByBlockEvent e){
-        if(e.getDamager() != null){
+    public void i(EntityDamageByBlockEvent e) {
+        if (e.getDamager() != null) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler
-    public void j(ItemDespawnEvent e){
+    public void j(ItemDespawnEvent e) {
         e.setCancelled(true);
     }
 
     @EventHandler
-    public void k(EntityPickupItemEvent e){
-        if(e.getEntity() instanceof Player){
-            if(e.getItem().getName().equals(mission.item1meta.getDisplayName())){
+    public void k(EntityPickupItemEvent e) {
+        if (e.getEntity() instanceof Player) {
+            if (e.getItem().getName().equals(mission.item1meta.getDisplayName())) {
                 ((Player) e.getEntity()).setFoodLevel(((Player) e.getEntity()).getFoodLevel() + 20);
+                ((Player) e.getEntity()).getInventory().remove(e.getItem().getItemStack());
+            }
+        }
+    }
+
+    @EventHandler
+    public void l(PlayerInteractAtEntityEvent e) {
+        if (e.getClickedPosition() instanceof Player) {
+            if (e.getPlayer().getItemOnCursor().getItemMeta().getDisplayName().contains(mission.item2meta.getDisplayName())) {
+                if (!mission.mission2B.get((Player) e.getClickedPosition())) {
+                    mission.mission2B.put((Player) e.getClickedPosition(), true);
+                    ((Player) e.getClickedPosition()).sendMessage("あなたは" + e.getPlayer().getName() + "さんに時限装置を解除されました！");
+                }
+                else {
+                    e.getPlayer().sendMessage("あなたがクリックしたプレイヤーはすでに時限装置は解除されています。");
+                }
             }
         }
     }

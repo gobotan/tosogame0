@@ -1,5 +1,6 @@
 package ga.ganma.minigames.missiontime;
 
+import ga.ganma.minigames.Eventget;
 import ga.ganma.minigames.Minigames;
 import ga.ganma.minigames.mission;
 import ga.ganma.minigames.tosoCommand;
@@ -30,6 +31,7 @@ public class mission2time extends BukkitRunnable {
                 }
             }
             mission.missiontf.put("mission2", false);
+            Eventget.missionS = null;
         }
         if (!mission.ismission) {
             this.cancel();
@@ -38,6 +40,7 @@ public class mission2time extends BukkitRunnable {
                 p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 2);
             }
             mission.missiontf.put("mission2", true);
+            Eventget.missionS = null;
         }
     }
 }

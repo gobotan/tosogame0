@@ -21,7 +21,10 @@ static Location L3;
 static Location L4;
 static ItemStack item1 = new ItemStack(Material.SEEDS);
 static public ItemMeta item1meta = item1.getItemMeta();
+static ItemStack item2 = new ItemStack(Material.TRIPWIRE_HOOK);
+static ItemMeta item2meta = item2.getItemMeta();
 static public HashMap<String,Boolean> missiontf = new HashMap<String, Boolean>();
+static public HashMap<Player,Boolean> mission2B = new HashMap<Player, Boolean>();
 
     static public void mission1(int starttime, Location missionLocation){
         mission1t = starttime;
@@ -31,18 +34,18 @@ static public HashMap<String,Boolean> missiontf = new HashMap<String, Boolean>()
     }
 
     static public void mission2(int starttime, Location missionLocation){
-        mission2t = starttime;
-        mission2t = mission2t - 600;
-        L2 = missionLocation;
-        new mission2time().runTaskTimer(Minigames.plg,0,20);
-        for(Player p: Bukkit.getOnlinePlayers()){
-            p.sendTitle(ChatColor.RED + "ミッションが発動された...","通報部隊の投入を阻止せよ",10,60,20);
-            p.playSound(p.getLocation(), Sound.UI_TOAST_IN,1,2);
-        }
-        Eventget.missionS = "どこかにプレイヤーの発光を阻止する場所を置いた。" + "その場所を見つけ出し、その場所にあるアイテムを拾い、プレイヤーの発光を阻止せよ！"+"なお、そのアイテムを拾うと、使った者に対し逃走に有利な条件が付く！";
-        item1meta.setDisplayName("プレイヤー発光阻止アイテム");
-        item1.setItemMeta(item1meta);
-        tosoCommand.world.dropItemNaturally(tosoCommand.mission2L,item1);
+            mission2t = starttime;
+            mission2t = mission2t - 600;
+            L2 = missionLocation;
+            new mission2time().runTaskTimer(Minigames.plg,0,20);
+            for(Player p: Bukkit.getOnlinePlayers()){
+                p.sendTitle(ChatColor.RED + "ミッションが発動された...","プレイヤーの発光を阻止せよ",10,60,20);
+                p.playSound(p.getLocation(), Sound.UI_TOAST_IN,1,2);
+            }
+            Eventget.missionS = "どこかにプレイヤーの発光を阻止する場所を置いた。" + "その場所を見つけ出し、その場所にあるアイテムを拾い、プレイヤーの発光を阻止せよ！"+"なお、そのアイテムを拾うと、使った者に対し逃走に有利な条件が付く！";
+            item1meta.setDisplayName("プレイヤー発光阻止アイテム");
+            item1.setItemMeta(item1meta);
+            tosoCommand.world.dropItemNaturally(tosoCommand.mission2L,item1);
     }
 
     static public void mission3(int starttime, Location missionLocation){
@@ -50,6 +53,15 @@ static public HashMap<String,Boolean> missiontf = new HashMap<String, Boolean>()
         mission3t = mission3t - 600;
         L3 = missionLocation;
         new mission3time().runTaskTimer(Minigames.plg,0,20);
+        item2meta.setDisplayName("鍵");
+        item2.setItemMeta(item2meta);
+        for (Player p:Bukkit.getOnlinePlayers()){
+            p.sendTitle(ChatColor.RED + "ミッションが発動された...","時限装置を解除せよ！",10,60,20);
+            p.playSound(p.getLocation(), Sound.UI_TOAST_IN,1,2);
+            p.getInventory().setItem(0,item2);
+            mission2B.put(p,false);
+        }
+        Eventget.missionS = "プレイヤー全員に鍵を渡した。今から10分後に時限装置が鳴り響くようになり、ハンターが集まってくる！" + "解除するには、他のプレイヤーが持っている鍵を右クリックして貰う必要がある！" + "なお、鍵は何回でも使用可能である。";
     }
 
     static public void mission4(int starttime, Location missionLocation){

@@ -54,7 +54,7 @@ public final class Minigames extends JavaPlugin implements Listener {
         plg = this;
         getLogger().info("逃走中プラグインが起動しました。");
         getLogger().info("create by ganma");
-        getLogger().info("現在のバージョン0.5.1β");
+        getLogger().info("現在のバージョン0.1.5α");
         getCommand("toso").setExecutor(new tosoCommand());
         getCommand("phone").setExecutor(new phone());
         new Eventget(this);
