@@ -1,5 +1,5 @@
-# tosogame0
-toso_now
+# tosonow
+tosonow
 逃走中プラグインです。×vaultと連携して賞金を渡せます。
 
 変更しました。これからはvaultではなく、HimaJyun様制作のjeconと連携して賞金を渡すようにしました。
