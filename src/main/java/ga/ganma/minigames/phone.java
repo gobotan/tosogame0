@@ -37,7 +37,7 @@ public class phone implements CommandExecutor {
         }
         else missionlistmeta.setLore(Arrays.asList(ChatColor.RED + "現在ミッションは発動されていません"));
         jaillistmeta.setDisplayName("牢獄に入っている人");
-        jaillistmeta.setLore(Arrays.asList(ChatColor.RESET + "現在の確保者：" + Minigames.Jailer.getSize() + "人",ChatColor.RESET + "右クリックで牢獄にいるプレイヤーを表示"));
+        jaillistmeta.setLore(Arrays.asList(ChatColor.RESET + "現在の確保者：" + Minigames.Jailer.getSize() + "人",ChatColor.RESET + "右クリックで牢獄にいるプレイヤーを表示"+ "※未実装（クリックしても何も起きません"));
         closedata.setDisplayName("閉じる");
         tosoCommand.close.setItemMeta(closedata);
         missionlist.setItemMeta(missionlistmeta);

@@ -1,7 +1,10 @@
 package ga.ganma.minigames;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -11,6 +14,8 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Set;
 
@@ -21,6 +26,7 @@ import static org.bukkit.Bukkit.getServer;
 public class Eventget implements Listener {
     FileConfiguration config;
     static public String missionS;
+    static public boolean chat;
 
     public Eventget(Plugin pl) {
         pl.getServer().getPluginManager().registerEvents(this, pl);
@@ -216,6 +222,35 @@ public class Eventget implements Listener {
                     pl.getInventory().setHelmet(null);
                 }
             }
+            pl.getInventory().setItem(0,null);
+            pl.getInventory().setItem(1,null);
+            pl.getInventory().setItem(2,null);
+            pl.getInventory().setItem(3,null);
+            pl.getInventory().setItem(4,null);
+            pl.getInventory().setItem(5,null);
+            pl.getInventory().setItem(6,null);
+            pl.getInventory().setItem(7,null);
+            pl.getInventory().setItem(8,null);
+            pl.getInventory().setItem(9,null);
+            pl.getInventory().setItem(10,null);
+            pl.getInventory().setItem(11,null);
+            pl.getInventory().setItem(12,null);
+            pl.getInventory().setItem(13,null);
+            pl.getInventory().setItem(14,null);
+            pl.getInventory().setItem(15,null);
+            pl.getInventory().setItem(16,null);
+            pl.getInventory().setItem(17,null);
+            pl.getInventory().setItem(18,null);
+            pl.getInventory().setItem(19,null);
+            pl.getInventory().setItem(20,null);
+            pl.getInventory().setItem(21,null);
+            pl.getInventory().setItem(22,null);
+            pl.getInventory().setItem(23,null);
+            pl.getInventory().setItem(24,null);
+            pl.getInventory().setItem(25,null);
+            pl.getInventory().setItem(26,null);
+            pl.getInventory().setItem(27,null);
+            pl.removePotionEffect(PotionEffectType.SPEED);
         } else if (!Hunter.getEntries().contains(pl.getName()) || Runner.getEntries().contains(pl.getName())) {
             if (gametime < 1800) {
                 config = plg.getConfig();
@@ -291,27 +326,68 @@ public class Eventget implements Listener {
     }
 
     @EventHandler
-    public void k(EntityPickupItemEvent e) {
-        if (e.getEntity() instanceof Player) {
-            if (e.getItem().getName().equals(mission.item1meta.getDisplayName())) {
-                ((Player) e.getEntity()).setFoodLevel(((Player) e.getEntity()).getFoodLevel() + 20);
-                ((Player) e.getEntity()).getInventory().remove(e.getItem().getItemStack());
+    public void l(PlayerInteractEntityEvent e) {
+        if (e.getRightClicked() instanceof Player) {
+            if (e.getPlayer().getItemInHand().getItemMeta().getDisplayName().contains("鍵")) {
+                Player p = (Player) e.getRightClicked();
+                if (!mission.mission2B.get(p)) {
+                    mission.mission2B.put((Player) e.getRightClicked(), true);
+                    (e.getRightClicked()).sendMessage("あなたは" + e.getPlayer().getName() + "さんに時限装置を解除されました！");
+                }
+                else if(mission.mission2B.get(p)){
+                    e.getPlayer().sendMessage("あなたがクリックしたプレイヤーはすでに時限装置は解除されています。");
+                }
             }
         }
     }
 
     @EventHandler
-    public void l(PlayerInteractAtEntityEvent e) {
-        if (e.getClickedPosition() instanceof Player) {
-            if (e.getPlayer().getItemOnCursor().getItemMeta().getDisplayName().contains(mission.item2meta.getDisplayName())) {
-                if (!mission.mission2B.get((Player) e.getClickedPosition())) {
-                    mission.mission2B.put((Player) e.getClickedPosition(), true);
-                    ((Player) e.getClickedPosition()).sendMessage("あなたは" + e.getPlayer().getName() + "さんに時限装置を解除されました！");
+    public void m(PlayerToggleSneakEvent e){
+        if(!e.isSneaking()){
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void n(AsyncPlayerChatEvent e){
+        if(!chat){
+            e.setCancelled(true);
+            e.getPlayer().sendMessage(GAME + "現在、全体のチャットは制限されています。");
+        }
+        else{
+            e.setCancelled(false);
+        }
+    }
+
+    @EventHandler
+    public void o(PlayerInteractEvent e){
+        if(e.getClickedBlock() != null && mission.ismission){
+            Block bl = e.getClickedBlock();
+            if(bl.getType() == Material.DIAMOND_BLOCK){
+                moneytanka = 300;
+                for(Player p : Bukkit.getOnlinePlayers()){
+                    if(Hunter.getEntries().contains(p.getName())){
+                        PotionEffect pe = new PotionEffect(PotionEffectType.SPEED,4000,1);
+                        p.addPotionEffect(pe);
+                    }
                 }
-                else {
-                    e.getPlayer().sendMessage("あなたがクリックしたプレイヤーはすでに時限装置は解除されています。");
-                }
+                bl.setType(Material.AIR);
+                mission.ismission = false;
+                mission.CLEARp = e.getPlayer();
+            }else if(bl.getType() == Material.BEDROCK){
+                mission.ismission = false;
+                bl.setType(Material.AIR);
+                mission.CLEARp = e.getPlayer();
+            }else if(bl.getType() == Material.REDSTONE_BLOCK){
+                mission.ismission = false;
+                bl.setType(Material.AIR);
+                mission.CLEARp = e.getPlayer();
             }
         }
+    }
+
+    @EventHandler
+    public void p(PlayerMoveEvent e){
+        e.getPlayer().setSneaking(true);
     }
 }

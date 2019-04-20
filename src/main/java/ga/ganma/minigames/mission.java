@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 public class mission {
 static public boolean ismission;
-static byte oldmission;
 static public int mission1t;
 static public int mission2t;
 static public int mission3t;
@@ -25,12 +24,21 @@ static ItemStack item2 = new ItemStack(Material.TRIPWIRE_HOOK);
 static ItemMeta item2meta = item2.getItemMeta();
 static public HashMap<String,Boolean> missiontf = new HashMap<String, Boolean>();
 static public HashMap<Player,Boolean> mission2B = new HashMap<Player, Boolean>();
+static public Player CLEARp;
+static public Location blockL;
 
     static public void mission1(int starttime, Location missionLocation){
         mission1t = starttime;
         mission1t = mission1t - 600;
         L1 = missionLocation;
         new mission1time().runTaskTimer(Minigames.plg,0,20);
+        for(Player p: Bukkit.getOnlinePlayers()){
+            p.sendTitle(ChatColor.RED + "ミッションが発動された...","ゲーム時間をループ状態から戻せ！",10,60,20);
+            p.playSound(p.getLocation(), Sound.UI_TOAST_IN,1,2);
+        }
+        Eventget.missionS = "ゲームエラーのため、ゲーム時間が1200秒から600秒の間でループするようになった！" + "これを直すために、ある地点にゲームエラーを修復するための岩盤を設置した。" + "そのボタンを押し、ゲームエラーを直せ！";
+        missionLocation.setX(missionLocation.getX()-1);
+        tosoCommand.world.getBlockAt(missionLocation).setType(Material.BEDROCK);
     }
 
     static public void mission2(int starttime, Location missionLocation){
@@ -42,10 +50,11 @@ static public HashMap<Player,Boolean> mission2B = new HashMap<Player, Boolean>()
                 p.sendTitle(ChatColor.RED + "ミッションが発動された...","プレイヤーの発光を阻止せよ",10,60,20);
                 p.playSound(p.getLocation(), Sound.UI_TOAST_IN,1,2);
             }
-            Eventget.missionS = "どこかにプレイヤーの発光を阻止する場所を置いた。" + "その場所を見つけ出し、その場所にあるアイテムを拾い、プレイヤーの発光を阻止せよ！"+"なお、そのアイテムを拾うと、使った者に対し逃走に有利な条件が付く！";
-            item1meta.setDisplayName("プレイヤー発光阻止アイテム");
-            item1.setItemMeta(item1meta);
-            tosoCommand.world.dropItemNaturally(tosoCommand.mission2L,item1);
+            Eventget.missionS = "今から10分後にプレイヤーが30秒間発光してしまう！" + "しかし、どこかにプレイヤーの発光を阻止するブロックを置いた。" +
+                    "その場所を見つけ出し、その場所にあるアイテムを拾い、プレイヤーの発光を阻止せよ！"+"なお、そのアイテムを拾うと、使った者に対し逃走に有利な条件が付く！";
+            missionLocation.setX(missionLocation.getX() - 1);
+            tosoCommand.world.getBlockAt(missionLocation).setType(Material.REDSTONE_BLOCK);
+            blockL = missionLocation;
     }
 
     static public void mission3(int starttime, Location missionLocation){
@@ -69,5 +78,14 @@ static public HashMap<Player,Boolean> mission2B = new HashMap<Player, Boolean>()
         mission4t = mission4t - 600;
         L4 = missionLocation;
         new mission4time().runTaskTimer(Minigames.plg,0,20);
+        for(Player p: Bukkit.getOnlinePlayers()){
+            p.sendTitle(ChatColor.RED + "ミッションが発動された...","賞金増加のチャンス！",10,60,20);
+            p.playSound(p.getLocation(), Sound.UI_TOAST_IN,1,2);
+        }
+        blockL = missionLocation;
+        Eventget.missionS = "ある地点にクリックすると賞金単価を1秒300円にするブロックを設置した。" + "しかし、そのブロックをクリックするとハンターが20分間強化されてしまう！" + "押さなくても何もペナルティは無い。押すか押さないかはプレイヤーの自由だ！";
+        Eventget.chat = false;
+        missionLocation.setX(missionLocation.getX()-1);
+        tosoCommand.world.getBlockAt(missionLocation).setType(Material.DIAMOND_BLOCK);
     }
 }

@@ -19,8 +19,8 @@ public final class Minigames extends JavaPlugin implements Listener {
     static boolean hunter;
     static ScoreboardManager manager;
     static Scoreboard board;
-    static Team Runner;
-    static Team Hunter;
+    static public Team Runner;
+    static public Team Hunter;
     static Team Jailer;
     final static String GAME = ("[" + ChatColor.RED + "ZOSU鯖逃走中" + ChatColor.WHITE + "]");
     static Player sprintpl;
@@ -63,20 +63,24 @@ public final class Minigames extends JavaPlugin implements Listener {
         board = manager.getMainScoreboard();
         Runner = board.getTeam("Runner");
         if(Runner != null) Runner.unregister();
-        Runner = board.getTeam("Runner");
         Runner = board.registerNewTeam("Runner");
+        Runner = board.getTeam("Runner");
         Runner.setAllowFriendlyFire(false);
         Runner.setCanSeeFriendlyInvisibles(true);
+        Runner.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
         Hunter = board.getTeam("Hunter");
         if(Hunter != null) Hunter.unregister();
-            Hunter = board.registerNewTeam("Hunter");
+            board.registerNewTeam("Hunter");
+            Hunter = board.getTeam("Hunter");
             Hunter.setAllowFriendlyFire(false);
             Hunter.setCanSeeFriendlyInvisibles(true);
-        Jailer = board.getTeam("Jailer");
+            Hunter.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+            Jailer = board.getTeam("Jailer");
         if (Jailer != null) Jailer.unregister();
-            Jailer = board.registerNewTeam("Jailer");
-            Hunter.setAllowFriendlyFire(false);
-            Hunter.setCanSeeFriendlyInvisibles(true);
+            board.registerNewTeam("Jailer");
+            Jailer = board.getTeam("Jailer");
+            Jailer.setAllowFriendlyFire(false);
+            Jailer.setCanSeeFriendlyInvisibles(true);
         saveDefaultConfig();
         config = getConfig();
         main = board.getObjective("main");
@@ -106,8 +110,8 @@ public final class Minigames extends JavaPlugin implements Listener {
                 Bukkit.getServer().broadcastMessage(ChatColor.DARK_AQUA + winner.getName() + "さんに賞金" + ChatColor.RED + prize + ChatColor.DARK_AQUA + "円を渡しました！");
                 a++;
             }
-            Bukkit.getServer().broadcastMessage("合計" + a + "人に賞金を渡しました！");
-            prize = 0;
         }
+        Bukkit.getServer().broadcastMessage("合計" + a + "人に賞金を渡しました！");
+        prize = 0;
     }
 }

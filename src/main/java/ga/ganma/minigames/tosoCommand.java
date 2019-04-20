@@ -133,6 +133,10 @@ public class tosoCommand implements CommandExecutor {
                         else {
                             hunter();
                         }
+                    }else if(args[0].equalsIgnoreCase("time")){
+                        if (args.length == 2) {
+                            gametime = Integer.parseInt(args[1]);
+                        }
                     }
                 }
                 else {

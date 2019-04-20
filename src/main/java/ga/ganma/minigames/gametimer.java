@@ -4,7 +4,6 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -115,13 +114,13 @@ public class gametimer extends BukkitRunnable {
                 p.setSneaking(true);
             }
         }
-        if(Minigames.gametime < 3600){
+        if(Minigames.gametime <= 3600){
             int pr = Minigames.prize;
             Minigames.prize = pr + Minigames.moneytanka;
         }
-        if(Minigames.gametime == 1000){
+        if(Minigames.gametime == 1200){
             mission.ismission = true;
-            mission.mission1(1000,tosoCommand.mission1L);
+            mission.mission1(1200,tosoCommand.mission1L);
         }
         if(Minigames.gametime == 3000){
             mission.ismission = true;
@@ -133,14 +132,14 @@ public class gametimer extends BukkitRunnable {
                 mission.mission4(3000,tosoCommand.mission2L);
             }
         }
-        if(Minigames.gametime == 2000){
+        if(Minigames.gametime == 2100){
             mission.ismission = true;
             if(tosoCommand.mission3int == 2){
-                mission.mission2(2000,tosoCommand.mission3L);
+                mission.mission2(2100,tosoCommand.mission3L);
             }else if (tosoCommand.mission3int == 3 ){
-                mission.mission3(2000,tosoCommand.mission3L);
+                mission.mission3(2100,tosoCommand.mission3L);
             }else if (tosoCommand.mission3int == 4){
-                mission.mission4(2000,tosoCommand.mission3L);
+                mission.mission4(2100,tosoCommand.mission3L);
             }
         }
 
