@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
@@ -187,6 +188,10 @@ public class Eventget implements Listener {
                 pl.closeInventory();
             } else if (clickItem.equals(huntername)) {
                 e.setCancelled(true);
+            }else if(clickItem.contains("牢獄に入っている人") && e.isShiftClick()){
+                e.setCancelled(true);
+                pl.closeInventory();
+                pl.sendMessage("未実装");
             }
         }
     }
@@ -389,5 +394,10 @@ public class Eventget implements Listener {
     @EventHandler
     public void p(PlayerMoveEvent e){
         e.getPlayer().setSneaking(true);
+    }
+
+    @EventHandler
+    public void q(InventoryCreativeEvent e){
+        e.setCancelled(false);
     }
 }

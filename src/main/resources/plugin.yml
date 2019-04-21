@@ -1,4 +1,4 @@
-name: ganmatoso
+name: tosonow
 version: ${project.version}
 main: ga.ganma.minigames.Minigames
 commands:
