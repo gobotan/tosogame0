@@ -54,8 +54,9 @@ public class ScoreboardDisplayer {
 	}
 
 	private static void clear() {
-		for (String str : board.getEntries()) {
-			board.resetScores(str);
-		}
+		if (board.getEntries() != null)
+			for (String str : board.getEntries()) {
+				board.resetScores(str);
+			}
 	}
 }
