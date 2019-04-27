@@ -8,9 +8,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import ga.ganma.minigames.GameManager;
 import ga.ganma.minigames.ItemHelper;
-import ga.ganma.minigames.MissionManagerFixed;
-import ga.ganma.minigames.TosoNow;
+import ga.ganma.minigames.MissionManager;
 import net.md_5.bungee.api.ChatColor;
 
 public class PhoneInventoryController {
@@ -74,7 +74,7 @@ public class PhoneInventoryController {
 
 	private static ItemStack getMissionItem() {
 		ItemStack item;
-		if (MissionManagerFixed.isRunningMission()) {
+		if (MissionManager.isRunningMission()) {
 			item = ItemHelper.create(Material.BOOK, missionIsAvailable, ChatColor.AQUA + "クリックで現在のミッションを見る");
 		} else {
 			item = ItemHelper.create(Material.BOOK, currentMission, ChatColor.RED + "現在ミッションは発動されていません");
@@ -85,7 +85,7 @@ public class PhoneInventoryController {
 
 	private static ItemStack getJailListItem() {
 		return ItemHelper.create(jailListItemMaterial, jailListItemTitle,
-				ChatColor.RESET + "現在の確保者：" + TosoNow.Jailer.getSize() + "人",
+				ChatColor.RESET + "現在の確保者：" + GameManager.getJailers().size() + "人",
 				ChatColor.RESET + "右クリックで牢獄にいるプレイヤーを表示" + "※未実装（クリックしても何も起きません");
 	}
 

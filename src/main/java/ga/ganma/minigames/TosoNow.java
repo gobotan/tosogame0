@@ -1,65 +1,52 @@
 package ga.ganma.minigames;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
-import org.bukkit.scoreboard.Team;
 
 import ga.ganma.minigames.commands.PhoneCommand;
 import ga.ganma.minigames.commands.TosoCommand;
 import ga.ganma.minigames.inventories.PhoneInventoryController;
 import ga.ganma.minigames.inventories.SettingsInventoryController;
 import ga.ganma.minigames.listeners.GameListeners;
+import ga.ganma.minigames.listeners.GameTimeChangeListener;
+import ga.ganma.minigames.listeners.MissionTriggerListener;
 import ga.ganma.minigames.listeners.PhoneInventoryListener;
 import ga.ganma.minigames.listeners.SettingsInventoryListener;
-import jp.jyn.jecon.Jecon;
 
 public final class TosoNow extends JavaPlugin implements Listener {
 
-	public static boolean start;
-	public static boolean hunter;
-	public static ScoreboardManager manager;
-	public static Scoreboard board;
-	public static Team Runner;
-	public static Team Hunter;
-	public static Team Jailer;
-	public final static String PREFIX = ("[" + ChatColor.RED + "ZOSU鯖逃走中" + ChatColor.WHITE + "] ");
-	public static Player sprintpl;
-	public static int prize = 0;
-	public static int gameTime = 3600;
-	public static Objective main;
-	public static Score Stime;
-	public static Score Smoney;
-	public static Score tanka;
-	public static Score Srunner;
-	public static Score Snull;
-	public static Score Snull2;
-	public static Score Snull3;
-	public static Score Snull4;
-	public static Score Snull5;
-	public static Score serverInformation;
-	public static Location jailL;
-	public static Location respawnLoc;
-	public static Location hunterLoc;
-	public static Location lobbyL;
-	public static HashMap<Player, Boolean> isSprint = new HashMap<Player, Boolean>();
-	public static int moneytanka;
-	public static HashMap<Player, Integer> jailCount = new HashMap<>();
-	public static TosoNow plugin;
+	//	public static boolean start;
+	//	public static ScoreboardManager manager;
+	//	public static Scoreboard board;
+	//	public static Player sprintpl;
+	//	public static int prize = 0;
+	//	public static int gameTime = 3600;
+	//	public static Objective main;
+	//	public static Score Stime;
+	//	public static Score Smoney;
+	//	public static Score tanka;
+	//	public static Score Srunner;
+	//	public static Score Snull;
+	//	public static Score Snull2;
+	//	public static Score Snull3;
+	//	public static Score Snull4;
+	//	public static Score Snull5;
+	//	public static Score serverInformation;
+	//	public static Location jailL;
+	//	public static Location respawnLoc;
+	//	public static Location hunterLoc;
+	//	public static Location lobbyL;
+	//	public static HashMap<Player, Boolean> isSprint = new HashMap<Player, Boolean>();
+	//	public static int moneytanka;
+	//	public static HashMap<Player, Integer> jailCount = new HashMap<>();
 	public FileConfiguration config;
+	public static TosoNow plugin;
 	public static final String hunterArmorTitle = "ハンターの装備";
+	public final static String PREFIX = ("[" + ChatColor.RED + "ZOSU鯖逃走中" + ChatColor.WHITE + "] ");
 
 	@Override
 	public void onEnable() {
@@ -81,15 +68,18 @@ public final class TosoNow extends JavaPlugin implements Listener {
 
 		// Register commands
 		getCommand("toso").setExecutor(new TosoCommand());
+		getCommand("toso").setPermissionMessage(PREFIX + ChatColor.RED + "あなたはそのコマンドの権限を持っていません！");
 		getCommand("phone").setExecutor(new PhoneCommand());
 
 		// Register Listeners
-		Bukkit.getPluginManager().registerEvents(new GameListeners(this), this);
+		Bukkit.getPluginManager().registerEvents(new GameListeners(), this);
 		Bukkit.getPluginManager().registerEvents(new SettingsInventoryListener(), this);
 		Bukkit.getPluginManager().registerEvents(new PhoneInventoryListener(), this);
+		Bukkit.getPluginManager().registerEvents(new GameTimeChangeListener(), this);
+		Bukkit.getPluginManager().registerEvents(new MissionTriggerListener(), this);
 
 		// Scoreboard Setup
-		setUpScoreboards();
+		GameManager.setUpScoreboards();
 
 		// Jcon check
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("Jecon");
@@ -104,61 +94,5 @@ public final class TosoNow extends JavaPlugin implements Listener {
 	public void onDisable() {
 		getLogger().info(
 				String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
-	}
-
-	public static void sendmoney() {
-		int a = 0;
-		for (Player winner : Bukkit.getServer().getOnlinePlayers()) {
-			if (Runner.getEntries().contains(winner.getName())) {
-				UUID id = winner.getUniqueId();
-				Jecon.getInstance().getRepository().deposit(id, prize);
-				Bukkit.getServer().broadcastMessage(ChatColor.DARK_AQUA + winner.getName() + "さんに賞金" + ChatColor.RED
-						+ prize + ChatColor.DARK_AQUA + "円を渡しました！");
-				a++;
-			}
-		}
-		Bukkit.getServer().broadcastMessage("合計" + a + "人に賞金を渡しました！");
-		prize = 0;
-	}
-
-	private void setUpScoreboards() {
-		manager = Bukkit.getScoreboardManager();
-		board = manager.getMainScoreboard();
-
-		// Runner
-		Runner = board.getTeam("Runner");
-		if (Runner != null)
-			Runner.unregister();
-		Runner = board.registerNewTeam("Runner");
-		Runner = board.getTeam("Runner");
-		Runner.setAllowFriendlyFire(false);
-		Runner.setCanSeeFriendlyInvisibles(true);
-		Runner.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-
-		// Hunter
-		Hunter = board.getTeam("Hunter");
-		if (Hunter != null)
-			Hunter.unregister();
-		board.registerNewTeam("Hunter");
-		Hunter = board.getTeam("Hunter");
-		Hunter.setAllowFriendlyFire(false);
-		Hunter.setCanSeeFriendlyInvisibles(true);
-		Hunter.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-
-		// Jailer
-		Jailer = board.getTeam("Jailer");
-		if (Jailer != null)
-			Jailer.unregister();
-		board.registerNewTeam("Jailer");
-		Jailer = board.getTeam("Jailer");
-		Jailer.setAllowFriendlyFire(false);
-		Jailer.setCanSeeFriendlyInvisibles(true);
-
-		// Main Scoreboard
-		config = getConfig();
-		main = board.getObjective("main");
-		if (main != null)
-			main.unregister();
-		main = board.registerNewObjective("main", "dummy");
 	}
 }

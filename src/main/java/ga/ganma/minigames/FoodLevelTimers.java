@@ -42,14 +42,11 @@ public class FoodLevelTimers {
 			public void run() {
 				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 
-					if (!TosoNow.isSprint.containsKey(p)) {
-						continue;
-					}
 					if (p.getGameMode() == GameMode.CREATIVE) {
 						continue;
 					}
 
-					if (!TosoNow.isSprint.get(p)) {
+					if (!p.isSprinting()) {
 						int food = p.getFoodLevel();
 						if (food < 20) {
 							food++;
@@ -67,14 +64,11 @@ public class FoodLevelTimers {
 			public void run() {
 				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 
-					if (TosoNow.isSprint.containsKey(p)) {
-						continue;
-					}
 					if (p.getGameMode() == GameMode.CREATIVE) {
 						continue;
 					}
 
-					if (TosoNow.isSprint.get(p)) {
+					if (p.isSprinting()) {
 						int food = p.getFoodLevel();
 						food--;
 						p.setFoodLevel(food);

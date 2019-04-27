@@ -3,6 +3,8 @@ package ga.ganma.minigames.event;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import ga.ganma.minigames.GameManager.FinishCause;
+
 public class GameFinishedEvent extends Event {
 
 	private FinishCause cause;
@@ -23,9 +25,5 @@ public class GameFinishedEvent extends Event {
 
 	public FinishCause getFinishCause() {
 		return cause;
-	}
-
-	public enum FinishCause {
-		ELIMINATED_RUNNER, TIME_LIMIT
 	}
 }

@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import ga.ganma.minigames.MissionManagerFixed;
-import ga.ganma.minigames.TosoNow;
+import ga.ganma.minigames.GameManager;
+import ga.ganma.minigames.MissionManager;
 
 public class Mission2 implements Mission {
 
@@ -39,11 +39,11 @@ public class Mission2 implements Mission {
 	public void onGameTimeChanged(int currentTime) {
 		secFromStart++;
 		if (secFromStart >= 600) {
-			MissionManagerFixed.completeMission(true, null);
+			MissionManager.completeMission(true, null);
 			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 				p.sendTitle(ChatColor.RED + "ミッション失敗", "発光が30秒間ついてしまった！", 20, 100, 20);
 				p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 2);
-				if (TosoNow.Runner.getEntries().contains(p.getName())) {
+				if (GameManager.getRunners().contains(p)) {
 					PotionEffect potion = new PotionEffect(PotionEffectType.GLOWING, 30 * 20, 1);
 					p.addPotionEffect(potion);
 				}

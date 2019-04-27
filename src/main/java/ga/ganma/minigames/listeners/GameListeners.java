@@ -3,11 +3,11 @@ package ga.ganma.minigames.listeners;
 import static ga.ganma.minigames.TosoNow.*;
 import static org.bukkit.Bukkit.*;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,40 +29,34 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
+import ga.ganma.minigames.GameManager;
+import ga.ganma.minigames.GameManager.PlayerType;
+import ga.ganma.minigames.GameSettingsManager;
+import ga.ganma.minigames.GameSettingsManager.KeyType;
 import ga.ganma.minigames.TosoNow;
 
 public class GameListeners implements Listener {
 
-	private FileConfiguration config;
-//	public static String missionS;
 	public static boolean chat = true;
-
-	public GameListeners(TosoNow plugin) {
-		this.config = plugin.getConfig();
-	}
 
 	@EventHandler
 	public void arrestedEvent(EntityDamageByEntityEvent e) {
 		boolean isHunter;
 		boolean isRunner;
-		if (TosoNow.start) {
-			Set<String> tosoMember = Runner.getEntries();
-			Set<String> huntMember = Hunter.getEntries();
+		if (GameManager.isRunningGame()) {
 			Entity ByEntity = e.getDamager();
 			Entity fromEntity = e.getEntity();
 			if (ByEntity instanceof Player) {
 				if (fromEntity instanceof Player) {
-					Player ByPlayer = (Player) e.getDamager();
-					isHunter = huntMember.contains(ByPlayer.getName());
-					Player fromplayer = (Player) e.getEntity();
-					isRunner = tosoMember.contains(fromplayer.getName());
+					Player byPlayer = (Player) e.getDamager();
+					Player fromPlayer = (Player) e.getEntity();
+
+					isHunter = GameManager.getHunters().contains(byPlayer);
+					isRunner = GameManager.getRunners().contains(fromPlayer);
 					if (isHunter && isRunner) {
-						fromplayer.sendMessage("あなたは確保されました。3秒後に牢屋へテレポートします。");
-						jailCount.put(fromplayer, 3);
-						jailL = new Location(ByPlayer.getWorld(), plugin.getConfig().getInt("jail.x"),
-								plugin.getConfig().getInt("jail.y"), plugin.getConfig().getInt("jail.z"));
-						Runner.removeEntry(fromplayer.getName());
-						Jailer.addEntry(fromplayer.getName());
+						fromPlayer.sendMessage("あなたは確保されました。3秒後に牢屋へテレポートします。");
+						jailCount.put(fromPlayer, 3);
+						GameManager.setPlayerType(fromPlayer, PlayerType.JAILER);
 						e.setDamage(0d);
 					} else {
 						e.setCancelled(true);
@@ -75,78 +69,73 @@ public class GameListeners implements Listener {
 		}
 	}
 
+	private HashMap<Player, Integer> jailCount = new HashMap<>();
+
 	@EventHandler
-	public void changeSprintingEvent(PlayerToggleSprintEvent e) {
-		if (start) {
-			Set<String> huntMember = Hunter.getEntries();
-			sprintpl = e.getPlayer();
-			if (e.isSprinting()) {
-				isSprint.put(sprintpl, true);
-				if (huntMember.contains(sprintpl.getName())) {
-					sprintpl.setWalkSpeed(0.3f);
-				}
-			} else {
-				isSprint.put(sprintpl, false);
-				if (huntMember.contains(sprintpl.getName())) {
-					sprintpl.setWalkSpeed(0.15f);
-				}
+	public void teleportToJail(GameTimeChangeListener e) {
+		for (Player key : new ArrayList<Player>(jailCount.keySet())) {
+			if (jailCount.get(key) == 0) {
+				jailCount.remove(key);
+
 			}
 		}
 	}
 
 	@EventHandler
-	public void joinPlayerSetupEvent(PlayerJoinEvent e) {
-		Player pl = e.getPlayer();
-		if (!start) {
-			pl.sendMessage(PREFIX + "ゾス鯖逃走中へようこそ！");
-			pl.sendMessage(PREFIX + "ルールをしっかり読み、楽しい逃走中ライフをどうぞ！");
-			pl.sendMessage(PREFIX + ChatColor.GRAY + "あなたを逃走者に追加しました。");
-			Runner.addEntry(pl.getName());
-			pl.setWalkSpeed(0.2f);
-			if (Hunter.getEntries().contains(pl.getName())) {
-				Hunter.removeEntry(pl.getName());
-			}
-			pl.setPlayerListName(pl.getName() + "[" + ChatColor.AQUA + "逃走者" + ChatColor.WHITE + "]");
-			if (plugin.getConfig().getBoolean("lobby.boolean")) {
-				TosoNow.lobbyL = new Location(pl.getWorld(), plugin.getConfig().getInt("lobby.x"),
-						plugin.getConfig().getInt("lobby.y"), plugin.getConfig().getInt("lobby.z"));
-				pl.teleport(lobbyL);
-			}
-			if (pl.getInventory().getChestplate() != null) {
-				if (pl.getInventory().getChestplate().getItemMeta().getDisplayName().equals(hunterArmorTitle)) {
-					pl.getInventory().setChestplate(null);
-					pl.getInventory().setLeggings(null);
-					pl.getInventory().setBoots(null);
-					pl.getInventory().setHelmet(null);
-				}
-			}
-			pl.getInventory().setContents(new ItemStack[36]);
-			pl.removePotionEffect(PotionEffectType.SPEED);
-		} else if (!Hunter.getEntries().contains(pl.getName()) || Runner.getEntries().contains(pl.getName())) {
-			if (gameTime < 1800) {
-				pl.sendMessage("ゲームが開始してから30分以上経っているため、牢屋にスポーンしました。");
-				jailL = new Location(pl.getWorld(), config.getInt("jail.x"), config.getInt("jail.y"),
-						config.getInt("jail.z"));
-				pl.teleport(jailL);
-			} else if (gameTime > 1800) {
-				if (!Jailer.getEntries().contains(pl.getName())) {
-					pl.sendMessage("ゲームが開始しているので、ゲーム開始場所にテレポートしました。");
-					respawnLoc = new Location(pl.getWorld(), config.getInt("res.x"), config.getInt("res.y"),
-							config.getInt("res.z"));
-					pl.teleport(respawnLoc);
-					Runner.addEntry(pl.getName());
-					pl.setSneaking(true);
-				} else {
-					pl.sendMessage("あなたはすでに確保されているため、牢屋にテレポートしました。");
-					jailL = new Location(pl.getWorld(), config.getInt("jail.x"), config.getInt("jail.y"),
-							config.getInt("jail.z"));
-					pl.teleport(jailL);
-				}
-			}
-		} else if (Hunter.getEntries().contains(pl.getName())) {
-			pl.sendMessage("途中でログアウトしたため、ハンターボックスにテレポートしました。");
-			pl.teleport(hunterLoc);
+	public void changeSprintingEvent(PlayerToggleSprintEvent e) {
+		if (!GameManager.isRunningGame()) {
+			return;
 		}
+
+		List<Player> hunters = GameManager.getHunters();
+		Player sprintPlayer = e.getPlayer();
+
+		if (!hunters.contains(sprintPlayer)) {
+			return;
+		}
+
+		if (e.isSprinting()) {
+			sprintPlayer.setWalkSpeed(0.3f);
+		} else {
+			sprintPlayer.setWalkSpeed(0.15f);
+		}
+	}
+
+	@EventHandler
+	public void joinPlayerSetupEvent(PlayerJoinEvent e) {
+		Player p = e.getPlayer();
+		if (!GameManager.isRunningGame()) {
+			p.sendMessage(PREFIX + "ゾス鯖逃走中へようこそ！");
+			p.sendMessage(PREFIX + "ルールをしっかり読み、楽しい逃走中ライフをどうぞ！");
+
+			GameManager.setPlayerType(p, PlayerType.RUNNER);
+
+			p.sendMessage(PREFIX + ChatColor.GRAY + "あなたを逃走者に追加しました。");
+			p.teleport(GameSettingsManager.getLocation(KeyType.LOBBY));
+			p.getInventory().setContents(new ItemStack[36]);
+			p.removePotionEffect(PotionEffectType.SPEED);
+		} else if (!GameManager.getHunters().contains(p) || GameManager.getRunners().contains(p)) {
+			if (GameManager.getCurrentGameTime() < 1800) {
+				p.sendMessage("ゲームが開始してから30分以上経っているため、牢屋にスポーンしました。");
+				GameManager.setPlayerType(p, PlayerType.JAILER);
+				p.teleport(GameSettingsManager.getLocation(KeyType.JAIL));
+			} else {
+				if (!GameManager.getJailers().contains(p)) {
+					p.sendMessage("ゲームが開始しているので、ゲーム開始場所にテレポートしました。");
+					p.teleport(GameSettingsManager.getLocation(KeyType.RESPAWN));
+					GameManager.setPlayerType(p, PlayerType.RUNNER);
+					p.setSneaking(true);
+				} else {
+					p.sendMessage("あなたはすでに確保されているため、牢屋にテレポートしました。");
+					p.teleport(GameSettingsManager.getLocation(KeyType.JAIL));
+					GameManager.setPlayerType(p, PlayerType.JAILER);
+				}
+			}
+		} else if (GameManager.getHunters().contains(p)) {
+			p.sendMessage("途中でログアウトしたため、ハンターボックスにテレポートしました。");
+			p.teleport(GameSettingsManager.getLocation(KeyType.HUNTER_BOX));
+		}
+
 		e.getPlayer().setFoodLevel(20);
 		e.getPlayer().setHealth(20);
 	}

@@ -1,8 +1,5 @@
 package ga.ganma.minigames.listeners;
 
-import static ga.ganma.minigames.TosoNow.*;
-
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -14,7 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import ga.ganma.minigames.MissionManagerFixed;
+import ga.ganma.minigames.GameManager;
+import ga.ganma.minigames.MissionManager;
 import ga.ganma.minigames.event.GameTimeChangedEvent;
 import ga.ganma.minigames.missions.Mission;
 import ga.ganma.minigames.missions.Mission3;
@@ -23,7 +21,7 @@ public class MissionListener implements Listener {
 
 	@EventHandler
 	public void onGameTimeChanged(GameTimeChangedEvent e) {
-		Mission mission = MissionManagerFixed.getCurrentMission();
+		Mission mission = MissionManager.getCurrentMission();
 		if (mission != null) {
 			mission.onGameTimeChanged(e.getCurrentGameTime());
 		}
@@ -37,8 +35,8 @@ public class MissionListener implements Listener {
 		Player p = e.getPlayer();
 		Player rightClicked = (Player) e.getRightClicked();
 		ItemStack hand = p.getInventory().getItemInMainHand();
-		Mission mission = MissionManagerFixed.getCurrentMission();
-		if (!hand.getItemMeta().getDisplayName().equals(MissionManagerFixed.getMission3KeyTitle())) {
+		Mission mission = MissionManager.getCurrentMission();
+		if (!hand.getItemMeta().getDisplayName().equals(MissionManager.getMission3KeyTitle())) {
 			return;
 		}
 		if (!(mission instanceof Mission3)) {
@@ -60,26 +58,24 @@ public class MissionListener implements Listener {
 		Player p = e.getPlayer();
 		Block b = e.getClickedBlock();
 
-		if (b == null || !MissionManagerFixed.isRunningMission()) {
+		if (b == null || !MissionManager.isRunningMission()) {
 			return;
 		}
 
 		// mission1 / mission3
 		if (b.getType() == Material.BEDROCK || b.getType() == Material.REDSTONE_BLOCK) {
-			MissionManagerFixed.completeMission(false, p);
+			MissionManager.completeMission(false, p);
 			b.setType(Material.AIR);
 			return;
 		}
 		if (b.getType() == Material.DIAMOND_BLOCK) {
-			moneytanka = 300;
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				if (Hunter.getEntries().contains(player.getName())) {
-					PotionEffect pe = new PotionEffect(PotionEffectType.SPEED, 4000, 1);
-					player.addPotionEffect(pe);
-				}
+			GameManager.setPrizePerSecond(300);
+			for (Player player : GameManager.getHunters()) {
+				PotionEffect effect = new PotionEffect(PotionEffectType.SPEED, 4000, 1);
+				player.addPotionEffect(effect);
 			}
 			b.setType(Material.AIR);
-			MissionManagerFixed.completeMission(false, p);
+			MissionManager.completeMission(false, p);
 		}
 	}
 }

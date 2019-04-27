@@ -11,18 +11,20 @@ import org.bukkit.entity.Player;
 import ga.ganma.minigames.missions.Mission;
 import net.md_5.bungee.api.ChatColor;
 
-public class MissionManagerFixed {
+public class MissionManager {
 
 	private static List<Mission> randomMissions = new ArrayList<>();
 	private static List<Location> randomLocations = new ArrayList<>();
 	private static Mission currentMission = null;
 
 	public static void registerRandomMissions(Mission... missions) {
+		randomMissions.clear();
 		randomMissions.addAll(Arrays.asList(missions));
 		Collections.shuffle(randomMissions);
 	}
 
 	public static void registerRandomLocations(Location... locs) {
+		randomLocations.clear();
 		randomLocations.addAll(Arrays.asList(locs));
 		Collections.shuffle(randomLocations);
 	}
@@ -42,6 +44,9 @@ public class MissionManagerFixed {
 	}
 
 	public static void runMission(Mission mission) {
+		if (isRunningMission()) {
+			throw new IllegalStateException("A mission is already running.");
+		}
 		currentMission = mission;
 	}
 

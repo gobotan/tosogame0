@@ -36,6 +36,12 @@ public class GameSettingsManager {
 	}
 
 	public static void setLocation(KeyType type, Location loc) {
+
+		if (GameManager.isRunningGame()) {
+			throw new IllegalStateException(
+					"The game is already running. Could not change location while game is running.");
+		}
+
 		if (type == KeyType.JAIL) {
 			jailLoc = loc.clone();
 		} else if (type == KeyType.HUNTER_BOX) {

@@ -5,5 +5,9 @@ author: ganma
 commands:
   toso:
     description: tosogame command.
+    permission: tosonow.command.toso
   phone:
     description: phone command.
+permissions:
+  tosonow.command.toso:
+    default: op

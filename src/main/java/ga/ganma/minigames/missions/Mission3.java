@@ -12,8 +12,9 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import ga.ganma.minigames.GameManager;
 import ga.ganma.minigames.ItemHelper;
-import ga.ganma.minigames.MissionManagerFixed;
+import ga.ganma.minigames.MissionManager;
 import ga.ganma.minigames.TosoNow;
 
 public class Mission3 implements Mission {
@@ -26,7 +27,7 @@ public class Mission3 implements Mission {
 	public void startMission(Location loc) {
 		missionLoc = loc.clone();
 
-		ItemStack key = ItemHelper.create(Material.TRIPWIRE_HOOK, MissionManagerFixed.getMission3KeyTitle());
+		ItemStack key = ItemHelper.create(Material.TRIPWIRE_HOOK, MissionManager.getMission3KeyTitle());
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.sendTitle(ChatColor.RED + "ミッションが発動された...", "時限装置を解除せよ！", 10, 60, 20);
 			p.playSound(p.getLocation(), Sound.UI_TOAST_IN, 1, 2);
@@ -45,13 +46,12 @@ public class Mission3 implements Mission {
 	public void onGameTimeChanged(int currentTime) {
 		secFromStart++;
 		if (secFromStart >= 600) {
-			MissionManagerFixed.completeMission(true, null);
+			MissionManager.completeMission(true, null);
 
 			List<UUID> uuidList = new ArrayList<>();
 
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				if (TosoNow.Runner.getEntries().contains(p.getName())) {
-
+				if (GameManager.getRunners().contains(p)) {
 					if (!complete.contains(p)) {
 						uuidList.add(p.getUniqueId());
 					}

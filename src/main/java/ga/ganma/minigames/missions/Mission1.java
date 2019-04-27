@@ -7,9 +7,8 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import ga.ganma.minigames.MissionManagerFixed;
-import ga.ganma.minigames.TosoNow;
-import ga.ganma.minigames.commands.TosoCommand;
+import ga.ganma.minigames.GameManager;
+import ga.ganma.minigames.MissionManager;
 
 public class Mission1 implements Mission {
 
@@ -25,7 +24,7 @@ public class Mission1 implements Mission {
 		}
 
 		missionLoc.subtract(1, 0, 0);
-		TosoCommand.world.getBlockAt(missionLoc).setType(Material.BEDROCK);
+		missionLoc.getBlock().setType(Material.BEDROCK);
 	}
 
 	@Override
@@ -35,8 +34,8 @@ public class Mission1 implements Mission {
 
 	@Override
 	public void onGameTimeChanged(int currentTime) {
-		if (MissionManagerFixed.isRunningMission() && currentTime == 600) {
-			TosoNow.gameTime = 1199;
+		if (MissionManager.isRunningMission() && currentTime == 600) {
+			GameManager.setGameTime(1199, false);
 			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 				p.sendTitle(ChatColor.RED + "ゲーム時間がループしてしまった！", "指定の座標に行き岩盤をクリックしろ！", 20, 60, 20);
 			}

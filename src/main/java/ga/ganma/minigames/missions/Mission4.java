@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import ga.ganma.minigames.MissionManagerFixed;
+import ga.ganma.minigames.MissionManager;
 import ga.ganma.minigames.listeners.GameListeners;
 
 public class Mission4 implements Mission {
@@ -34,7 +34,7 @@ public class Mission4 implements Mission {
 	public void onGameTimeChanged(int currentTime) {
 		secFromStart++;
 		if (secFromStart >= 600) {
-			MissionManagerFixed.completeMission(true, null);
+			MissionManager.completeMission(true, null);
 			GameListeners.chat = true;
 			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
 				allp.sendTitle(ChatColor.RED + "誰も押さなかったため、賞金単価は上がらなかった...", "", 0, 100, 0);
