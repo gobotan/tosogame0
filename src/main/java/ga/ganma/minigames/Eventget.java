@@ -174,7 +174,7 @@ public class EventGet implements Listener {
 				e.setCancelled(true);
 			} else if (clickItem.equalsIgnoreCase(Phone.missionlistmeta.getDisplayName()) && !e.isShiftClick()) {
 				pl.closeInventory();
-				if (Mission.ismission && missionS != null) {
+				if (Mission.isMission && missionS != null) {
 					pl.sendMessage(missionS);
 				} else {
 					pl.sendMessage("現在発動されているミッションはありません。");
@@ -248,13 +248,13 @@ public class EventGet implements Listener {
 			pl.getInventory().setItem(27, null);
 			pl.removePotionEffect(PotionEffectType.SPEED);
 		} else if (!Hunter.getEntries().contains(pl.getName()) || Runner.getEntries().contains(pl.getName())) {
-			if (gametime < 1800) {
+			if (gameTime < 1800) {
 				config = plg.getConfig();
 				pl.sendMessage("ゲームが開始してから30分以上経っているため、牢屋にスポーンしました。");
 				jailL = new Location(pl.getWorld(), config.getInt("jail.x"), config.getInt("jail.y"),
 						config.getInt("jail.z"));
 				pl.teleport(jailL);
-			} else if (gametime > 1800) {
+			} else if (gameTime > 1800) {
 				config = plg.getConfig();
 				if (!Jailer.getEntries().contains(pl.getName())) {
 					pl.sendMessage("ゲームが開始しているので、ゲーム開始場所にテレポートしました。");
@@ -343,7 +343,7 @@ public class EventGet implements Listener {
 
 	@EventHandler
 	public void o(PlayerInteractEvent e) {
-		if (e.getClickedBlock() != null && Mission.ismission) {
+		if (e.getClickedBlock() != null && Mission.isMission) {
 			Block bl = e.getClickedBlock();
 			if (bl.getType() == Material.DIAMOND_BLOCK) {
 				moneytanka = 300;
@@ -354,14 +354,14 @@ public class EventGet implements Listener {
 					}
 				}
 				bl.setType(Material.AIR);
-				Mission.ismission = false;
+				Mission.isMission = false;
 				Mission.CLEARp = e.getPlayer();
 			} else if (bl.getType() == Material.BEDROCK) {
-				Mission.ismission = false;
+				Mission.isMission = false;
 				bl.setType(Material.AIR);
 				Mission.CLEARp = e.getPlayer();
 			} else if (bl.getType() == Material.REDSTONE_BLOCK) {
-				Mission.ismission = false;
+				Mission.isMission = false;
 				bl.setType(Material.AIR);
 				Mission.CLEARp = e.getPlayer();
 			}

@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.HashMap;
 
 public class Mission {
-	static public boolean ismission;
+	static public boolean isMission;
 	static public int mission1t;
 	static public int mission2t;
 	static public int mission3t;

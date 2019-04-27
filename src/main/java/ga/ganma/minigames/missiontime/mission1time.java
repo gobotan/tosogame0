@@ -12,12 +12,12 @@ public class Mission1Time extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (Mission.ismission && Minigames.gametime == 600) {
-			Minigames.gametime = 1199;
+		if (Mission.isMission && Minigames.gameTime == 600) {
+			Minigames.gameTime = 1199;
 			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 				p.sendTitle(ChatColor.RED + "ゲーム時間がループしてしまった！", "指定の座標に行き岩盤をクリックしろ！", 20, 60, 20);
 			}
-		} else if (!Mission.ismission) {
+		} else if (!Mission.isMission) {
 			this.cancel();
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				p.sendTitle(ChatColor.BLUE + "ミッション成功！", Mission.CLEARp.getName() + "の活躍によりゲームエラーは直された...", 20, 100,

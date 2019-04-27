@@ -14,8 +14,8 @@ public class Mission2Time extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (Minigames.gametime <= Mission.mission2t) {
-			Mission.ismission = false;
+		if (Minigames.gameTime <= Mission.mission2t) {
+			Mission.isMission = false;
 			this.cancel();
 			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 				p.sendTitle(ChatColor.RED + "ミッション失敗", "発光が30秒間ついてしまった！", 20, 100, 20);
@@ -28,7 +28,7 @@ public class Mission2Time extends BukkitRunnable {
 			Mission.missiontf.put("mission2", false);
 			EventGet.missionS = null;
 			TosoCommand.world.getBlockAt(Mission.blockL).setType(Material.AIR);
-		} else if (!Mission.ismission) {
+		} else if (!Mission.isMission) {
 			this.cancel();
 			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 				p.sendTitle(ChatColor.BLUE + "ミッション成功！", Mission.CLEARp.getName() + "の活躍により発光は阻止された...", 20, 100, 20);

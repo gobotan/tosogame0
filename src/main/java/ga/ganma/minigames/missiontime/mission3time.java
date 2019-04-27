@@ -12,8 +12,8 @@ public class Mission3Time extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (Minigames.gametime == Mission.mission3t) {
-			Mission.ismission = false;
+		if (Minigames.gameTime == Mission.mission3t) {
+			Mission.isMission = false;
 			this.cancel();
 			new SoundM().runTaskTimer(Minigames.plg, 0, 5);
 			for (Player p : Bukkit.getOnlinePlayers()) {

@@ -30,7 +30,7 @@ public final class Minigames extends JavaPlugin implements Listener {
 	final static String GAME = ("[" + ChatColor.RED + "ZOSU鯖逃走中" + ChatColor.WHITE + "]");
 	static Player sprintpl;
 	static public int prize;
-	static public int gametime = 3600;
+	static public int gameTime = 3600;
 	static Objective main;
 	static Score Stime;
 	static Score Smoney;
@@ -41,7 +41,7 @@ public final class Minigames extends JavaPlugin implements Listener {
 	static Score Snull3;
 	static Score Snull4;
 	static Score Snull5;
-	static Score serverinformation;
+	static Score serverInformation;
 	static Location jailL;
 	static Location resL;
 	static Location hunterL;

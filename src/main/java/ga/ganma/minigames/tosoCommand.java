@@ -53,7 +53,7 @@ public class TosoCommand implements CommandExecutor {
 	static Location mission3L;
 	static Location mission4L;
 	static int mission2int;
-	static int mission3int;
+	static int mission3Int;
 	static int mission4int;
 
 	@Override
@@ -69,7 +69,7 @@ public class TosoCommand implements CommandExecutor {
 					} else if (args[0].equalsIgnoreCase("setting")) {
 						setting();
 					} else if (args[0].equalsIgnoreCase("end") && start) {
-						Minigames.gametime = 10;
+						Minigames.gameTime = 10;
 					} else if (args[0].equalsIgnoreCase("tanka")) {
 						if (args.length == 2) {
 							tanka = Integer.parseInt(args[1]);
@@ -136,7 +136,7 @@ public class TosoCommand implements CommandExecutor {
 						}
 					} else if (args[0].equalsIgnoreCase("time")) {
 						if (args.length == 2) {
-							gametime = Integer.parseInt(args[1]);
+							gameTime = Integer.parseInt(args[1]);
 						}
 					}
 				} else {
@@ -187,13 +187,13 @@ public class TosoCommand implements CommandExecutor {
 				list.add(4);
 				Collections.shuffle(list);
 				mission2int = list.get(0);
-				mission3int = list.get(1);
+				mission3Int = list.get(1);
 				mission4int = list.get(2);
 				getServer().broadcastMessage(Minigames.GAME + "逃走中が開始しました！");
 				getServer().broadcastMessage(Minigames.GAME + "制限時間は60分");
 				getServer().broadcastMessage(Minigames.GAME + "ハンター放出まで残り1分です！残り時間が3600秒になるとハンターが放出します！");
 				getServer().broadcastMessage(Minigames.GAME + "5秒後にテレポートとタイマーをスタートします。");
-				Minigames.gametime = 3660;
+				Minigames.gameTime = 3660;
 				new GameTimer().runTaskTimer(Minigames.plg, 100, 20);
 				new Timer().runTaskTimer(Minigames.plg, 0, 30);
 				new Timer2().runTaskTimer(Minigames.plg, 0, 50);

@@ -32,7 +32,7 @@ public class Phone implements CommandExecutor {
 		Player p = (Player) sender;
 		in = Bukkit.createInventory(null, 54, "逃走中専用携帯電話");
 		missionlistmeta.setDisplayName("現在のミッション");
-		if (Mission.ismission) {
+		if (Mission.isMission) {
 			missionlistmeta.setLocalizedName(ChatColor.RED + "発動中");
 			missionlistmeta.setLore(Arrays.asList(ChatColor.AQUA + "クリックで現在のミッションを見る"));
 		} else

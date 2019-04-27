@@ -15,8 +15,8 @@ public class Mission4Time extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (Minigames.gametime == Mission.mission4t) {
-			Mission.ismission = false;
+		if (Minigames.gameTime == Mission.mission4t) {
+			Mission.isMission = false;
 			this.cancel();
 			EventGet.chat = true;
 			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
@@ -24,7 +24,7 @@ public class Mission4Time extends BukkitRunnable {
 				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
 			}
 			TosoCommand.world.getBlockAt(Mission.blockL).setType(Material.AIR);
-		} else if (!Mission.ismission) {
+		} else if (!Mission.isMission) {
 			this.cancel();
 			EventGet.chat = true;
 			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
