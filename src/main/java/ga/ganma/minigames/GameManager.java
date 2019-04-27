@@ -52,6 +52,7 @@ public class GameManager {
 	/**
 	 * ScoreBoards
 	 */
+	private static Scoreboard board;
 	private static Team Runner;
 	private static Team Hunter;
 	private static Team Jailer;
@@ -94,6 +95,8 @@ public class GameManager {
 				GameSettingsManager.getLocation(KeyType.MISSION4));
 
 		MissionManager.registerRandomMissions(new Mission2(), new Mission3(), new Mission4());
+
+		ScoreboardDisplayer.init(board);
 
 		getServer().broadcastMessage(TosoNow.PREFIX + "逃走中が開始しました！");
 		getServer().broadcastMessage(TosoNow.PREFIX + "制限時間は60分");
@@ -252,7 +255,7 @@ public class GameManager {
 
 	protected static void setUpScoreboards() {
 		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		Scoreboard board = manager.getMainScoreboard();
+		GameManager.board = manager.getMainScoreboard();
 
 		// Runner
 		Runner = board.getTeam("Runner");

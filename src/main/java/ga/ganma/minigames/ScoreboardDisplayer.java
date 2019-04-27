@@ -12,7 +12,7 @@ public class ScoreboardDisplayer {
 
 	private static Scoreboard board;
 
-	public ScoreboardDisplayer(Scoreboard board) {
+	public static void init(Scoreboard board) {
 		ScoreboardDisplayer.board = board;
 	}
 
