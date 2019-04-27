@@ -38,7 +38,7 @@ public class Mission {
 	public static Player CLEARp;
 	public static Location blockL;
 
-	static public void mission1(int starttime, Location missionLocation) {
+	public static void mission1(int starttime, Location missionLocation) {
 		mission1t = starttime;
 		mission1t = mission1t - 600;
 		L1 = missionLocation;
@@ -53,7 +53,7 @@ public class Mission {
 		TosoCommand.world.getBlockAt(missionLocation).setType(Material.BEDROCK);
 	}
 
-	static public void mission2(int starttime, Location missionLocation) {
+	public static void mission2(int starttime, Location missionLocation) {
 		mission2t = starttime;
 		mission2t = mission2t - 600;
 		L2 = missionLocation;
@@ -69,7 +69,7 @@ public class Mission {
 		blockL = missionLocation;
 	}
 
-	static public void mission3(int starttime, Location missionLocation) {
+	public static void mission3(int starttime, Location missionLocation) {
 		mission3t = starttime;
 		mission3t = mission3t - 600;
 		L3 = missionLocation;
@@ -86,7 +86,7 @@ public class Mission {
 				+ "解除するには、他のプレイヤーが持っている鍵を右クリックして貰う必要がある！" + "なお、鍵は何回でも使用可能である。";
 	}
 
-	static public void mission4(int starttime, Location missionLocation) {
+	public static void mission4(int starttime, Location missionLocation) {
 		mission4t = starttime;
 		mission4t = mission4t - 600;
 		L4 = missionLocation;

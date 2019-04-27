@@ -106,7 +106,7 @@ public final class TosoNow extends JavaPlugin implements Listener {
 				String.format("[%s] Disabled Version %s", getDescription().getName(), getDescription().getVersion()));
 	}
 
-	static public void sendmoney() {
+	public static void sendmoney() {
 		int a = 0;
 		for (Player winner : Bukkit.getServer().getOnlinePlayers()) {
 			if (Runner.getEntries().contains(winner.getName())) {
