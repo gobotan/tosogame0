@@ -5,11 +5,8 @@ import static org.bukkit.Bukkit.*;
 
 import java.util.Set;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -24,25 +21,21 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import ga.ganma.minigames.Mission;
 import ga.ganma.minigames.TosoNow;
 
 public class GameListeners implements Listener {
 
 	private FileConfiguration config;
-	public static String missionS;
-	public static boolean chat;
+//	public static String missionS;
+	public static boolean chat = true;
 
 	public GameListeners(TosoNow plugin) {
 		this.config = plugin.getConfig();
@@ -127,34 +120,7 @@ public class GameListeners implements Listener {
 					pl.getInventory().setHelmet(null);
 				}
 			}
-			pl.getInventory().setItem(0, null);
-			pl.getInventory().setItem(1, null);
-			pl.getInventory().setItem(2, null);
-			pl.getInventory().setItem(3, null);
-			pl.getInventory().setItem(4, null);
-			pl.getInventory().setItem(5, null);
-			pl.getInventory().setItem(6, null);
-			pl.getInventory().setItem(7, null);
-			pl.getInventory().setItem(8, null);
-			pl.getInventory().setItem(9, null);
-			pl.getInventory().setItem(10, null);
-			pl.getInventory().setItem(11, null);
-			pl.getInventory().setItem(12, null);
-			pl.getInventory().setItem(13, null);
-			pl.getInventory().setItem(14, null);
-			pl.getInventory().setItem(15, null);
-			pl.getInventory().setItem(16, null);
-			pl.getInventory().setItem(17, null);
-			pl.getInventory().setItem(18, null);
-			pl.getInventory().setItem(19, null);
-			pl.getInventory().setItem(20, null);
-			pl.getInventory().setItem(21, null);
-			pl.getInventory().setItem(22, null);
-			pl.getInventory().setItem(23, null);
-			pl.getInventory().setItem(24, null);
-			pl.getInventory().setItem(25, null);
-			pl.getInventory().setItem(26, null);
-			pl.getInventory().setItem(27, null);
+			pl.getInventory().setContents(new ItemStack[36]);
 			pl.removePotionEffect(PotionEffectType.SPEED);
 		} else if (!Hunter.getEntries().contains(pl.getName()) || Runner.getEntries().contains(pl.getName())) {
 			if (gameTime < 1800) {
@@ -195,54 +161,12 @@ public class GameListeners implements Listener {
 	}
 
 	@EventHandler
-	public void l(PlayerInteractEntityEvent e) {
-		if (e.getRightClicked() instanceof Player) {
-			if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("鍵")) {
-				Player p = (Player) e.getRightClicked();
-				if (!Mission.mission2B.get(p)) {
-					Mission.mission2B.put((Player) e.getRightClicked(), true);
-					(e.getRightClicked()).sendMessage("あなたは" + e.getPlayer().getName() + "さんに時限装置を解除されました！");
-				} else if (Mission.mission2B.get(p)) {
-					e.getPlayer().sendMessage("あなたがクリックしたプレイヤーはすでに時限装置は解除されています。");
-				}
-			}
-		}
-	}
-
-	@EventHandler
 	public void publicChatCanceller(AsyncPlayerChatEvent e) {
 		if (!chat) {
 			e.setCancelled(true);
 			e.getPlayer().sendMessage(PREFIX + "現在、全体のチャットは制限されています。");
 		} else {
 			e.setCancelled(false);
-		}
-	}
-
-	@EventHandler
-	public void missionListener(PlayerInteractEvent e) {
-		if (e.getClickedBlock() != null && Mission.isMission) {
-			Block bl = e.getClickedBlock();
-			if (bl.getType() == Material.DIAMOND_BLOCK) {
-				moneytanka = 300;
-				for (Player p : Bukkit.getOnlinePlayers()) {
-					if (Hunter.getEntries().contains(p.getName())) {
-						PotionEffect pe = new PotionEffect(PotionEffectType.SPEED, 4000, 1);
-						p.addPotionEffect(pe);
-					}
-				}
-				bl.setType(Material.AIR);
-				Mission.isMission = false;
-				Mission.CLEARp = e.getPlayer();
-			} else if (bl.getType() == Material.BEDROCK) {
-				Mission.isMission = false;
-				bl.setType(Material.AIR);
-				Mission.CLEARp = e.getPlayer();
-			} else if (bl.getType() == Material.REDSTONE_BLOCK) {
-				Mission.isMission = false;
-				bl.setType(Material.AIR);
-				Mission.CLEARp = e.getPlayer();
-			}
 		}
 	}
 

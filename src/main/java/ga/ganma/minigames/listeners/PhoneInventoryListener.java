@@ -7,9 +7,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import ga.ganma.minigames.Mission;
+import ga.ganma.minigames.MissionManagerFixed;
 import ga.ganma.minigames.inventories.PhoneInventoryController;
 import ga.ganma.minigames.inventories.PhoneInventoryController.ButtonType;
+import ga.ganma.minigames.missions.Mission;
 
 public class PhoneInventoryListener implements Listener {
 
@@ -33,8 +34,9 @@ public class PhoneInventoryListener implements Listener {
 
 		if (type == ButtonType.MISSION_LIST && !e.isShiftClick()) {
 			pl.closeInventory();
-			if (Mission.isMission && Mission.missionS != null) {
-				pl.sendMessage(Mission.missionS);
+			if (MissionManagerFixed.isRunningMission()) {
+				Mission mission = MissionManagerFixed.getCurrentMission();
+				pl.sendMessage(mission.getDescription());
 			} else {
 				pl.sendMessage("現在発動されているミッションはありません。");
 			}

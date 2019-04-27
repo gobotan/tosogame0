@@ -1,7 +1,5 @@
 package ga.ganma.minigames;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -9,7 +7,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 
-import ga.ganma.minigames.commands.TosoCommand;
+import ga.ganma.minigames.missions.Mission;
+import ga.ganma.minigames.missions.Mission1;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class GameTimer extends BukkitRunnable {
 
@@ -68,28 +69,19 @@ public class GameTimer extends BukkitRunnable {
 			TosoNow.prize = pr + TosoNow.moneytanka;
 		}
 		if (TosoNow.gameTime == 1200) {
-			Mission.isMission = true;
-			Mission.mission1(1200, TosoCommand.mission1L);
+			Mission1 mission = new Mission1();
+			mission.startMission(MissionManagerFixed.getLocation(2));
+			MissionManagerFixed.runMission(mission);
 		}
-		if (TosoNow.gameTime == 3000) {
-			Mission.isMission = true;
-			if (TosoCommand.mission2int == 2) {
-				Mission.mission2(3000, TosoCommand.mission2L);
-			} else if (TosoCommand.mission2int == 3) {
-				Mission.mission3(3000, TosoCommand.mission2L);
-			} else if (TosoCommand.mission2int == 4) {
-				Mission.mission4(3000, TosoCommand.mission2L);
+		if (TosoNow.gameTime == 3000 || TosoNow.gameTime == 2100) {
+			int num = 0;
+			if (TosoNow.gameTime == 2100) {
+				num = 1;
 			}
-		}
-		if (TosoNow.gameTime == 2100) {
-			Mission.isMission = true;
-			if (TosoCommand.mission3Int == 2) {
-				Mission.mission2(2100, TosoCommand.mission3L);
-			} else if (TosoCommand.mission3Int == 3) {
-				Mission.mission3(2100, TosoCommand.mission3L);
-			} else if (TosoCommand.mission3Int == 4) {
-				Mission.mission4(2100, TosoCommand.mission3L);
-			}
+
+			Mission mission = MissionManagerFixed.getMission(num);
+			mission.startMission(MissionManagerFixed.getLocation(num));
+			MissionManagerFixed.runMission(mission);
 		}
 
 		TosoNow.main.unregister();

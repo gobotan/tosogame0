@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import ga.ganma.minigames.ItemHelper;
-import ga.ganma.minigames.Mission;
+import ga.ganma.minigames.MissionManagerFixed;
 import ga.ganma.minigames.TosoNow;
 import net.md_5.bungee.api.ChatColor;
 
@@ -74,7 +74,7 @@ public class PhoneInventoryController {
 
 	private static ItemStack getMissionItem() {
 		ItemStack item;
-		if (Mission.isMission) {
+		if (MissionManagerFixed.isRunningMission()) {
 			item = ItemHelper.create(Material.BOOK, missionIsAvailable, ChatColor.AQUA + "クリックで現在のミッションを見る");
 		} else {
 			item = ItemHelper.create(Material.BOOK, currentMission, ChatColor.RED + "現在ミッションは発動されていません");
