@@ -51,8 +51,8 @@ public class EventGet implements Listener {
 					if (isHunter && isRunner) {
 						fromplayer.sendMessage("あなたは確保されました。3秒後に牢屋へテレポートします。");
 						jailCount.put(fromplayer, 3);
-						jailL = new Location(ByPlayer.getWorld(), plg.getConfig().getInt("jail.x"),
-								plg.getConfig().getInt("jail.y"), plg.getConfig().getInt("jail.z"));
+						jailL = new Location(ByPlayer.getWorld(), plugin.getConfig().getInt("jail.x"),
+								plugin.getConfig().getInt("jail.y"), plugin.getConfig().getInt("jail.z"));
 						Runner.removeEntry(fromplayer.getName());
 						Jailer.addEntry(fromplayer.getName());
 						e.setDamage(0d);
@@ -73,12 +73,12 @@ public class EventGet implements Listener {
 			Set<String> huntMember = Hunter.getEntries();
 			sprintpl = e.getPlayer();
 			if (e.isSprinting()) {
-				issprint.put(sprintpl, true);
+				isSprint.put(sprintpl, true);
 				if (huntMember.contains(sprintpl.getName())) {
 					sprintpl.setWalkSpeed(0.3f);
 				}
 			} else {
-				issprint.put(sprintpl, false);
+				isSprint.put(sprintpl, false);
 				if (huntMember.contains(sprintpl.getName())) {
 					sprintpl.setWalkSpeed(0.15f);
 				}
@@ -91,15 +91,15 @@ public class EventGet implements Listener {
 		if (e.getCurrentItem().getItemMeta() != null) {
 			Player pl = (Player) e.getWhoClicked();
 			String clickItem = e.getCurrentItem().getItemMeta().getDisplayName();
-			config = plg.getConfig();
+			config = plugin.getConfig();
 			if (clickItem.equals(TosoCommand.menu1data.getDisplayName()) && !e.isShiftClick()) {
 				Location l = pl.getLocation();
 				this.config.set("jail.x", (int) l.getX());
 				this.config.set("jail.y", (int) l.getY());
 				this.config.set("jail.z", (int) l.getZ());
 				this.config.set("jail.boolean", true);
-				plg.saveConfig();
-				plg.reloadConfig();
+				plugin.saveConfig();
+				plugin.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "牢獄の座標を設定しました。");
 				e.setCancelled(true);
 			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu2data.getDisplayName()) && !e.isShiftClick()) {
@@ -108,8 +108,8 @@ public class EventGet implements Listener {
 				this.config.set("box.y", (int) l.getY());
 				this.config.set("box.z", (int) l.getZ());
 				this.config.set("box.boolean", true);
-				plg.saveConfig();
-				plg.reloadConfig();
+				plugin.saveConfig();
+				plugin.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ハンターのスポーン地点の座標を設定しました。");
 				e.setCancelled(true);
 			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu3data.getDisplayName()) && !e.isShiftClick()) {
@@ -118,8 +118,8 @@ public class EventGet implements Listener {
 				this.config.set("lobby.y", (int) l.getY());
 				this.config.set("lobby.z", (int) l.getZ());
 				this.config.set("lobby.boolean", true);
-				plg.saveConfig();
-				plg.reloadConfig();
+				plugin.saveConfig();
+				plugin.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ロビーの座標を設定しました。");
 				e.setCancelled(true);
 			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu4data.getDisplayName()) && !e.isShiftClick()) {
@@ -128,8 +128,8 @@ public class EventGet implements Listener {
 				this.config.set("res.y", (int) l.getY());
 				this.config.set("res.z", (int) l.getZ());
 				this.config.set("res.boolean", true);
-				plg.saveConfig();
-				plg.reloadConfig();
+				plugin.saveConfig();
+				plugin.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "復活地点の座標を設定しました。");
 				e.setCancelled(true);
 			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu5data.getDisplayName()) && !e.isShiftClick()) {
@@ -138,8 +138,8 @@ public class EventGet implements Listener {
 				this.config.set("mission1.y", (int) l.getY());
 				this.config.set("mission1.z", (int) l.getZ());
 				this.config.set("mission1.boolean", true);
-				plg.saveConfig();
-				plg.reloadConfig();
+				plugin.saveConfig();
+				plugin.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標1を設定しました。");
 				e.setCancelled(true);
 			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu6data.getDisplayName()) && !e.isShiftClick()) {
@@ -148,8 +148,8 @@ public class EventGet implements Listener {
 				this.config.set("mission2.y", (int) l.getY());
 				this.config.set("mission2.z", (int) l.getZ());
 				this.config.set("mission2.boolean", true);
-				plg.saveConfig();
-				plg.reloadConfig();
+				plugin.saveConfig();
+				plugin.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標2を設定しました。");
 				e.setCancelled(true);
 			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu7data.getDisplayName()) && !e.isShiftClick()) {
@@ -158,8 +158,8 @@ public class EventGet implements Listener {
 				this.config.set("mission3.y", (int) l.getY());
 				this.config.set("mission3.z", (int) l.getZ());
 				this.config.set("mission3.boolean", true);
-				plg.saveConfig();
-				plg.reloadConfig();
+				plugin.saveConfig();
+				plugin.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標3を設定しました。");
 				e.setCancelled(true);
 			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu8data.getDisplayName()) && !e.isShiftClick()) {
@@ -168,8 +168,8 @@ public class EventGet implements Listener {
 				this.config.set("mission4.y", (int) l.getY());
 				this.config.set("mission4.z", (int) l.getZ());
 				this.config.set("mission4.boolean", true);
-				plg.saveConfig();
-				plg.reloadConfig();
+				plugin.saveConfig();
+				plugin.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標4を設定しました。");
 				e.setCancelled(true);
 			} else if (clickItem.equalsIgnoreCase(Phone.missionlistmeta.getDisplayName()) && !e.isShiftClick()) {
@@ -205,9 +205,9 @@ public class EventGet implements Listener {
 				Hunter.removeEntry(pl.getName());
 			}
 			pl.setPlayerListName(pl.getName() + "[" + ChatColor.AQUA + "逃走者" + ChatColor.WHITE + "]");
-			if (plg.getConfig().getBoolean("lobby.boolean")) {
-				Minigames.lobbyL = new Location(pl.getWorld(), plg.getConfig().getInt("lobby.x"),
-						plg.getConfig().getInt("lobby.y"), plg.getConfig().getInt("lobby.z"));
+			if (plugin.getConfig().getBoolean("lobby.boolean")) {
+				Minigames.lobbyL = new Location(pl.getWorld(), plugin.getConfig().getInt("lobby.x"),
+						plugin.getConfig().getInt("lobby.y"), plugin.getConfig().getInt("lobby.z"));
 				pl.teleport(lobbyL);
 			}
 			if (pl.getInventory().getChestplate() != null) {
@@ -249,13 +249,13 @@ public class EventGet implements Listener {
 			pl.removePotionEffect(PotionEffectType.SPEED);
 		} else if (!Hunter.getEntries().contains(pl.getName()) || Runner.getEntries().contains(pl.getName())) {
 			if (gameTime < 1800) {
-				config = plg.getConfig();
+				config = plugin.getConfig();
 				pl.sendMessage("ゲームが開始してから30分以上経っているため、牢屋にスポーンしました。");
 				jailL = new Location(pl.getWorld(), config.getInt("jail.x"), config.getInt("jail.y"),
 						config.getInt("jail.z"));
 				pl.teleport(jailL);
 			} else if (gameTime > 1800) {
-				config = plg.getConfig();
+				config = plugin.getConfig();
 				if (!Jailer.getEntries().contains(pl.getName())) {
 					pl.sendMessage("ゲームが開始しているので、ゲーム開始場所にテレポートしました。");
 					resL = new Location(pl.getWorld(), config.getInt("res.x"), config.getInt("res.y"),

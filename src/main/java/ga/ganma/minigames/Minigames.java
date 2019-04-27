@@ -46,10 +46,10 @@ public final class Minigames extends JavaPlugin implements Listener {
 	static Location resL;
 	static Location hunterL;
 	static Location lobbyL;
-	static HashMap<Player, Boolean> issprint = new HashMap<Player, Boolean>();
+	static HashMap<Player, Boolean> isSprint = new HashMap<Player, Boolean>();
 	static int moneytanka;
 	static HashMap<Player, Integer> jailCount = new HashMap<>();
-	public static Minigames plg;
+	public static Minigames plugin;
 	FileConfiguration config;
 	static final String huntername = "ハンターの装備";
 	@SuppressWarnings("unused")
@@ -57,7 +57,7 @@ public final class Minigames extends JavaPlugin implements Listener {
 
 	@Override
 	public void onEnable() {
-		plg = this;
+		plugin = this;
 		getLogger().info("逃走中プラグインが起動しました。");
 		getLogger().info("create by ganma");
 		getLogger().info("現在のバージョン0.8.4β");

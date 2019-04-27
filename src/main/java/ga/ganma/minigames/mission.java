@@ -31,7 +31,7 @@ public class Mission {
 		mission1t = starttime;
 		mission1t = mission1t - 600;
 		L1 = missionLocation;
-		new Mission1Time().runTaskTimer(Minigames.plg, 0, 20);
+		new Mission1Time().runTaskTimer(Minigames.plugin, 0, 20);
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.sendTitle(ChatColor.RED + "ミッションが発動された...", "ゲーム時間をループ状態から戻せ！", 10, 60, 20);
 			p.playSound(p.getLocation(), Sound.UI_TOAST_IN, 1, 2);
@@ -46,7 +46,7 @@ public class Mission {
 		mission2t = starttime;
 		mission2t = mission2t - 600;
 		L2 = missionLocation;
-		new Mission2Time().runTaskTimer(Minigames.plg, 0, 20);
+		new Mission2Time().runTaskTimer(Minigames.plugin, 0, 20);
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.sendTitle(ChatColor.RED + "ミッションが発動された...", "プレイヤーの発光を阻止せよ", 10, 60, 20);
 			p.playSound(p.getLocation(), Sound.UI_TOAST_IN, 1, 2);
@@ -62,7 +62,7 @@ public class Mission {
 		mission3t = starttime;
 		mission3t = mission3t - 600;
 		L3 = missionLocation;
-		new Mission3Time().runTaskTimer(Minigames.plg, 0, 20);
+		new Mission3Time().runTaskTimer(Minigames.plugin, 0, 20);
 		item2meta.setDisplayName("鍵");
 		item2.setItemMeta(item2meta);
 		for (Player p : Bukkit.getOnlinePlayers()) {
@@ -79,7 +79,7 @@ public class Mission {
 		mission4t = starttime;
 		mission4t = mission4t - 600;
 		L4 = missionLocation;
-		new Mission4Time().runTaskTimer(Minigames.plg, 0, 20);
+		new Mission4Time().runTaskTimer(Minigames.plugin, 0, 20);
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.sendTitle(ChatColor.RED + "ミッションが発動された...", "賞金増加のチャンス！", 10, 60, 20);
 			p.playSound(p.getLocation(), Sound.UI_TOAST_IN, 1, 2);

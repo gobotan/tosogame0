@@ -15,7 +15,7 @@ public class Mission3Time extends BukkitRunnable {
 		if (Minigames.gameTime == Mission.mission3t) {
 			Mission.isMission = false;
 			this.cancel();
-			new SoundM().runTaskTimer(Minigames.plg, 0, 5);
+			new SoundM().runTaskTimer(Minigames.plugin, 0, 5);
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				p.sendTitle("時限装置からアラームが鳴り始めた！", "", 20, 100, 20);
 				p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);

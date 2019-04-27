@@ -155,27 +155,27 @@ public class TosoCommand implements CommandExecutor {
 	}
 
 	void start() {
-		FileConfiguration config = plg.getConfig();
+		FileConfiguration config = plugin.getConfig();
 		if (Minigames.hunter) {
 			if (config.getBoolean("res.boolean") && config.getBoolean("box.boolean")
 					&& config.getBoolean("jail.boolean") && config.getBoolean("mission1.boolean")
 					&& config.getBoolean("mission2.boolean") && config.getBoolean("mission3.boolean")
 					&& config.getBoolean("mission4.boolean")) {
 				Minigames.start = true;
-				Minigames.plg.getConfig();
+				Minigames.plugin.getConfig();
 				world = p.getWorld();
-				Minigames.resL = new Location(p.getWorld(), plg.getConfig().getInt("res.x"),
-						plg.getConfig().getInt("res.y"), plg.getConfig().getInt("res.z"));
-				Minigames.hunterL = new Location(p.getWorld(), plg.getConfig().getInt("box.x"),
-						plg.getConfig().getInt("box.y"), plg.getConfig().getInt("box.z"));
-				missionL.add(new Location(p.getWorld(), plg.getConfig().getInt("mission1.x"),
-						plg.getConfig().getInt("mission1.y"), plg.getConfig().getInt("mission1.z")));
-				missionL.add(new Location(p.getWorld(), plg.getConfig().getInt("mission2.x"),
-						plg.getConfig().getInt("mission2.y"), plg.getConfig().getInt("mission2.z")));
-				missionL.add(new Location(p.getWorld(), plg.getConfig().getInt("mission3.x"),
-						plg.getConfig().getInt("mission3.y"), plg.getConfig().getInt("mission3.z")));
-				missionL.add(new Location(p.getWorld(), plg.getConfig().getInt("mission4.x"),
-						plg.getConfig().getInt("mission4.y"), plg.getConfig().getInt("mission4.z")));
+				Minigames.resL = new Location(p.getWorld(), plugin.getConfig().getInt("res.x"),
+						plugin.getConfig().getInt("res.y"), plugin.getConfig().getInt("res.z"));
+				Minigames.hunterL = new Location(p.getWorld(), plugin.getConfig().getInt("box.x"),
+						plugin.getConfig().getInt("box.y"), plugin.getConfig().getInt("box.z"));
+				missionL.add(new Location(p.getWorld(), plugin.getConfig().getInt("mission1.x"),
+						plugin.getConfig().getInt("mission1.y"), plugin.getConfig().getInt("mission1.z")));
+				missionL.add(new Location(p.getWorld(), plugin.getConfig().getInt("mission2.x"),
+						plugin.getConfig().getInt("mission2.y"), plugin.getConfig().getInt("mission2.z")));
+				missionL.add(new Location(p.getWorld(), plugin.getConfig().getInt("mission3.x"),
+						plugin.getConfig().getInt("mission3.y"), plugin.getConfig().getInt("mission3.z")));
+				missionL.add(new Location(p.getWorld(), plugin.getConfig().getInt("mission4.x"),
+						plugin.getConfig().getInt("mission4.y"), plugin.getConfig().getInt("mission4.z")));
 				Collections.shuffle(missionL);
 				mission1L = missionL.get(0);
 				mission2L = missionL.get(1);
@@ -194,9 +194,9 @@ public class TosoCommand implements CommandExecutor {
 				getServer().broadcastMessage(Minigames.GAME + "ハンター放出まで残り1分です！残り時間が3600秒になるとハンターが放出します！");
 				getServer().broadcastMessage(Minigames.GAME + "5秒後にテレポートとタイマーをスタートします。");
 				Minigames.gameTime = 3660;
-				new GameTimer().runTaskTimer(Minigames.plg, 100, 20);
-				new Timer().runTaskTimer(Minigames.plg, 0, 30);
-				new Timer2().runTaskTimer(Minigames.plg, 0, 50);
+				new GameTimer().runTaskTimer(Minigames.plugin, 100, 20);
+				new Timer().runTaskTimer(Minigames.plugin, 0, 30);
+				new Timer2().runTaskTimer(Minigames.plugin, 0, 50);
 			} else if (config.getBoolean("res.boolean") || config.getBoolean("box.boolean")
 					|| config.getBoolean("jail.boolean") || config.getBoolean("mission1.boolean")
 					|| config.getBoolean("mission2.boolean") || config.getBoolean("mission3.boolean")
