@@ -24,10 +24,11 @@ public class SettingsInventoryListener implements Listener {
 		Player pl = (Player) e.getWhoClicked();
 		ItemStack clickedItem = e.getCurrentItem();
 		Inventory clickedInventory = e.getClickedInventory();
-		if (e.getCurrentItem().getItemMeta() == null) {
+
+		if (clickedItem == null || clickedInventory == null) {
 			return;
 		}
-		if (clickedItem == null || clickedInventory == null) {
+		if (!clickedItem.hasItemMeta()) {
 			return;
 		}
 
