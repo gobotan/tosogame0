@@ -1,6 +1,8 @@
-name: ganmatoso
+name: tosonow
 version: 1.0-SNAPSHOT
 main: ga.ganma.minigames.Minigames
 commands:
   toso:
     description: tosogame command.
+  phone:
+    description: phone command.

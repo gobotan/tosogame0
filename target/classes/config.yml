@@ -2,18 +2,46 @@ jail:
   x:
   y:
   z:
+  boolean: false
 
 box:
   x:
   y:
   z:
+  boolean: false
 
 lobby:
   x:
   y:
   z:
+  boolean: false
 
 res:
   x:
   y:
   z:
+  boolean: false
+
+mission1:
+  x:
+  y:
+  z:
+  boolean: false
+
+mission2:
+  x:
+  y:
+  z:
+  boolean: false
+
+mission3:
+  x:
+  y:
+  z:
+  boolean: false
+
+mission4:
+  x:
+  y:
+  z:
+  boolean: false
