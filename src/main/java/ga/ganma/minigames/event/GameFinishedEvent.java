@@ -3,13 +3,13 @@ package ga.ganma.minigames.event;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class GameTimeChangedEvent extends Event {
+public class GameFinishedEvent extends Event {
 
-	private int currentGameTime;
+	private FinishCause cause;
 	private static final HandlerList HANDLERS_LIST = new HandlerList();
 
-	public GameTimeChangedEvent(int currentGameTime) {
-		this.currentGameTime = currentGameTime;
+	public GameFinishedEvent(FinishCause cause) {
+		this.cause = cause;
 	}
 
 	@Override
@@ -21,7 +21,11 @@ public class GameTimeChangedEvent extends Event {
 		return HANDLERS_LIST;
 	}
 
-	public int getCurrentGameTime() {
-		return currentGameTime;
+	public FinishCause getFinishCause() {
+		return cause;
+	}
+
+	public enum FinishCause {
+		ELIMINATED_RUNNER, TIME_LIMIT
 	}
 }
