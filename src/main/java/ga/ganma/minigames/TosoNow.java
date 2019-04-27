@@ -60,8 +60,6 @@ public final class TosoNow extends JavaPlugin implements Listener {
 	public static TosoNow plugin;
 	public FileConfiguration config;
 	public static final String hunterArmorTitle = "ハンターの装備";
-	@SuppressWarnings("unused")
-	private Jecon jecon;
 
 	@Override
 	public void onEnable() {
@@ -95,8 +93,6 @@ public final class TosoNow extends JavaPlugin implements Listener {
 			getLogger().warning("前提プラグインであるJeconが導入されていません！");
 			return;
 		}
-
-		this.jecon = (Jecon) plugin;
 		getLogger().info("正常に起動しました。");
 	}
 
