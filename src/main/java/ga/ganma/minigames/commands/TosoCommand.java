@@ -57,7 +57,7 @@ public class TosoCommand implements CommandExecutor {
 				if (args.length == 2) {
 					Player target = Bukkit.getPlayerExact(args[1]);
 					if (target != null) {
-						if (GameManager.getHunters().contains(target)) {
+						if (!GameManager.getHunters().contains(target)) {
 							GameManager.setPlayerType(target, PlayerType.HUNTER);
 							getServer().broadcastMessage("ハンターは" + target.getName() + "さんに決まりました！");
 						} else {
