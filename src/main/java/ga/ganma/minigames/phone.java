@@ -1,5 +1,10 @@
 package ga.ganma.minigames;
 
+import static ga.ganma.minigames.TosoCommand.*;
+
+import java.util.Arrays;
+import java.util.HashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,21 +16,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import static ga.ganma.minigames.TosoCommand.*;
-
-import java.util.Arrays;
-import java.util.HashMap;
-
 public class Phone implements CommandExecutor {
 	public static final String kaigyo = System.getProperty("line.separator");
-	static ItemStack missionlist = new ItemStack(Material.BOOK);
-	static ItemMeta missionlistmeta = missionlist.getItemMeta();
-	static ItemStack oldmissionlist = new ItemStack(Material.PAPER);
-	static ItemMeta oldmissionlistmeta = oldmissionlist.getItemMeta();
-	static ItemStack jaillist = new ItemStack(Material.IRON_FENCE);
-	static ItemMeta jaillistmeta = jaillist.getItemMeta();
-	static Inventory in;
-	static HashMap<String, String> missionString = new HashMap<String, String>();
+	public static ItemStack missionlist = new ItemStack(Material.BOOK);
+	public static ItemMeta missionlistmeta = missionlist.getItemMeta();
+	public static ItemStack oldmissionlist = new ItemStack(Material.PAPER);
+	public static ItemMeta oldmissionlistmeta = oldmissionlist.getItemMeta();
+	public static ItemStack jaillist = new ItemStack(Material.IRON_FENCE);
+	public static ItemMeta jaillistmeta = jaillist.getItemMeta();
+	public static Inventory in;
+	public static HashMap<String, String> missionString = new HashMap<String, String>();
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {

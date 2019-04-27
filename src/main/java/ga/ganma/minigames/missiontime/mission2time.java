@@ -1,9 +1,9 @@
 package ga.ganma.minigames.missiontime;
 
-import ga.ganma.minigames.EventGet;
 import ga.ganma.minigames.Minigames;
 import ga.ganma.minigames.Mission;
 import ga.ganma.minigames.TosoCommand;
+import ga.ganma.minigames.listeners.GameListeners;
 
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ public class Mission2Time extends BukkitRunnable {
 				}
 			}
 			Mission.missiontf.put("mission2", false);
-			EventGet.missionS = null;
+			GameListeners.missionS = null;
 			TosoCommand.world.getBlockAt(Mission.blockL).setType(Material.AIR);
 		} else if (!Mission.isMission) {
 			this.cancel();
@@ -36,7 +36,7 @@ public class Mission2Time extends BukkitRunnable {
 				p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 2);
 			}
 			Mission.missiontf.put("mission2", true);
-			EventGet.missionS = null;
+			GameListeners.missionS = null;
 			this.cancel();
 		}
 	}

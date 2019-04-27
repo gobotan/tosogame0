@@ -17,93 +17,75 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
+import ga.ganma.minigames.listeners.GameListeners;
 import jp.jyn.jecon.Jecon;
 
 public final class Minigames extends JavaPlugin implements Listener {
-	static boolean start;
-	static boolean hunter;
-	static ScoreboardManager manager;
-	static Scoreboard board;
-	static public Team Runner;
-	static public Team Hunter;
-	static Team Jailer;
-	final static String GAME = ("[" + ChatColor.RED + "ZOSU鯖逃走中" + ChatColor.WHITE + "]");
-	static Player sprintpl;
-	static public int prize;
-	static public int gameTime = 3600;
-	static Objective main;
-	static Score Stime;
-	static Score Smoney;
-	static Score tanka;
-	static Score Srunner;
-	static Score Snull;
-	static Score Snull2;
-	static Score Snull3;
-	static Score Snull4;
-	static Score Snull5;
-	static Score serverInformation;
-	static Location jailL;
-	static Location resL;
-	static Location hunterL;
-	static Location lobbyL;
-	static HashMap<Player, Boolean> isSprint = new HashMap<Player, Boolean>();
-	static int moneytanka;
-	static HashMap<Player, Integer> jailCount = new HashMap<>();
+
+	public static boolean start;
+	public static boolean hunter;
+	public static ScoreboardManager manager;
+	public static Scoreboard board;
+	public static Team Runner;
+	public static Team Hunter;
+	public static Team Jailer;
+	public final static String GAME = ("[" + ChatColor.RED + "ZOSU鯖逃走中" + ChatColor.WHITE + "]");
+	public static Player sprintpl;
+	public static int prize = 0;
+	public static int gameTime = 3600;
+	public static Objective main;
+	public static Score Stime;
+	public static Score Smoney;
+	public static Score tanka;
+	public static Score Srunner;
+	public static Score Snull;
+	public static Score Snull2;
+	public static Score Snull3;
+	public static Score Snull4;
+	public static Score Snull5;
+	public static Score serverInformation;
+	public static Location jailL;
+	public static Location resL;
+	public static Location hunterL;
+	public static Location lobbyL;
+	public static HashMap<Player, Boolean> isSprint = new HashMap<Player, Boolean>();
+	public static int moneytanka;
+	public static HashMap<Player, Integer> jailCount = new HashMap<>();
 	public static Minigames plugin;
-	FileConfiguration config;
-	static final String huntername = "ハンターの装備";
+	public FileConfiguration config;
+	public static final String huntername = "ハンターの装備";
 	@SuppressWarnings("unused")
 	private Jecon jecon;
 
 	@Override
 	public void onEnable() {
 		plugin = this;
-		getLogger().info("逃走中プラグインが起動しました。");
-		getLogger().info("create by " + String.join(", ", getDescription().getAuthors()));
+
+		saveDefaultConfig();
+
+		// Log
+		getLogger().info("逃走中プラグインのセットアップ中...");
+		getLogger().info("製作者: " + String.join(", ", getDescription().getAuthors()));
 		getLogger().info("現在のバージョン: " + getDescription().getVersion());
+
+		// Register commands
 		getCommand("toso").setExecutor(new TosoCommand());
 		getCommand("phone").setExecutor(new Phone());
-		new EventGet(this);
 
-		manager = Bukkit.getScoreboardManager();
-		board = manager.getMainScoreboard();
-		Runner = board.getTeam("Runner");
-		if (Runner != null)
-			Runner.unregister();
-		Runner = board.registerNewTeam("Runner");
-		Runner = board.getTeam("Runner");
-		Runner.setAllowFriendlyFire(false);
-		Runner.setCanSeeFriendlyInvisibles(true);
-		Runner.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-		Hunter = board.getTeam("Hunter");
-		if (Hunter != null)
-			Hunter.unregister();
-		board.registerNewTeam("Hunter");
-		Hunter = board.getTeam("Hunter");
-		Hunter.setAllowFriendlyFire(false);
-		Hunter.setCanSeeFriendlyInvisibles(true);
-		Hunter.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-		Jailer = board.getTeam("Jailer");
-		if (Jailer != null)
-			Jailer.unregister();
-		board.registerNewTeam("Jailer");
-		Jailer = board.getTeam("Jailer");
-		Jailer.setAllowFriendlyFire(false);
-		Jailer.setCanSeeFriendlyInvisibles(true);
-		saveDefaultConfig();
-		config = getConfig();
-		main = board.getObjective("main");
-		if (main != null)
-			main.unregister();
-		main = board.registerNewObjective("main", "dummy");
-		prize = 0;
+		// Register Listeners
+		Bukkit.getPluginManager().registerEvents(new GameListeners(), this);
+
+		// Scoreboard Setup
+		setUpScoreboards();
+
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("Jecon");
 		if (plugin == null || !plugin.isEnabled()) {
-			// not available
 			getLogger().warning("前提プラグインであるJeconが導入されていません！");
+			return;
 		}
 
 		this.jecon = (Jecon) plugin;
+		getLogger().info("正常に起動しました。");
 	}
 
 	@Override
@@ -125,5 +107,46 @@ public final class Minigames extends JavaPlugin implements Listener {
 		}
 		Bukkit.getServer().broadcastMessage("合計" + a + "人に賞金を渡しました！");
 		prize = 0;
+	}
+
+	private void setUpScoreboards() {
+		manager = Bukkit.getScoreboardManager();
+		board = manager.getMainScoreboard();
+
+		// Runner
+		Runner = board.getTeam("Runner");
+		if (Runner != null)
+			Runner.unregister();
+		Runner = board.registerNewTeam("Runner");
+		Runner = board.getTeam("Runner");
+		Runner.setAllowFriendlyFire(false);
+		Runner.setCanSeeFriendlyInvisibles(true);
+		Runner.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+
+		// Hunter
+		Hunter = board.getTeam("Hunter");
+		if (Hunter != null)
+			Hunter.unregister();
+		board.registerNewTeam("Hunter");
+		Hunter = board.getTeam("Hunter");
+		Hunter.setAllowFriendlyFire(false);
+		Hunter.setCanSeeFriendlyInvisibles(true);
+		Hunter.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+
+		// Jailer
+		Jailer = board.getTeam("Jailer");
+		if (Jailer != null)
+			Jailer.unregister();
+		board.registerNewTeam("Jailer");
+		Jailer = board.getTeam("Jailer");
+		Jailer.setAllowFriendlyFire(false);
+		Jailer.setCanSeeFriendlyInvisibles(true);
+
+		// Main Scoreboard
+		config = getConfig();
+		main = board.getObjective("main");
+		if (main != null)
+			main.unregister();
+		main = board.registerNewObjective("main", "dummy");
 	}
 }
