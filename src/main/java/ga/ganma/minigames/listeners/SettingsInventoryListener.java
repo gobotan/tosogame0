@@ -36,15 +36,11 @@ public class SettingsInventoryListener implements Listener {
 		if (keyType != null) {
 			e.setCancelled(true);
 			GameSettingsManager.setLocation(keyType, pl.getLocation());
-			pl.sendMessage(ChatColor.GRAY + "牢獄の座標を設定しました。");
+			pl.sendMessage(ChatColor.GRAY + ButtonType.convertToChatString(type) + "を設定しました。");
 			return;
 		}
 
-		if (type == ButtonType.JAIL_LOCATION && !e.isShiftClick()) {
-			GameSettingsManager.setLocation(KeyType.JAIL, pl.getLocation());
-			pl.sendMessage(ChatColor.GRAY + ButtonType.convertToChatString(type) + "を設定しました。");
-			e.setCancelled(true);
-		} else if (type == ButtonType.CLOSE && !e.isShiftClick()) {
+		if (type == ButtonType.CLOSE && !e.isShiftClick()) {
 			e.setCancelled(true);
 			pl.closeInventory();
 		}
