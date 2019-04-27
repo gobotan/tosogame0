@@ -34,6 +34,7 @@ import ga.ganma.minigames.GameManager.PlayerType;
 import ga.ganma.minigames.GameSettingsManager;
 import ga.ganma.minigames.GameSettingsManager.KeyType;
 import ga.ganma.minigames.TosoNow;
+import ga.ganma.minigames.event.GameTimeChangedEvent;
 
 public class GameListeners implements Listener {
 
@@ -72,7 +73,7 @@ public class GameListeners implements Listener {
 	private HashMap<Player, Integer> jailCount = new HashMap<>();
 
 	@EventHandler
-	public void teleportToJail(GameTimeChangeListener e) {
+	public void teleportToJail(GameTimeChangedEvent e) {
 		for (Player key : new ArrayList<Player>(jailCount.keySet())) {
 			if (jailCount.get(key) == 0) {
 				jailCount.remove(key);
@@ -111,7 +112,10 @@ public class GameListeners implements Listener {
 			GameManager.setPlayerType(p, PlayerType.RUNNER);
 
 			p.sendMessage(PREFIX + ChatColor.GRAY + "あなたを逃走者に追加しました。");
-			p.teleport(GameSettingsManager.getLocation(KeyType.LOBBY));
+
+			if (GameSettingsManager.getLocation(KeyType.LOBBY) != null)
+				p.teleport(GameSettingsManager.getLocation(KeyType.LOBBY));
+
 			p.getInventory().setContents(new ItemStack[36]);
 			p.removePotionEffect(PotionEffectType.SPEED);
 		} else if (!GameManager.getHunters().contains(p) || GameManager.getRunners().contains(p)) {
