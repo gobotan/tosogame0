@@ -30,19 +30,23 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import ga.ganma.minigames.TosoNow;
 import ga.ganma.minigames.Mission;
-import ga.ganma.minigames.Phone;
-import ga.ganma.minigames.TosoCommand;
+import ga.ganma.minigames.TosoNow;
 
 public class GameListeners implements Listener {
 
-	FileConfiguration config;
+	private FileConfiguration config;
 	public static String missionS;
 	public static boolean chat;
+
+	public GameListeners(TosoNow plugin) {
+		this.config = plugin.getConfig();
+	}
 
 	@EventHandler
 	public void arrestedEvent(EntityDamageByEntityEvent e) {
@@ -98,112 +102,6 @@ public class GameListeners implements Listener {
 	}
 
 	@EventHandler
-	public void adminSettingsEvent(InventoryClickEvent e) {
-		if (e.getCurrentItem().getItemMeta() != null) {
-			Player pl = (Player) e.getWhoClicked();
-			String clickItem = e.getCurrentItem().getItemMeta().getDisplayName();
-			config = plugin.getConfig();
-			if (clickItem.equals(TosoCommand.menu1data.getDisplayName()) && !e.isShiftClick()) {
-				Location l = pl.getLocation();
-				this.config.set("jail.x", (int) l.getX());
-				this.config.set("jail.y", (int) l.getY());
-				this.config.set("jail.z", (int) l.getZ());
-				this.config.set("jail.boolean", true);
-				plugin.saveConfig();
-				plugin.reloadConfig();
-				pl.sendMessage(ChatColor.GRAY + "牢獄の座標を設定しました。");
-				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu2data.getDisplayName()) && !e.isShiftClick()) {
-				Location l = pl.getLocation();
-				this.config.set("box.x", (int) l.getX());
-				this.config.set("box.y", (int) l.getY());
-				this.config.set("box.z", (int) l.getZ());
-				this.config.set("box.boolean", true);
-				plugin.saveConfig();
-				plugin.reloadConfig();
-				pl.sendMessage(ChatColor.GRAY + "ハンターのスポーン地点の座標を設定しました。");
-				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu3data.getDisplayName()) && !e.isShiftClick()) {
-				Location l = pl.getLocation();
-				this.config.set("lobby.x", (int) l.getX());
-				this.config.set("lobby.y", (int) l.getY());
-				this.config.set("lobby.z", (int) l.getZ());
-				this.config.set("lobby.boolean", true);
-				plugin.saveConfig();
-				plugin.reloadConfig();
-				pl.sendMessage(ChatColor.GRAY + "ロビーの座標を設定しました。");
-				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu4data.getDisplayName()) && !e.isShiftClick()) {
-				Location l = pl.getLocation();
-				this.config.set("res.x", (int) l.getX());
-				this.config.set("res.y", (int) l.getY());
-				this.config.set("res.z", (int) l.getZ());
-				this.config.set("res.boolean", true);
-				plugin.saveConfig();
-				plugin.reloadConfig();
-				pl.sendMessage(ChatColor.GRAY + "復活地点の座標を設定しました。");
-				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu5data.getDisplayName()) && !e.isShiftClick()) {
-				Location l = pl.getLocation();
-				this.config.set("mission1.x", (int) l.getX());
-				this.config.set("mission1.y", (int) l.getY());
-				this.config.set("mission1.z", (int) l.getZ());
-				this.config.set("mission1.boolean", true);
-				plugin.saveConfig();
-				plugin.reloadConfig();
-				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標1を設定しました。");
-				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu6data.getDisplayName()) && !e.isShiftClick()) {
-				Location l = pl.getLocation();
-				this.config.set("mission2.x", (int) l.getX());
-				this.config.set("mission2.y", (int) l.getY());
-				this.config.set("mission2.z", (int) l.getZ());
-				this.config.set("mission2.boolean", true);
-				plugin.saveConfig();
-				plugin.reloadConfig();
-				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標2を設定しました。");
-				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu7data.getDisplayName()) && !e.isShiftClick()) {
-				Location l = pl.getLocation();
-				this.config.set("mission3.x", (int) l.getX());
-				this.config.set("mission3.y", (int) l.getY());
-				this.config.set("mission3.z", (int) l.getZ());
-				this.config.set("mission3.boolean", true);
-				plugin.saveConfig();
-				plugin.reloadConfig();
-				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標3を設定しました。");
-				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu8data.getDisplayName()) && !e.isShiftClick()) {
-				Location l = pl.getLocation();
-				this.config.set("mission4.x", (int) l.getX());
-				this.config.set("mission4.y", (int) l.getY());
-				this.config.set("mission4.z", (int) l.getZ());
-				this.config.set("mission4.boolean", true);
-				plugin.saveConfig();
-				plugin.reloadConfig();
-				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標4を設定しました。");
-				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(Phone.missionlistmeta.getDisplayName()) && !e.isShiftClick()) {
-				pl.closeInventory();
-				if (Mission.isMission && missionS != null) {
-					pl.sendMessage(missionS);
-				} else {
-					pl.sendMessage("現在発動されているミッションはありません。");
-				}
-			} else if (clickItem.equalsIgnoreCase(TosoCommand.closedata.getDisplayName()) && !e.isShiftClick()) {
-				e.setCancelled(true);
-				pl.closeInventory();
-			} else if (clickItem.equals(huntername)) {
-				e.setCancelled(true);
-			} else if (clickItem.contains("牢獄に入っている人") && e.isShiftClick()) {
-				e.setCancelled(true);
-				pl.closeInventory();
-				pl.sendMessage("未実装");
-			}
-		}
-	}
-
-	@EventHandler
 	public void joinPlayerSetupEvent(PlayerJoinEvent e) {
 		Player pl = e.getPlayer();
 		if (!start) {
@@ -222,7 +120,7 @@ public class GameListeners implements Listener {
 				pl.teleport(lobbyL);
 			}
 			if (pl.getInventory().getChestplate() != null) {
-				if (pl.getInventory().getChestplate().getItemMeta().getDisplayName().equals(huntername)) {
+				if (pl.getInventory().getChestplate().getItemMeta().getDisplayName().equals(hunterArmorTitle)) {
 					pl.getInventory().setChestplate(null);
 					pl.getInventory().setLeggings(null);
 					pl.getInventory().setBoots(null);
@@ -260,13 +158,11 @@ public class GameListeners implements Listener {
 			pl.removePotionEffect(PotionEffectType.SPEED);
 		} else if (!Hunter.getEntries().contains(pl.getName()) || Runner.getEntries().contains(pl.getName())) {
 			if (gameTime < 1800) {
-				config = plugin.getConfig();
 				pl.sendMessage("ゲームが開始してから30分以上経っているため、牢屋にスポーンしました。");
 				jailL = new Location(pl.getWorld(), config.getInt("jail.x"), config.getInt("jail.y"),
 						config.getInt("jail.z"));
 				pl.teleport(jailL);
 			} else if (gameTime > 1800) {
-				config = plugin.getConfig();
 				if (!Jailer.getEntries().contains(pl.getName())) {
 					pl.sendMessage("ゲームが開始しているので、ゲーム開始場所にテレポートしました。");
 					resL = new Location(pl.getWorld(), config.getInt("res.x"), config.getInt("res.y"),
@@ -347,6 +243,27 @@ public class GameListeners implements Listener {
 				bl.setType(Material.AIR);
 				Mission.CLEARp = e.getPlayer();
 			}
+		}
+	}
+
+	@EventHandler
+	public void hunterArmorChangeCanceller(InventoryClickEvent e) {
+		if (!(e.getWhoClicked() instanceof Player)) {
+			return;
+		}
+		Player p = (Player) e.getWhoClicked();
+		ItemStack clickedItem = e.getCurrentItem();
+		Inventory inv = e.getClickedInventory();
+
+		if (inv == null || clickedItem == null || !clickedItem.hasItemMeta()) {
+			return;
+		}
+		if (!inv.equals(p.getInventory())) {
+			return;
+		}
+
+		if (TosoNow.hunterArmorTitle.equals(clickedItem.getItemMeta().getDisplayName())) {
+			e.setCancelled(true);
 		}
 	}
 

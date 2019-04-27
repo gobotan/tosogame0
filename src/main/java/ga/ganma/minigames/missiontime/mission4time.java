@@ -1,8 +1,8 @@
 package ga.ganma.minigames.missiontime;
 
 import ga.ganma.minigames.TosoNow;
+import ga.ganma.minigames.commands.TosoCommand;
 import ga.ganma.minigames.Mission;
-import ga.ganma.minigames.TosoCommand;
 import ga.ganma.minigames.listeners.GameListeners;
 
 import org.bukkit.Bukkit;

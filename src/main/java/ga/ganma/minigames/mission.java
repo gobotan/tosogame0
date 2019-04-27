@@ -1,33 +1,42 @@
 package ga.ganma.minigames;
 
-import org.bukkit.*;
+import java.util.HashMap;
 
-import ga.ganma.minigames.listeners.GameListeners;
-import ga.ganma.minigames.missiontime.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
+import ga.ganma.minigames.commands.TosoCommand;
+import ga.ganma.minigames.listeners.GameListeners;
+import ga.ganma.minigames.missiontime.Mission1Time;
+import ga.ganma.minigames.missiontime.Mission2Time;
+import ga.ganma.minigames.missiontime.Mission3Time;
+import ga.ganma.minigames.missiontime.Mission4Time;
 
 public class Mission {
-	static public boolean isMission;
-	static public int mission1t;
-	static public int mission2t;
-	static public int mission3t;
-	static public int mission4t;
+	public static boolean isMission;
+	public static String missionS = null;
+	public static int mission1t;
+	public static int mission2t;
+	public static int mission3t;
+	public static int mission4t;
 	static Location L1;
 	static Location L2;
 	static Location L3;
 	static Location L4;
 	static ItemStack item1 = new ItemStack(Material.SEEDS);
-	static public ItemMeta item1meta = item1.getItemMeta();
+	public static ItemMeta item1meta = item1.getItemMeta();
 	static ItemStack item2 = new ItemStack(Material.TRIPWIRE_HOOK);
 	static ItemMeta item2meta = item2.getItemMeta();
-	static public HashMap<String, Boolean> missiontf = new HashMap<String, Boolean>();
-	static public HashMap<Player, Boolean> mission2B = new HashMap<Player, Boolean>();
-	static public Player CLEARp;
-	static public Location blockL;
+	public static HashMap<String, Boolean> missiontf = new HashMap<String, Boolean>();
+	public static HashMap<Player, Boolean> mission2B = new HashMap<Player, Boolean>();
+	public static Player CLEARp;
+	public static Location blockL;
 
 	static public void mission1(int starttime, Location missionLocation) {
 		mission1t = starttime;

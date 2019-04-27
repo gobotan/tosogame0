@@ -17,7 +17,13 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
+import ga.ganma.minigames.commands.PhoneCommand;
+import ga.ganma.minigames.commands.TosoCommand;
+import ga.ganma.minigames.inventories.PhoneInventoryController;
+import ga.ganma.minigames.inventories.SettingsInventoryController;
 import ga.ganma.minigames.listeners.GameListeners;
+import ga.ganma.minigames.listeners.PhoneInventoryListener;
+import ga.ganma.minigames.listeners.SettingsInventoryListener;
 import jp.jyn.jecon.Jecon;
 
 public final class TosoNow extends JavaPlugin implements Listener {
@@ -53,7 +59,7 @@ public final class TosoNow extends JavaPlugin implements Listener {
 	public static HashMap<Player, Integer> jailCount = new HashMap<>();
 	public static TosoNow plugin;
 	public FileConfiguration config;
-	public static final String huntername = "ハンターの装備";
+	public static final String hunterArmorTitle = "ハンターの装備";
 	@SuppressWarnings("unused")
 	private Jecon jecon;
 
@@ -68,12 +74,18 @@ public final class TosoNow extends JavaPlugin implements Listener {
 		getLogger().info("製作者: " + String.join(", ", getDescription().getAuthors()));
 		getLogger().info("現在のバージョン: " + getDescription().getVersion());
 
+		// initialize settings inventory
+		SettingsInventoryController.init();
+		PhoneInventoryController.init();
+
 		// Register commands
 		getCommand("toso").setExecutor(new TosoCommand());
-		getCommand("phone").setExecutor(new Phone());
+		getCommand("phone").setExecutor(new PhoneCommand());
 
 		// Register Listeners
-		Bukkit.getPluginManager().registerEvents(new GameListeners(), this);
+		Bukkit.getPluginManager().registerEvents(new GameListeners(this), this);
+		Bukkit.getPluginManager().registerEvents(new SettingsInventoryListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new PhoneInventoryListener(), this);
 
 		// Scoreboard Setup
 		setUpScoreboards();

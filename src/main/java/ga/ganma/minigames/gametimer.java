@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 
+import ga.ganma.minigames.commands.TosoCommand;
+
 public class GameTimer extends BukkitRunnable {
 
 	@Override
