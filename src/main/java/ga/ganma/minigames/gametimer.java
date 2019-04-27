@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 
 public class GameTimer extends BukkitRunnable {
+
 	@Override
 	public void run() {
 		if (Minigames.gametime == 3600) {
@@ -27,63 +28,10 @@ public class GameTimer extends BukkitRunnable {
 				}
 			}
 		}
-		if (Minigames.gametime == 3601) {
+		if ((Minigames.gametime >= 3601 && Minigames.gametime <= 3610)) {
 			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "1", 0, 25, 0);
-				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
-			}
-		}
-		if (Minigames.gametime == 3602) {
-			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "2", 0, 25, 0);
-				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
-			}
-		}
-		if (Minigames.gametime == 3603) {
-			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "3", 0, 25, 0);
-				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
-			}
-		}
-		if (Minigames.gametime == 3604) {
-			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "4", 0, 25, 0);
-				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
-			}
-		}
-		if (Minigames.gametime == 3605) {
-			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "5", 0, 25, 0);
-				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
-			}
-		}
-		if (Minigames.gametime == 3606) {
-			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "6", 0, 25, 0);
-				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
-			}
-		}
-		if (Minigames.gametime == 3607) {
-			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "7", 0, 25, 0);
-				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
-			}
-		}
-		if (Minigames.gametime == 3608) {
-			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "8", 0, 25, 0);
-				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
-			}
-		}
-		if (Minigames.gametime == 3609) {
-			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "9", 0, 25, 0);
-				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
-			}
-		}
-		if (Minigames.gametime == 3610) {
-			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "10", 0, 25, 0);
+				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "" + (Minigames.gametime - 3600), 0, 25,
+						0);
 				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
 			}
 		}
@@ -99,6 +47,7 @@ public class GameTimer extends BukkitRunnable {
 				allp.playSound(allp.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
 				allp.setSneaking(false);
 			}
+
 			Bukkit.getServer().broadcastMessage(Minigames.GAME + "逃走中が終了しました！");
 			Minigames.start = false;
 			this.cancel();
@@ -173,15 +122,12 @@ public class GameTimer extends BukkitRunnable {
 		Minigames.serverinformation.setScore(-3);
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			if (Minigames.jailcount.keySet().contains(p) && Minigames.jailcount.get(p) != null) {
-				if (Minigames.jailcount.get(p).equalsIgnoreCase("three")) {
-					Minigames.jailcount.put(p, "two");
-				} else if (Minigames.jailcount.get(p).equalsIgnoreCase("two")) {
-					Minigames.jailcount.put(p, "one");
-				} else if (Minigames.jailcount.get(p).equalsIgnoreCase("one")) {
-					Minigames.jailcount.put(p, "zero");
-				} else if (Minigames.jailcount.get(p).equalsIgnoreCase("zero")) {
-					Minigames.jailcount.put(p, null);
+
+			if (Minigames.jailcount.keySet().contains(p)) {
+				if (Minigames.jailcount.get(p) > 0) {
+					Minigames.jailcount.put(p, Minigames.jailcount.get(p) - 1);
+				} else {
+					Minigames.jailcount.remove(p);
 					p.teleport(Minigames.jailL);
 					p.sendMessage(ChatColor.GRAY + "牢屋にテレポートしました");
 				}
