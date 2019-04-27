@@ -19,30 +19,6 @@ import ga.ganma.minigames.listeners.SettingsInventoryListener;
 
 public final class TosoNow extends JavaPlugin implements Listener {
 
-	//	public static boolean start;
-	//	public static ScoreboardManager manager;
-	//	public static Scoreboard board;
-	//	public static Player sprintpl;
-	//	public static int prize = 0;
-	//	public static int gameTime = 3600;
-	//	public static Objective main;
-	//	public static Score Stime;
-	//	public static Score Smoney;
-	//	public static Score tanka;
-	//	public static Score Srunner;
-	//	public static Score Snull;
-	//	public static Score Snull2;
-	//	public static Score Snull3;
-	//	public static Score Snull4;
-	//	public static Score Snull5;
-	//	public static Score serverInformation;
-	//	public static Location jailL;
-	//	public static Location respawnLoc;
-	//	public static Location hunterLoc;
-	//	public static Location lobbyL;
-	//	public static HashMap<Player, Boolean> isSprint = new HashMap<Player, Boolean>();
-	//	public static int moneytanka;
-	//	public static HashMap<Player, Integer> jailCount = new HashMap<>();
 	public FileConfiguration config;
 	public static TosoNow plugin;
 	public static final String hunterArmorTitle = "ハンターの装備";
