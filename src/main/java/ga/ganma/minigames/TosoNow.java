@@ -51,8 +51,8 @@ public final class TosoNow extends JavaPlugin implements Listener {
 	public static Score Snull5;
 	public static Score serverInformation;
 	public static Location jailL;
-	public static Location resL;
-	public static Location hunterL;
+	public static Location respawnLoc;
+	public static Location hunterLoc;
 	public static Location lobbyL;
 	public static HashMap<Player, Boolean> isSprint = new HashMap<Player, Boolean>();
 	public static int moneytanka;
@@ -72,6 +72,9 @@ public final class TosoNow extends JavaPlugin implements Listener {
 		getLogger().info("製作者: " + String.join(", ", getDescription().getAuthors()));
 		getLogger().info("現在のバージョン: " + getDescription().getVersion());
 
+		// load settings from config
+		GameSettingsManager.load(this);
+
 		// initialize settings inventory
 		SettingsInventoryController.init();
 		PhoneInventoryController.init();
@@ -82,12 +85,13 @@ public final class TosoNow extends JavaPlugin implements Listener {
 
 		// Register Listeners
 		Bukkit.getPluginManager().registerEvents(new GameListeners(this), this);
-		Bukkit.getPluginManager().registerEvents(new SettingsInventoryListener(this), this);
+		Bukkit.getPluginManager().registerEvents(new SettingsInventoryListener(), this);
 		Bukkit.getPluginManager().registerEvents(new PhoneInventoryListener(), this);
 
 		// Scoreboard Setup
 		setUpScoreboards();
 
+		// Jcon check
 		Plugin plugin = Bukkit.getPluginManager().getPlugin("Jecon");
 		if (plugin == null || !plugin.isEnabled()) {
 			getLogger().warning("前提プラグインであるJeconが導入されていません！");

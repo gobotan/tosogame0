@@ -16,13 +16,14 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import ga.ganma.minigames.FoodLevelTimers;
+import ga.ganma.minigames.GameSettingsManager;
+import ga.ganma.minigames.GameSettingsManager.KeyType;
 import ga.ganma.minigames.GameTimer;
 import ga.ganma.minigames.TosoNow;
 import ga.ganma.minigames.inventories.SettingsInventoryController;
@@ -38,7 +39,7 @@ public class TosoCommand implements CommandExecutor {
 	LeatherArmorMeta meta3 = (LeatherArmorMeta) hunter3.getItemMeta();
 	LeatherArmorMeta meta4 = (LeatherArmorMeta) hunter4.getItemMeta();
 	static public World world;
-	static ArrayList<Location> missionL = new ArrayList<Location>();
+	static ArrayList<Location> missionLocs = new ArrayList<Location>();
 	ArrayList<Player> randamhunter = new ArrayList<Player>();
 	Player pla = null;
 	public static Location mission1L;
@@ -149,32 +150,19 @@ public class TosoCommand implements CommandExecutor {
 	}
 
 	private void start() {
-		FileConfiguration config = plugin.getConfig();
 		if (TosoNow.hunter) {
-			if (config.getBoolean("res.boolean") && config.getBoolean("box.boolean")
-					&& config.getBoolean("jail.boolean") && config.getBoolean("mission1.boolean")
-					&& config.getBoolean("mission2.boolean") && config.getBoolean("mission3.boolean")
-					&& config.getBoolean("mission4.boolean")) {
+			if (GameSettingsManager.isAllComplete()) {
 				TosoNow.start = true;
-				TosoNow.plugin.getConfig();
 				world = p.getWorld();
-				TosoNow.resL = new Location(p.getWorld(), plugin.getConfig().getInt("res.x"),
-						plugin.getConfig().getInt("res.y"), plugin.getConfig().getInt("res.z"));
-				TosoNow.hunterL = new Location(p.getWorld(), plugin.getConfig().getInt("box.x"),
-						plugin.getConfig().getInt("box.y"), plugin.getConfig().getInt("box.z"));
-				missionL.add(new Location(p.getWorld(), plugin.getConfig().getInt("mission1.x"),
-						plugin.getConfig().getInt("mission1.y"), plugin.getConfig().getInt("mission1.z")));
-				missionL.add(new Location(p.getWorld(), plugin.getConfig().getInt("mission2.x"),
-						plugin.getConfig().getInt("mission2.y"), plugin.getConfig().getInt("mission2.z")));
-				missionL.add(new Location(p.getWorld(), plugin.getConfig().getInt("mission3.x"),
-						plugin.getConfig().getInt("mission3.y"), plugin.getConfig().getInt("mission3.z")));
-				missionL.add(new Location(p.getWorld(), plugin.getConfig().getInt("mission4.x"),
-						plugin.getConfig().getInt("mission4.y"), plugin.getConfig().getInt("mission4.z")));
-				Collections.shuffle(missionL);
-				mission1L = missionL.get(0);
-				mission2L = missionL.get(1);
-				mission3L = missionL.get(2);
-				mission4L = missionL.get(3);
+				missionLocs.add(GameSettingsManager.getLocation(KeyType.MISSION1));
+				missionLocs.add(GameSettingsManager.getLocation(KeyType.MISSION2));
+				missionLocs.add(GameSettingsManager.getLocation(KeyType.MISSION3));
+				missionLocs.add(GameSettingsManager.getLocation(KeyType.MISSION4));
+				Collections.shuffle(missionLocs);
+				mission1L = missionLocs.get(0);
+				mission2L = missionLocs.get(1);
+				mission3L = missionLocs.get(2);
+				mission4L = missionLocs.get(3);
 				ArrayList<Integer> list = new ArrayList<Integer>();
 				list.add(2);
 				list.add(3);
@@ -190,34 +178,25 @@ public class TosoCommand implements CommandExecutor {
 				TosoNow.gameTime = 3660;
 				new GameTimer().runTaskTimer(TosoNow.plugin, 100, 20);
 				FoodLevelTimers.runBothTask();
-			} else if (config.getBoolean("res.boolean") || config.getBoolean("box.boolean")
-					|| config.getBoolean("jail.boolean") || config.getBoolean("mission1.boolean")
-					|| config.getBoolean("mission2.boolean") || config.getBoolean("mission3.boolean")
-					|| config.getBoolean("mission4.boolean")) {
-				if (config.getBoolean("res.boolean")) {
+			} else {
+				if (GameSettingsManager.getLocation(KeyType.RESPAWN) == null)
 					p.sendMessage(ChatColor.RED + "リスポーン地点が設定されていません！");
-				}
-				if (config.getBoolean("box.boolean")) {
+				if (GameSettingsManager.getLocation(KeyType.HUNTER_BOX) == null)
 					p.sendMessage(ChatColor.RED + "ハンターリスポーン地点が設定されていません！");
-				}
-				if (config.getBoolean("jail.boolean")) {
+				if (GameSettingsManager.getLocation(KeyType.JAIL) == null)
 					p.sendMessage(ChatColor.RED + "牢屋が設定されていません！");
-				}
-				if (config.getBoolean("mission1.boolean")) {
+				if (GameSettingsManager.getLocation(KeyType.MISSION1) == null)
 					p.sendMessage(ChatColor.RED + "ミッション地点1が設定されていません！");
-				}
-				if (config.getBoolean("mission2.boolean")) {
+				if (GameSettingsManager.getLocation(KeyType.MISSION2) == null)
 					p.sendMessage(ChatColor.RED + "ミッション地点2が設定されていません！");
-				}
-				if (config.getBoolean("mission3.boolean")) {
+				if (GameSettingsManager.getLocation(KeyType.MISSION3) == null)
 					p.sendMessage(ChatColor.RED + "ミッション地点3が設定されていません！");
-				}
-				if (config.getBoolean("mission4.boolean")) {
+				if (GameSettingsManager.getLocation(KeyType.MISSION4) == null)
 					p.sendMessage(ChatColor.RED + "ミッション地点4が設定されていません！");
-				}
 			}
-		} else
+		} else {
 			p.sendMessage(TosoNow.PREFIX + ChatColor.RED + "まだハンターを決めていません！");
+		}
 	}
 
 	public void hunter() {

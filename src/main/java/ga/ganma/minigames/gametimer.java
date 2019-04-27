@@ -22,7 +22,7 @@ public class GameTimer extends BukkitRunnable {
 				allp.sendTitle(ChatColor.RED + "ハンター放出！", "時間が0秒になるまで逃げ切れ！", 20, 60, 40);
 
 				if (TosoNow.Hunter.getEntries().contains(allp.getName())) {
-					allp.teleport(TosoNow.hunterL);
+					allp.teleport(TosoNow.hunterLoc);
 					allp.sendMessage(ChatColor.GRAY + "ハンターボックスにテレポートしました。");
 					allp.playSound(allp.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 2);
 					allp.sendTitle(ChatColor.RED + "ハンター放出！", "逃走者を全員捕まえろ！", 20, 60, 40);
@@ -56,7 +56,7 @@ public class GameTimer extends BukkitRunnable {
 		if (TosoNow.gameTime == 3660) {
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				if (TosoNow.Runner.getEntries().contains(p.getName())) {
-					p.teleport(TosoNow.resL);
+					p.teleport(TosoNow.respawnLoc);
 				}
 				p.setDisplayName(p.getPlayerListName().replace(p.getName(), ""));
 				p.setCustomName("");

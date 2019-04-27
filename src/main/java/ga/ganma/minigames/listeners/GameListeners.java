@@ -165,9 +165,9 @@ public class GameListeners implements Listener {
 			} else if (gameTime > 1800) {
 				if (!Jailer.getEntries().contains(pl.getName())) {
 					pl.sendMessage("ゲームが開始しているので、ゲーム開始場所にテレポートしました。");
-					resL = new Location(pl.getWorld(), config.getInt("res.x"), config.getInt("res.y"),
+					respawnLoc = new Location(pl.getWorld(), config.getInt("res.x"), config.getInt("res.y"),
 							config.getInt("res.z"));
-					pl.teleport(resL);
+					pl.teleport(respawnLoc);
 					Runner.addEntry(pl.getName());
 					pl.setSneaking(true);
 				} else {
@@ -179,7 +179,7 @@ public class GameListeners implements Listener {
 			}
 		} else if (Hunter.getEntries().contains(pl.getName())) {
 			pl.sendMessage("途中でログアウトしたため、ハンターボックスにテレポートしました。");
-			pl.teleport(hunterL);
+			pl.teleport(hunterLoc);
 		}
 		e.getPlayer().setFoodLevel(20);
 		e.getPlayer().setHealth(20);

@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import ga.ganma.minigames.GameSettingsManager.KeyType;
 import ga.ganma.minigames.ItemHelper;
 import net.md_5.bungee.api.ChatColor;
 
@@ -78,5 +79,51 @@ public class SettingsInventoryController {
 
 	public enum ButtonType {
 		JAIL_LOCATION, HUNTER_LOCATION, LOBBY_LOCATION, RESPAWN_LOCATION, MISSION_LOC_1, MISSION_LOC_2, MISSION_LOC_3, MISSION_LOC_4, CLOSE, UNKNOWN;
+
+		public static KeyType convertToKeyType(ButtonType type) {
+			switch (type) {
+			case JAIL_LOCATION:
+				return KeyType.JAIL;
+			case HUNTER_LOCATION:
+				return KeyType.HUNTER_BOX;
+			case LOBBY_LOCATION:
+				return KeyType.LOBBY;
+			case RESPAWN_LOCATION:
+				return KeyType.RESPAWN;
+			case MISSION_LOC_1:
+				return KeyType.MISSION1;
+			case MISSION_LOC_2:
+				return KeyType.MISSION2;
+			case MISSION_LOC_3:
+				return KeyType.MISSION3;
+			case MISSION_LOC_4:
+				return KeyType.MISSION4;
+			default:
+				return null;
+			}
+		}
+
+		public static String convertToChatString(ButtonType type) {
+			switch (type) {
+			case JAIL_LOCATION:
+				return "牢獄";
+			case HUNTER_LOCATION:
+				return "ハンターのスポーン地点";
+			case LOBBY_LOCATION:
+				return "ロビー";
+			case RESPAWN_LOCATION:
+				return "復活地点";
+			case MISSION_LOC_1:
+				return "ミッションの座標1";
+			case MISSION_LOC_2:
+				return "ミッションの座標2";
+			case MISSION_LOC_3:
+				return "ミッションの座標3";
+			case MISSION_LOC_4:
+				return "ミッションの座標4";
+			default:
+				return null;
+			}
+		}
 	}
 }
