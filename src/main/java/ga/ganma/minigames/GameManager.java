@@ -97,6 +97,7 @@ public class GameManager {
 		MissionManager.registerRandomMissions(new Mission2(), new Mission3(), new Mission4());
 
 		ScoreboardDisplayer.init(board);
+		ScoreboardDisplayer.updateScoreboardWithWaiting();
 
 		getServer().broadcastMessage(TosoNow.PREFIX + "逃走中が開始しました！");
 		getServer().broadcastMessage(TosoNow.PREFIX + "制限時間は60分");
