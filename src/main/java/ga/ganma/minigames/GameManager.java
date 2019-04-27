@@ -241,6 +241,8 @@ public class GameManager {
 				if (currentGameTime < 3600)
 					currentTotalPrize += prizePerSecond;
 
+				ScoreboardDisplayer.updateScoreboard();
+
 				if (currentGameTime <= 0) {
 					this.cancel();
 				}
