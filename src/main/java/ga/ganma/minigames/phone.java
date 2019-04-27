@@ -11,10 +11,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import static ga.ganma.minigames.TosoCommand.*;
+
 import java.util.Arrays;
 import java.util.HashMap;
-
-import static ga.ganma.minigames.TosoCommand.closedata;
 
 public class Phone implements CommandExecutor {
 	public static final String kaigyo = System.getProperty("line.separator");

@@ -1,6 +1,18 @@
 package ga.ganma.minigames;
 
-import org.bukkit.*;
+import static ga.ganma.minigames.Minigames.*;
+import static org.bukkit.Bukkit.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -10,11 +22,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-
-import java.util.*;
-
-import static ga.ganma.minigames.Minigames.*;
-import static org.bukkit.Bukkit.getServer;
 
 public class TosoCommand implements CommandExecutor {
 	static Player p;
@@ -154,7 +161,7 @@ public class TosoCommand implements CommandExecutor {
 		return false;
 	}
 
-	void start() {
+	private void start() {
 		FileConfiguration config = plugin.getConfig();
 		if (Minigames.hunter) {
 			if (config.getBoolean("res.boolean") && config.getBoolean("box.boolean")
@@ -195,8 +202,7 @@ public class TosoCommand implements CommandExecutor {
 				getServer().broadcastMessage(Minigames.GAME + "5秒後にテレポートとタイマーをスタートします。");
 				Minigames.gameTime = 3660;
 				new GameTimer().runTaskTimer(Minigames.plugin, 100, 20);
-				new Timer().runTaskTimer(Minigames.plugin, 0, 30);
-				new Timer2().runTaskTimer(Minigames.plugin, 0, 50);
+				FoodLevelTimers.runBothTask();
 			} else if (config.getBoolean("res.boolean") || config.getBoolean("box.boolean")
 					|| config.getBoolean("jail.boolean") || config.getBoolean("mission1.boolean")
 					|| config.getBoolean("mission2.boolean") || config.getBoolean("mission3.boolean")
