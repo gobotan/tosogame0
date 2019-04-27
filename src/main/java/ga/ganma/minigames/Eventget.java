@@ -23,12 +23,13 @@ import java.util.Set;
 import static ga.ganma.minigames.Minigames.*;
 import static org.bukkit.Bukkit.getServer;
 
-public class Eventget implements Listener {
+public class EventGet implements Listener {
+
 	FileConfiguration config;
 	static public String missionS;
 	static public boolean chat;
 
-	public Eventget(Plugin pl) {
+	public EventGet(Plugin pl) {
 		pl.getServer().getPluginManager().registerEvents(this, pl);
 	}
 
@@ -91,7 +92,7 @@ public class Eventget implements Listener {
 			Player pl = (Player) e.getWhoClicked();
 			String clickItem = e.getCurrentItem().getItemMeta().getDisplayName();
 			config = plg.getConfig();
-			if (clickItem.equals(tosoCommand.menu1data.getDisplayName()) && !e.isShiftClick()) {
+			if (clickItem.equals(TosoCommand.menu1data.getDisplayName()) && !e.isShiftClick()) {
 				Location l = pl.getLocation();
 				this.config.set("jail.x", (int) l.getX());
 				this.config.set("jail.y", (int) l.getY());
@@ -101,7 +102,7 @@ public class Eventget implements Listener {
 				plg.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "牢獄の座標を設定しました。");
 				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(tosoCommand.menu2data.getDisplayName()) && !e.isShiftClick()) {
+			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu2data.getDisplayName()) && !e.isShiftClick()) {
 				Location l = pl.getLocation();
 				this.config.set("box.x", (int) l.getX());
 				this.config.set("box.y", (int) l.getY());
@@ -111,7 +112,7 @@ public class Eventget implements Listener {
 				plg.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ハンターのスポーン地点の座標を設定しました。");
 				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(tosoCommand.menu3data.getDisplayName()) && !e.isShiftClick()) {
+			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu3data.getDisplayName()) && !e.isShiftClick()) {
 				Location l = pl.getLocation();
 				this.config.set("lobby.x", (int) l.getX());
 				this.config.set("lobby.y", (int) l.getY());
@@ -121,7 +122,7 @@ public class Eventget implements Listener {
 				plg.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ロビーの座標を設定しました。");
 				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(tosoCommand.menu4data.getDisplayName()) && !e.isShiftClick()) {
+			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu4data.getDisplayName()) && !e.isShiftClick()) {
 				Location l = pl.getLocation();
 				this.config.set("res.x", (int) l.getX());
 				this.config.set("res.y", (int) l.getY());
@@ -131,7 +132,7 @@ public class Eventget implements Listener {
 				plg.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "復活地点の座標を設定しました。");
 				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(tosoCommand.menu5data.getDisplayName()) && !e.isShiftClick()) {
+			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu5data.getDisplayName()) && !e.isShiftClick()) {
 				Location l = pl.getLocation();
 				this.config.set("mission1.x", (int) l.getX());
 				this.config.set("mission1.y", (int) l.getY());
@@ -141,7 +142,7 @@ public class Eventget implements Listener {
 				plg.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標1を設定しました。");
 				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(tosoCommand.menu6data.getDisplayName()) && !e.isShiftClick()) {
+			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu6data.getDisplayName()) && !e.isShiftClick()) {
 				Location l = pl.getLocation();
 				this.config.set("mission2.x", (int) l.getX());
 				this.config.set("mission2.y", (int) l.getY());
@@ -151,7 +152,7 @@ public class Eventget implements Listener {
 				plg.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標2を設定しました。");
 				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(tosoCommand.menu7data.getDisplayName()) && !e.isShiftClick()) {
+			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu7data.getDisplayName()) && !e.isShiftClick()) {
 				Location l = pl.getLocation();
 				this.config.set("mission3.x", (int) l.getX());
 				this.config.set("mission3.y", (int) l.getY());
@@ -161,7 +162,7 @@ public class Eventget implements Listener {
 				plg.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標3を設定しました。");
 				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(tosoCommand.menu8data.getDisplayName()) && !e.isShiftClick()) {
+			} else if (clickItem.equalsIgnoreCase(TosoCommand.menu8data.getDisplayName()) && !e.isShiftClick()) {
 				Location l = pl.getLocation();
 				this.config.set("mission4.x", (int) l.getX());
 				this.config.set("mission4.y", (int) l.getY());
@@ -171,14 +172,14 @@ public class Eventget implements Listener {
 				plg.reloadConfig();
 				pl.sendMessage(ChatColor.GRAY + "ミッションで使用するの座標4を設定しました。");
 				e.setCancelled(true);
-			} else if (clickItem.equalsIgnoreCase(phone.missionlistmeta.getDisplayName()) && !e.isShiftClick()) {
+			} else if (clickItem.equalsIgnoreCase(Phone.missionlistmeta.getDisplayName()) && !e.isShiftClick()) {
 				pl.closeInventory();
-				if (mission.ismission && missionS != null) {
+				if (Mission.ismission && missionS != null) {
 					pl.sendMessage(missionS);
 				} else {
 					pl.sendMessage("現在発動されているミッションはありません。");
 				}
-			} else if (clickItem.equalsIgnoreCase(tosoCommand.closedata.getDisplayName()) && !e.isShiftClick()) {
+			} else if (clickItem.equalsIgnoreCase(TosoCommand.closedata.getDisplayName()) && !e.isShiftClick()) {
 				e.setCancelled(true);
 				pl.closeInventory();
 			} else if (clickItem.equals(huntername)) {
@@ -313,10 +314,10 @@ public class Eventget implements Listener {
 		if (e.getRightClicked() instanceof Player) {
 			if (e.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("鍵")) {
 				Player p = (Player) e.getRightClicked();
-				if (!mission.mission2B.get(p)) {
-					mission.mission2B.put((Player) e.getRightClicked(), true);
+				if (!Mission.mission2B.get(p)) {
+					Mission.mission2B.put((Player) e.getRightClicked(), true);
 					(e.getRightClicked()).sendMessage("あなたは" + e.getPlayer().getName() + "さんに時限装置を解除されました！");
-				} else if (mission.mission2B.get(p)) {
+				} else if (Mission.mission2B.get(p)) {
 					e.getPlayer().sendMessage("あなたがクリックしたプレイヤーはすでに時限装置は解除されています。");
 				}
 			}
@@ -342,7 +343,7 @@ public class Eventget implements Listener {
 
 	@EventHandler
 	public void o(PlayerInteractEvent e) {
-		if (e.getClickedBlock() != null && mission.ismission) {
+		if (e.getClickedBlock() != null && Mission.ismission) {
 			Block bl = e.getClickedBlock();
 			if (bl.getType() == Material.DIAMOND_BLOCK) {
 				moneytanka = 300;
@@ -353,16 +354,16 @@ public class Eventget implements Listener {
 					}
 				}
 				bl.setType(Material.AIR);
-				mission.ismission = false;
-				mission.CLEARp = e.getPlayer();
+				Mission.ismission = false;
+				Mission.CLEARp = e.getPlayer();
 			} else if (bl.getType() == Material.BEDROCK) {
-				mission.ismission = false;
+				Mission.ismission = false;
 				bl.setType(Material.AIR);
-				mission.CLEARp = e.getPlayer();
+				Mission.CLEARp = e.getPlayer();
 			} else if (bl.getType() == Material.REDSTONE_BLOCK) {
-				mission.ismission = false;
+				Mission.ismission = false;
 				bl.setType(Material.AIR);
-				mission.CLEARp = e.getPlayer();
+				Mission.CLEARp = e.getPlayer();
 			}
 		}
 	}

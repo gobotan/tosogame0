@@ -61,9 +61,9 @@ public final class Minigames extends JavaPlugin implements Listener {
 		getLogger().info("逃走中プラグインが起動しました。");
 		getLogger().info("create by ganma");
 		getLogger().info("現在のバージョン0.8.4β");
-		getCommand("toso").setExecutor(new tosoCommand());
-		getCommand("phone").setExecutor(new phone());
-		new Eventget(this);
+		getCommand("toso").setExecutor(new TosoCommand());
+		getCommand("phone").setExecutor(new Phone());
+		new EventGet(this);
 
 		manager = Bukkit.getScoreboardManager();
 		board = manager.getMainScoreboard();

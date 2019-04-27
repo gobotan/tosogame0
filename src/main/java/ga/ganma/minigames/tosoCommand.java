@@ -16,7 +16,7 @@ import java.util.*;
 import static ga.ganma.minigames.Minigames.*;
 import static org.bukkit.Bukkit.getServer;
 
-public class tosoCommand implements CommandExecutor {
+public class TosoCommand implements CommandExecutor {
 	static Player p;
 	static ItemStack menu1 = new ItemStack(Material.IRON_FENCE);
 	static ItemMeta menu1data = menu1.getItemMeta();
@@ -194,7 +194,7 @@ public class tosoCommand implements CommandExecutor {
 				getServer().broadcastMessage(Minigames.GAME + "ハンター放出まで残り1分です！残り時間が3600秒になるとハンターが放出します！");
 				getServer().broadcastMessage(Minigames.GAME + "5秒後にテレポートとタイマーをスタートします。");
 				Minigames.gametime = 3660;
-				new gametimer().runTaskTimer(Minigames.plg, 100, 20);
+				new GameTimer().runTaskTimer(Minigames.plg, 100, 20);
 				new Timer().runTaskTimer(Minigames.plg, 0, 30);
 				new Timer2().runTaskTimer(Minigames.plg, 0, 50);
 			} else if (config.getBoolean("res.boolean") || config.getBoolean("box.boolean")
@@ -271,7 +271,7 @@ public class tosoCommand implements CommandExecutor {
 		menu6.setItemMeta(menu6data);
 		menu7.setItemMeta(menu7data);
 		menu8.setItemMeta(menu8data);
-		close.setItemMeta(tosoCommand.closedata);
+		close.setItemMeta(TosoCommand.closedata);
 		inv.setItem(0, menu1);
 		inv.setItem(1, menu2);
 		inv.setItem(2, menu3);
@@ -280,7 +280,7 @@ public class tosoCommand implements CommandExecutor {
 		inv.setItem(5, menu6);
 		inv.setItem(6, menu7);
 		inv.setItem(7, menu8);
-		inv.setItem(17, tosoCommand.close);
+		inv.setItem(17, TosoCommand.close);
 		p.openInventory(inv);
 	}
 
