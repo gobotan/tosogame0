@@ -50,7 +50,7 @@ public class EventGet implements Listener {
 					isRunner = tosoMember.contains(fromplayer.getName());
 					if (isHunter && isRunner) {
 						fromplayer.sendMessage("あなたは確保されました。3秒後に牢屋へテレポートします。");
-						jailcount.put(fromplayer, 3);
+						jailCount.put(fromplayer, 3);
 						jailL = new Location(ByPlayer.getWorld(), plg.getConfig().getInt("jail.x"),
 								plg.getConfig().getInt("jail.y"), plg.getConfig().getInt("jail.z"));
 						Runner.removeEntry(fromplayer.getName());

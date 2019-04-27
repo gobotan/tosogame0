@@ -48,7 +48,7 @@ public final class Minigames extends JavaPlugin implements Listener {
 	static Location lobbyL;
 	static HashMap<Player, Boolean> issprint = new HashMap<Player, Boolean>();
 	static int moneytanka;
-	static HashMap<Player, Integer> jailcount = new HashMap<>();
+	static HashMap<Player, Integer> jailCount = new HashMap<>();
 	public static Minigames plg;
 	FileConfiguration config;
 	static final String huntername = "ハンターの装備";

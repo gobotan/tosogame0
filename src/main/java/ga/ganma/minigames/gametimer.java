@@ -123,11 +123,11 @@ public class GameTimer extends BukkitRunnable {
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 
-			if (Minigames.jailcount.keySet().contains(p)) {
-				if (Minigames.jailcount.get(p) > 0) {
-					Minigames.jailcount.put(p, Minigames.jailcount.get(p) - 1);
+			if (Minigames.jailCount.keySet().contains(p)) {
+				if (Minigames.jailCount.get(p) > 0) {
+					Minigames.jailCount.put(p, Minigames.jailCount.get(p) - 1);
 				} else {
-					Minigames.jailcount.remove(p);
+					Minigames.jailCount.remove(p);
 					p.teleport(Minigames.jailL);
 					p.sendMessage(ChatColor.GRAY + "牢屋にテレポートしました");
 				}
