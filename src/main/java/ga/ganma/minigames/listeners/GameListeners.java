@@ -41,11 +41,11 @@ import ga.ganma.minigames.TosoCommand;
 public class GameListeners implements Listener {
 
 	FileConfiguration config;
-	static public String missionS;
-	static public boolean chat;
+	public static String missionS;
+	public static boolean chat;
 
 	@EventHandler
-	public void b(EntityDamageByEntityEvent e) {
+	public void arrestedEvent(EntityDamageByEntityEvent e) {
 		boolean isHunter;
 		boolean isRunner;
 		if (Minigames.start) {
@@ -79,7 +79,7 @@ public class GameListeners implements Listener {
 	}
 
 	@EventHandler
-	public void c(PlayerToggleSprintEvent e) {
+	public void changeSprintingEvent(PlayerToggleSprintEvent e) {
 		if (start) {
 			Set<String> huntMember = Hunter.getEntries();
 			sprintpl = e.getPlayer();
@@ -98,7 +98,7 @@ public class GameListeners implements Listener {
 	}
 
 	@EventHandler
-	public void a(InventoryClickEvent e) {
+	public void adminSettingsEvent(InventoryClickEvent e) {
 		if (e.getCurrentItem().getItemMeta() != null) {
 			Player pl = (Player) e.getWhoClicked();
 			String clickItem = e.getCurrentItem().getItemMeta().getDisplayName();
@@ -204,7 +204,7 @@ public class GameListeners implements Listener {
 	}
 
 	@EventHandler
-	public void d(PlayerJoinEvent e) {
+	public void joinPlayerSetupEvent(PlayerJoinEvent e) {
 		Player pl = e.getPlayer();
 		if (!start) {
 			pl.sendMessage(GAME + "ゾス鯖逃走中へようこそ！");
@@ -290,34 +290,12 @@ public class GameListeners implements Listener {
 	}
 
 	@EventHandler
-	public void e(PlayerCommandPreprocessEvent e) {
+	public void commandLogEvent(PlayerCommandPreprocessEvent e) {
 		for (Player p : getServer().getOnlinePlayers()) {
 			if (p.isOp()) {
 				p.sendMessage(ChatColor.GRAY + "[コマンドログ]" + e.getPlayer().getName() + "：" + e.getMessage());
 			}
 		}
-	}
-
-	@EventHandler
-	public void g(EntityInteractEvent e) {
-		e.setCancelled(true);
-	}
-
-	@EventHandler
-	public void h(FoodLevelChangeEvent e) {
-		e.setCancelled(true);
-	}
-
-	@EventHandler
-	public void i(EntityDamageByBlockEvent e) {
-		if (e.getDamager() != null) {
-			e.setCancelled(true);
-		}
-	}
-
-	@EventHandler
-	public void j(ItemDespawnEvent e) {
-		e.setCancelled(true);
 	}
 
 	@EventHandler
@@ -336,14 +314,7 @@ public class GameListeners implements Listener {
 	}
 
 	@EventHandler
-	public void m(PlayerToggleSneakEvent e) {
-		if (!e.isSneaking()) {
-			e.setCancelled(true);
-		}
-	}
-
-	@EventHandler
-	public void n(AsyncPlayerChatEvent e) {
+	public void publicChatCanceller(AsyncPlayerChatEvent e) {
 		if (!chat) {
 			e.setCancelled(true);
 			e.getPlayer().sendMessage(GAME + "現在、全体のチャットは制限されています。");
@@ -353,7 +324,7 @@ public class GameListeners implements Listener {
 	}
 
 	@EventHandler
-	public void o(PlayerInteractEvent e) {
+	public void missionListener(PlayerInteractEvent e) {
 		if (e.getClickedBlock() != null && Mission.isMission) {
 			Block bl = e.getClickedBlock();
 			if (bl.getType() == Material.DIAMOND_BLOCK) {
@@ -380,12 +351,41 @@ public class GameListeners implements Listener {
 	}
 
 	@EventHandler
-	public void p(PlayerMoveEvent e) {
+	public void autoSneakListener(PlayerMoveEvent e) {
 		e.getPlayer().setSneaking(true);
 	}
 
 	@EventHandler
-	public void q(InventoryCreativeEvent e) {
+	public void creativeInventoryAllowListener(InventoryCreativeEvent e) {
 		e.setCancelled(false);
+	}
+
+	@EventHandler
+	public void interactCanceller(EntityInteractEvent e) {
+		e.setCancelled(true);
+	}
+
+	@EventHandler
+	public void foodLevelChangeCanceller(FoodLevelChangeEvent e) {
+		e.setCancelled(true);
+	}
+
+	@EventHandler
+	public void blockDamageCanceller(EntityDamageByBlockEvent e) {
+		if (e.getDamager() != null) {
+			e.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void itemDespawnCanceller(ItemDespawnEvent e) {
+		e.setCancelled(true);
+	}
+
+	@EventHandler
+	public void sneakFixListener(PlayerToggleSneakEvent e) {
+		if (!e.isSneaking()) {
+			e.setCancelled(true);
+		}
 	}
 }
