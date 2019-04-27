@@ -49,7 +49,7 @@ public class GameTimer extends BukkitRunnable {
 				allp.setSneaking(false);
 			}
 
-			Bukkit.getServer().broadcastMessage(TosoNow.GAME + "逃走中が終了しました！");
+			Bukkit.getServer().broadcastMessage(TosoNow.PREFIX + "逃走中が終了しました！");
 			TosoNow.start = false;
 			this.cancel();
 		}
@@ -94,7 +94,7 @@ public class GameTimer extends BukkitRunnable {
 
 		TosoNow.main.unregister();
 		TosoNow.main = TosoNow.board.registerNewObjective("main", "dummy");
-		TosoNow.main.setDisplayName(TosoNow.GAME);
+		TosoNow.main.setDisplayName(TosoNow.PREFIX);
 		TosoNow.main.setDisplaySlot(DisplaySlot.SIDEBAR);
 
 		TosoNow.Snull = TosoNow.main.getScore("");

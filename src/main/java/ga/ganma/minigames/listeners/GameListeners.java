@@ -105,9 +105,9 @@ public class GameListeners implements Listener {
 	public void joinPlayerSetupEvent(PlayerJoinEvent e) {
 		Player pl = e.getPlayer();
 		if (!start) {
-			pl.sendMessage(GAME + "ゾス鯖逃走中へようこそ！");
-			pl.sendMessage(GAME + "ルールをしっかり読み、楽しい逃走中ライフをどうぞ！");
-			pl.sendMessage(GAME + ChatColor.GRAY + "あなたを逃走者に追加しました。");
+			pl.sendMessage(PREFIX + "ゾス鯖逃走中へようこそ！");
+			pl.sendMessage(PREFIX + "ルールをしっかり読み、楽しい逃走中ライフをどうぞ！");
+			pl.sendMessage(PREFIX + ChatColor.GRAY + "あなたを逃走者に追加しました。");
 			Runner.addEntry(pl.getName());
 			pl.setWalkSpeed(0.2f);
 			if (Hunter.getEntries().contains(pl.getName())) {
@@ -213,7 +213,7 @@ public class GameListeners implements Listener {
 	public void publicChatCanceller(AsyncPlayerChatEvent e) {
 		if (!chat) {
 			e.setCancelled(true);
-			e.getPlayer().sendMessage(GAME + "現在、全体のチャットは制限されています。");
+			e.getPlayer().sendMessage(PREFIX + "現在、全体のチャットは制限されています。");
 		} else {
 			e.setCancelled(false);
 		}

@@ -35,7 +35,7 @@ public final class TosoNow extends JavaPlugin implements Listener {
 	public static Team Runner;
 	public static Team Hunter;
 	public static Team Jailer;
-	public final static String GAME = ("[" + ChatColor.RED + "ZOSU鯖逃走中" + ChatColor.WHITE + "]");
+	public final static String PREFIX = ("[" + ChatColor.RED + "ZOSU鯖逃走中" + ChatColor.WHITE + "] ");
 	public static Player sprintpl;
 	public static int prize = 0;
 	public static int gameTime = 3600;

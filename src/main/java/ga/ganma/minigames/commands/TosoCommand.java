@@ -183,10 +183,10 @@ public class TosoCommand implements CommandExecutor {
 				mission2int = list.get(0);
 				mission3Int = list.get(1);
 				mission4int = list.get(2);
-				getServer().broadcastMessage(TosoNow.GAME + "逃走中が開始しました！");
-				getServer().broadcastMessage(TosoNow.GAME + "制限時間は60分");
-				getServer().broadcastMessage(TosoNow.GAME + "ハンター放出まで残り1分です！残り時間が3600秒になるとハンターが放出します！");
-				getServer().broadcastMessage(TosoNow.GAME + "5秒後にテレポートとタイマーをスタートします。");
+				getServer().broadcastMessage(TosoNow.PREFIX + "逃走中が開始しました！");
+				getServer().broadcastMessage(TosoNow.PREFIX + "制限時間は60分");
+				getServer().broadcastMessage(TosoNow.PREFIX + "ハンター放出まで残り1分です！残り時間が3600秒になるとハンターが放出します！");
+				getServer().broadcastMessage(TosoNow.PREFIX + "5秒後にテレポートとタイマーをスタートします。");
 				TosoNow.gameTime = 3660;
 				new GameTimer().runTaskTimer(TosoNow.plugin, 100, 20);
 				FoodLevelTimers.runBothTask();
@@ -217,7 +217,7 @@ public class TosoCommand implements CommandExecutor {
 				}
 			}
 		} else
-			p.sendMessage(TosoNow.GAME + ChatColor.RED + "まだハンターを決めていません！");
+			p.sendMessage(TosoNow.PREFIX + ChatColor.RED + "まだハンターを決めていません！");
 	}
 
 	public void hunter() {
