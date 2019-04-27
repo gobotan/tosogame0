@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Mission1Time extends BukkitRunnable {
+
 	@Override
 	public void run() {
 		if (Mission.ismission && Minigames.gametime == 600) {

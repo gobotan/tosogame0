@@ -9,6 +9,7 @@ import ga.ganma.minigames.Minigames;
 import ga.ganma.minigames.Mission;
 
 public class Mission3Time extends BukkitRunnable {
+
 	@Override
 	public void run() {
 		if (Minigames.gametime == Mission.mission3t) {

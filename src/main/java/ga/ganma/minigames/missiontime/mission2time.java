@@ -11,6 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Mission2Time extends BukkitRunnable {
+
 	@Override
 	public void run() {
 		if (Minigames.gametime <= Mission.mission2t) {
