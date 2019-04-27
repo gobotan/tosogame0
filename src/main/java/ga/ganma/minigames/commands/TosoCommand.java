@@ -112,13 +112,12 @@ public class TosoCommand implements CommandExecutor {
 									target.setWalkSpeed(0.25f);
 									target.setPlayerListName(
 											target.getName() + "[" + ChatColor.AQUA + "逃走者" + ChatColor.WHITE + "]");
-									if (target.getInventory().getChestplate().getItemMeta().getDisplayName()
-											.equals(hunterArmorTitle)) {
-										target.getInventory().setChestplate(null);
-										target.getInventory().setLeggings(null);
-										target.getInventory().setBoots(null);
-										target.getInventory().setHelmet(null);
-									}
+
+									target.getInventory().setChestplate(null);
+									target.getInventory().setLeggings(null);
+									target.getInventory().setBoots(null);
+									target.getInventory().setHelmet(null);
+
 									if (TosoNow.Hunter.getEntries().size() <= 0) {
 										hunter = false;
 										getServer().broadcastMessage("現在ハンターが0人になったため、ゲームを開始できなくなりました。");
@@ -146,6 +145,7 @@ public class TosoCommand implements CommandExecutor {
 
 		}
 		return false;
+
 	}
 
 	private void start() {

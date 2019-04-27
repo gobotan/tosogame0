@@ -188,8 +188,8 @@ public class GameListeners implements Listener {
 	@EventHandler
 	public void commandLogEvent(PlayerCommandPreprocessEvent e) {
 		for (Player p : getServer().getOnlinePlayers()) {
-			if (p.isOp()) {
-				p.sendMessage(ChatColor.GRAY + "[コマンドログ]" + e.getPlayer().getName() + "：" + e.getMessage());
+			if (p.isOp() && p != e.getPlayer()) {
+				p.sendMessage(ChatColor.GRAY + "[コマンドログ] " + e.getPlayer().getName() + "：" + e.getMessage());
 			}
 		}
 	}
