@@ -1,6 +1,6 @@
 package ga.ganma.minigames.listeners;
 
-import static ga.ganma.minigames.Minigames.*;
+import static ga.ganma.minigames.TosoNow.*;
 import static org.bukkit.Bukkit.*;
 
 import java.util.Set;
@@ -33,7 +33,7 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import ga.ganma.minigames.Minigames;
+import ga.ganma.minigames.TosoNow;
 import ga.ganma.minigames.Mission;
 import ga.ganma.minigames.Phone;
 import ga.ganma.minigames.TosoCommand;
@@ -48,7 +48,7 @@ public class GameListeners implements Listener {
 	public void arrestedEvent(EntityDamageByEntityEvent e) {
 		boolean isHunter;
 		boolean isRunner;
-		if (Minigames.start) {
+		if (TosoNow.start) {
 			Set<String> tosoMember = Runner.getEntries();
 			Set<String> huntMember = Hunter.getEntries();
 			Entity ByEntity = e.getDamager();
@@ -217,7 +217,7 @@ public class GameListeners implements Listener {
 			}
 			pl.setPlayerListName(pl.getName() + "[" + ChatColor.AQUA + "逃走者" + ChatColor.WHITE + "]");
 			if (plugin.getConfig().getBoolean("lobby.boolean")) {
-				Minigames.lobbyL = new Location(pl.getWorld(), plugin.getConfig().getInt("lobby.x"),
+				TosoNow.lobbyL = new Location(pl.getWorld(), plugin.getConfig().getInt("lobby.x"),
 						plugin.getConfig().getInt("lobby.y"), plugin.getConfig().getInt("lobby.z"));
 				pl.teleport(lobbyL);
 			}

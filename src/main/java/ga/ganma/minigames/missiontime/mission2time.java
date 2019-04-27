@@ -1,6 +1,6 @@
 package ga.ganma.minigames.missiontime;
 
-import ga.ganma.minigames.Minigames;
+import ga.ganma.minigames.TosoNow;
 import ga.ganma.minigames.Mission;
 import ga.ganma.minigames.TosoCommand;
 import ga.ganma.minigames.listeners.GameListeners;
@@ -15,13 +15,13 @@ public class Mission2Time extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (Minigames.gameTime <= Mission.mission2t) {
+		if (TosoNow.gameTime <= Mission.mission2t) {
 			Mission.isMission = false;
 			this.cancel();
 			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 				p.sendTitle(ChatColor.RED + "ミッション失敗", "発光が30秒間ついてしまった！", 20, 100, 20);
 				p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 2);
-				if (Minigames.Runner.getEntries().contains(p.getName())) {
+				if (TosoNow.Runner.getEntries().contains(p.getName())) {
 					PotionEffect potion = new PotionEffect(PotionEffectType.GLOWING, 600, 1);
 					p.addPotionEffect(potion);
 				}

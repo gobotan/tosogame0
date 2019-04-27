@@ -12,8 +12,8 @@ public class FoodLevelTimers {
 	private static BukkitTask decreaseTask = null;
 
 	public static void runBothTask() {
-		increaseTask = generateIncreaseTask().runTaskTimer(Minigames.plugin, 0, 50);
-		increaseTask = generateDecreaseTask().runTaskTimer(Minigames.plugin, 0, 30);
+		increaseTask = generateIncreaseTask().runTaskTimer(TosoNow.plugin, 0, 50);
+		increaseTask = generateDecreaseTask().runTaskTimer(TosoNow.plugin, 0, 30);
 
 	}
 
@@ -42,14 +42,14 @@ public class FoodLevelTimers {
 			public void run() {
 				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 
-					if (!Minigames.isSprint.containsKey(p)) {
+					if (!TosoNow.isSprint.containsKey(p)) {
 						continue;
 					}
 					if (p.getGameMode() == GameMode.CREATIVE) {
 						continue;
 					}
 
-					if (!Minigames.isSprint.get(p)) {
+					if (!TosoNow.isSprint.get(p)) {
 						int food = p.getFoodLevel();
 						if (food < 20) {
 							food++;
@@ -67,14 +67,14 @@ public class FoodLevelTimers {
 			public void run() {
 				for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 
-					if (Minigames.isSprint.containsKey(p)) {
+					if (TosoNow.isSprint.containsKey(p)) {
 						continue;
 					}
 					if (p.getGameMode() == GameMode.CREATIVE) {
 						continue;
 					}
 
-					if (Minigames.isSprint.get(p)) {
+					if (TosoNow.isSprint.get(p)) {
 						int food = p.getFoodLevel();
 						food--;
 						p.setFoodLevel(food);

@@ -1,6 +1,6 @@
 name: tosonow
 version: ${project.version}
-main: ga.ganma.minigames.Minigames
+main: ga.ganma.minigames.TosoNow
 commands:
   toso:
     description: tosogame command.

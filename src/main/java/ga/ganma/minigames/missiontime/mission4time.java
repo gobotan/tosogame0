@@ -1,6 +1,6 @@
 package ga.ganma.minigames.missiontime;
 
-import ga.ganma.minigames.Minigames;
+import ga.ganma.minigames.TosoNow;
 import ga.ganma.minigames.Mission;
 import ga.ganma.minigames.TosoCommand;
 import ga.ganma.minigames.listeners.GameListeners;
@@ -16,7 +16,7 @@ public class Mission4Time extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (Minigames.gameTime == Mission.mission4t) {
+		if (TosoNow.gameTime == Mission.mission4t) {
 			Mission.isMission = false;
 			this.cancel();
 			GameListeners.chat = true;

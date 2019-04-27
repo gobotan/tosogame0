@@ -1,6 +1,6 @@
 package ga.ganma.minigames.missiontime;
 
-import ga.ganma.minigames.Minigames;
+import ga.ganma.minigames.TosoNow;
 import ga.ganma.minigames.Mission;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,8 +12,8 @@ public class Mission1Time extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (Mission.isMission && Minigames.gameTime == 600) {
-			Minigames.gameTime = 1199;
+		if (Mission.isMission && TosoNow.gameTime == 600) {
+			TosoNow.gameTime = 1199;
 			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
 				p.sendTitle(ChatColor.RED + "ゲーム時間がループしてしまった！", "指定の座標に行き岩盤をクリックしろ！", 20, 60, 20);
 			}

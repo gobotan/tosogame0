@@ -1,6 +1,6 @@
 package ga.ganma.minigames;
 
-import static ga.ganma.minigames.Minigames.*;
+import static ga.ganma.minigames.TosoNow.*;
 import static org.bukkit.Bukkit.*;
 
 import java.util.ArrayList;
@@ -76,21 +76,21 @@ public class TosoCommand implements CommandExecutor {
 					} else if (args[0].equalsIgnoreCase("setting")) {
 						setting();
 					} else if (args[0].equalsIgnoreCase("end") && start) {
-						Minigames.gameTime = 10;
+						TosoNow.gameTime = 10;
 					} else if (args[0].equalsIgnoreCase("tanka")) {
 						if (args.length == 2) {
 							tanka = Integer.parseInt(args[1]);
-							Minigames.moneytanka = tanka;
-							getServer().broadcastMessage("賞金単価を1秒" + Minigames.moneytanka + "円に変更しました");
+							TosoNow.moneytanka = tanka;
+							getServer().broadcastMessage("賞金単価を1秒" + TosoNow.moneytanka + "円に変更しました");
 						}
 					} else if (args[0].equalsIgnoreCase("prize")) {
 						if (!start)
-							Minigames.sendmoney();
+							TosoNow.sendmoney();
 					} else if (args[0].equalsIgnoreCase("hunter") && !start) {
 						if (args.length == 2) {
 							target = Bukkit.getPlayerExact(args[1]);
 							if (target != null) {
-								if (Minigames.Runner.getEntries().contains(target.getName())) {
+								if (TosoNow.Runner.getEntries().contains(target.getName())) {
 									meta1.setColor(Color.BLACK);
 									meta1.setDisplayName(huntername);
 									meta1.setUnbreakable(true);
@@ -107,8 +107,8 @@ public class TosoCommand implements CommandExecutor {
 									hunter2.setItemMeta(meta2);
 									hunter3.setItemMeta(meta3);
 									hunter4.setItemMeta(meta4);
-									Minigames.Runner.removeEntry(target.getName());
-									Minigames.Hunter.addEntry(target.getName());
+									TosoNow.Runner.removeEntry(target.getName());
+									TosoNow.Hunter.addEntry(target.getName());
 									getServer().broadcastMessage("ハンターは" + target.getName() + "さんに決まりました！");
 									target.setWalkSpeed(0.15f);
 									target.setPlayerListName(target.getName() + "[" + ChatColor.DARK_GRAY + "ハンター"
@@ -119,8 +119,8 @@ public class TosoCommand implements CommandExecutor {
 									target.getInventory().setBoots(hunter4);
 									hunter = true;
 								} else {
-									Minigames.Hunter.removeEntry(target.getName());
-									Minigames.Runner.addEntry(target.getName());
+									TosoNow.Hunter.removeEntry(target.getName());
+									TosoNow.Runner.addEntry(target.getName());
 									getServer().broadcastMessage(target.getName() + "さんをハンターから削除しました。");
 									target.setWalkSpeed(0.25f);
 									target.setPlayerListName(
@@ -132,7 +132,7 @@ public class TosoCommand implements CommandExecutor {
 										target.getInventory().setBoots(null);
 										target.getInventory().setHelmet(null);
 									}
-									if (Minigames.Hunter.getEntries().size() <= 0) {
+									if (TosoNow.Hunter.getEntries().size() <= 0) {
 										hunter = false;
 										getServer().broadcastMessage("現在ハンターが0人になったため、ゲームを開始できなくなりました。");
 									}
@@ -163,17 +163,17 @@ public class TosoCommand implements CommandExecutor {
 
 	private void start() {
 		FileConfiguration config = plugin.getConfig();
-		if (Minigames.hunter) {
+		if (TosoNow.hunter) {
 			if (config.getBoolean("res.boolean") && config.getBoolean("box.boolean")
 					&& config.getBoolean("jail.boolean") && config.getBoolean("mission1.boolean")
 					&& config.getBoolean("mission2.boolean") && config.getBoolean("mission3.boolean")
 					&& config.getBoolean("mission4.boolean")) {
-				Minigames.start = true;
-				Minigames.plugin.getConfig();
+				TosoNow.start = true;
+				TosoNow.plugin.getConfig();
 				world = p.getWorld();
-				Minigames.resL = new Location(p.getWorld(), plugin.getConfig().getInt("res.x"),
+				TosoNow.resL = new Location(p.getWorld(), plugin.getConfig().getInt("res.x"),
 						plugin.getConfig().getInt("res.y"), plugin.getConfig().getInt("res.z"));
-				Minigames.hunterL = new Location(p.getWorld(), plugin.getConfig().getInt("box.x"),
+				TosoNow.hunterL = new Location(p.getWorld(), plugin.getConfig().getInt("box.x"),
 						plugin.getConfig().getInt("box.y"), plugin.getConfig().getInt("box.z"));
 				missionL.add(new Location(p.getWorld(), plugin.getConfig().getInt("mission1.x"),
 						plugin.getConfig().getInt("mission1.y"), plugin.getConfig().getInt("mission1.z")));
@@ -196,12 +196,12 @@ public class TosoCommand implements CommandExecutor {
 				mission2int = list.get(0);
 				mission3Int = list.get(1);
 				mission4int = list.get(2);
-				getServer().broadcastMessage(Minigames.GAME + "逃走中が開始しました！");
-				getServer().broadcastMessage(Minigames.GAME + "制限時間は60分");
-				getServer().broadcastMessage(Minigames.GAME + "ハンター放出まで残り1分です！残り時間が3600秒になるとハンターが放出します！");
-				getServer().broadcastMessage(Minigames.GAME + "5秒後にテレポートとタイマーをスタートします。");
-				Minigames.gameTime = 3660;
-				new GameTimer().runTaskTimer(Minigames.plugin, 100, 20);
+				getServer().broadcastMessage(TosoNow.GAME + "逃走中が開始しました！");
+				getServer().broadcastMessage(TosoNow.GAME + "制限時間は60分");
+				getServer().broadcastMessage(TosoNow.GAME + "ハンター放出まで残り1分です！残り時間が3600秒になるとハンターが放出します！");
+				getServer().broadcastMessage(TosoNow.GAME + "5秒後にテレポートとタイマーをスタートします。");
+				TosoNow.gameTime = 3660;
+				new GameTimer().runTaskTimer(TosoNow.plugin, 100, 20);
 				FoodLevelTimers.runBothTask();
 			} else if (config.getBoolean("res.boolean") || config.getBoolean("box.boolean")
 					|| config.getBoolean("jail.boolean") || config.getBoolean("mission1.boolean")
@@ -230,11 +230,11 @@ public class TosoCommand implements CommandExecutor {
 				}
 			}
 		} else
-			p.sendMessage(Minigames.GAME + ChatColor.RED + "まだハンターを決めていません！");
+			p.sendMessage(TosoNow.GAME + ChatColor.RED + "まだハンターを決めていません！");
 	}
 
 	public void hunter() {
-		Minigames.hunter = true;
+		TosoNow.hunter = true;
 		Material block;
 		Location l;
 		int blockx;
@@ -297,9 +297,9 @@ public class TosoCommand implements CommandExecutor {
 			int randomV = random.nextInt(size);
 			pla = randamhunter.get(randomV);
 			randamhunter.clear();
-			if (Minigames.Runner.getEntries().contains(pla.getName())) {
-				Minigames.Runner.removeEntry(pla.getName());
-				Minigames.Hunter.addEntry(pla.getName());
+			if (TosoNow.Runner.getEntries().contains(pla.getName())) {
+				TosoNow.Runner.removeEntry(pla.getName());
+				TosoNow.Hunter.addEntry(pla.getName());
 				getServer().broadcastMessage("ハンターは" + pla.getName() + "さんに決まりました！");
 				pla.setWalkSpeed(0.15f);
 				pla.setPlayerListName(pla.getName() + "[" + ChatColor.DARK_GRAY + "ハンター" + ChatColor.WHITE + "]");
@@ -319,10 +319,10 @@ public class TosoCommand implements CommandExecutor {
 				pla.getInventory().setHelmet(hunter2);
 				pla.getInventory().setLeggings(hunter3);
 				pla.getInventory().setBoots(hunter4);
-				Minigames.hunter = true;
+				TosoNow.hunter = true;
 			} else if (pla != null) {
-				Minigames.Hunter.removeEntry(pla.getName());
-				Minigames.Runner.addEntry(pla.getName());
+				TosoNow.Hunter.removeEntry(pla.getName());
+				TosoNow.Runner.addEntry(pla.getName());
 				getServer().broadcastMessage(pla.getName() + "さんをハンターから削除しました。");
 				pla.setWalkSpeed(0.2f);
 				pla.setPlayerListName(pla.getName() + "[" + ChatColor.AQUA + "逃走者" + ChatColor.WHITE + "]");
@@ -332,8 +332,8 @@ public class TosoCommand implements CommandExecutor {
 					pla.getInventory().setBoots(null);
 					pla.getInventory().setHelmet(null);
 				}
-				if (Minigames.Hunter.getEntries().size() <= 0) {
-					Minigames.hunter = false;
+				if (TosoNow.Hunter.getEntries().size() <= 0) {
+					TosoNow.hunter = false;
 					getServer().broadcastMessage("現在ハンターが0人になったため、ゲームを開始できなくなりました。");
 				}
 			} else {

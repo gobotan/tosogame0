@@ -20,7 +20,7 @@ import org.bukkit.scoreboard.Team;
 import ga.ganma.minigames.listeners.GameListeners;
 import jp.jyn.jecon.Jecon;
 
-public final class Minigames extends JavaPlugin implements Listener {
+public final class TosoNow extends JavaPlugin implements Listener {
 
 	public static boolean start;
 	public static boolean hunter;
@@ -51,7 +51,7 @@ public final class Minigames extends JavaPlugin implements Listener {
 	public static HashMap<Player, Boolean> isSprint = new HashMap<Player, Boolean>();
 	public static int moneytanka;
 	public static HashMap<Player, Integer> jailCount = new HashMap<>();
-	public static Minigames plugin;
+	public static TosoNow plugin;
 	public FileConfiguration config;
 	public static final String huntername = "ハンターの装備";
 	@SuppressWarnings("unused")

@@ -13,63 +13,63 @@ public class GameTimer extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		if (Minigames.gameTime == 3600) {
+		if (TosoNow.gameTime == 3600) {
 			Bukkit.broadcastMessage(ChatColor.RED + "ハンターが放出されました！");
 			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
 				allp.playSound(allp.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 2);
 				allp.sendTitle(ChatColor.RED + "ハンター放出！", "時間が0秒になるまで逃げ切れ！", 20, 60, 40);
 
-				if (Minigames.Hunter.getEntries().contains(allp.getName())) {
-					allp.teleport(Minigames.hunterL);
+				if (TosoNow.Hunter.getEntries().contains(allp.getName())) {
+					allp.teleport(TosoNow.hunterL);
 					allp.sendMessage(ChatColor.GRAY + "ハンターボックスにテレポートしました。");
 					allp.playSound(allp.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1, 2);
 					allp.sendTitle(ChatColor.RED + "ハンター放出！", "逃走者を全員捕まえろ！", 20, 60, 40);
 				}
 			}
 		}
-		if (Minigames.gameTime >= 3601 && Minigames.gameTime <= 3610) {
+		if (TosoNow.gameTime >= 3601 && TosoNow.gameTime <= 3610) {
 			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
-				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "" + (Minigames.gameTime - 3600), 0, 25,
+				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "" + (TosoNow.gameTime - 3600), 0, 25,
 						0);
 				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
 			}
 		}
-		if (Minigames.gameTime == 3630) {
+		if (TosoNow.gameTime == 3630) {
 			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
 				allp.sendTitle(ChatColor.RED + "ハンター放出まで", ChatColor.WHITE + "30秒前", 10, 50, 30);
 				allp.playSound(allp.getLocation(), Sound.UI_BUTTON_CLICK, 1, 2);
 			}
 		}
-		if (Minigames.gameTime == 0) {
+		if (TosoNow.gameTime == 0) {
 			for (Player allp : Bukkit.getServer().getOnlinePlayers()) {
 				allp.sendTitle(ChatColor.AQUA + "逃走中が終了しました！", null, 10, 50, 30);
 				allp.playSound(allp.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1, 1);
 				allp.setSneaking(false);
 			}
 
-			Bukkit.getServer().broadcastMessage(Minigames.GAME + "逃走中が終了しました！");
-			Minigames.start = false;
+			Bukkit.getServer().broadcastMessage(TosoNow.GAME + "逃走中が終了しました！");
+			TosoNow.start = false;
 			this.cancel();
 		}
-		if (Minigames.gameTime == 3660) {
+		if (TosoNow.gameTime == 3660) {
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				if (Minigames.Runner.getEntries().contains(p.getName())) {
-					p.teleport(Minigames.resL);
+				if (TosoNow.Runner.getEntries().contains(p.getName())) {
+					p.teleport(TosoNow.resL);
 				}
 				p.setDisplayName(p.getPlayerListName().replace(p.getName(), ""));
 				p.setCustomName("");
 				p.setSneaking(true);
 			}
 		}
-		if (Minigames.gameTime <= 3600) {
-			int pr = Minigames.prize;
-			Minigames.prize = pr + Minigames.moneytanka;
+		if (TosoNow.gameTime <= 3600) {
+			int pr = TosoNow.prize;
+			TosoNow.prize = pr + TosoNow.moneytanka;
 		}
-		if (Minigames.gameTime == 1200) {
+		if (TosoNow.gameTime == 1200) {
 			Mission.isMission = true;
 			Mission.mission1(1200, TosoCommand.mission1L);
 		}
-		if (Minigames.gameTime == 3000) {
+		if (TosoNow.gameTime == 3000) {
 			Mission.isMission = true;
 			if (TosoCommand.mission2int == 2) {
 				Mission.mission2(3000, TosoCommand.mission2L);
@@ -79,7 +79,7 @@ public class GameTimer extends BukkitRunnable {
 				Mission.mission4(3000, TosoCommand.mission2L);
 			}
 		}
-		if (Minigames.gameTime == 2100) {
+		if (TosoNow.gameTime == 2100) {
 			Mission.isMission = true;
 			if (TosoCommand.mission3Int == 2) {
 				Mission.mission2(2100, TosoCommand.mission3L);
@@ -90,55 +90,55 @@ public class GameTimer extends BukkitRunnable {
 			}
 		}
 
-		Minigames.main.unregister();
-		Minigames.main = Minigames.board.registerNewObjective("main", "dummy");
-		Minigames.main.setDisplayName(Minigames.GAME);
-		Minigames.main.setDisplaySlot(DisplaySlot.SIDEBAR);
+		TosoNow.main.unregister();
+		TosoNow.main = TosoNow.board.registerNewObjective("main", "dummy");
+		TosoNow.main.setDisplayName(TosoNow.GAME);
+		TosoNow.main.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-		Minigames.Snull = Minigames.main.getScore("");
-		Minigames.Snull.setScore(6);
-		Minigames.Srunner = Minigames.main.getScore(ChatColor.AQUA + "残り人数" + ChatColor.RESET + "：" + ChatColor.AQUA
-				+ Minigames.Runner.getEntries().size() + "人");
-		Minigames.Srunner.setScore(5);
-		Minigames.Stime = Minigames.main
-				.getScore(ChatColor.GREEN + "残り時間" + ChatColor.WHITE + "：" + Minigames.gameTime + "秒");
-		Minigames.Stime.setScore(4);
-		Minigames.Smoney = Minigames.main
-				.getScore(ChatColor.GOLD + "賞金" + ChatColor.WHITE + "：" + Minigames.prize + "円");
-		Minigames.Smoney.setScore(3);
-		Minigames.tanka = Minigames.main.getScore("賞金単価：" + ChatColor.DARK_GREEN + "1秒" + ChatColor.WHITE
-				+ Minigames.moneytanka + ChatColor.DARK_GREEN + "円");
-		Minigames.tanka.setScore(2);
-		Minigames.Snull2 = Minigames.main.getScore(" ");
-		Minigames.Snull2.setScore(1);
-		Minigames.Snull3 = Minigames.main.getScore("---------------------------");
-		Minigames.Snull3.setScore(0);
-		Minigames.Snull5 = Minigames.main.getScore("");
-		Minigames.Snull5.setScore(-1);
-		Minigames.Snull4 = Minigames.main.getScore(ChatColor.AQUA + "create by ganma_");
-		Minigames.Snull4.setScore(-2);
-		Minigames.serverInformation = Minigames.main.getScore(ChatColor.GOLD + "play the mc.zosukue.com");
-		Minigames.serverInformation.setScore(-3);
+		TosoNow.Snull = TosoNow.main.getScore("");
+		TosoNow.Snull.setScore(6);
+		TosoNow.Srunner = TosoNow.main.getScore(ChatColor.AQUA + "残り人数" + ChatColor.RESET + "：" + ChatColor.AQUA
+				+ TosoNow.Runner.getEntries().size() + "人");
+		TosoNow.Srunner.setScore(5);
+		TosoNow.Stime = TosoNow.main
+				.getScore(ChatColor.GREEN + "残り時間" + ChatColor.WHITE + "：" + TosoNow.gameTime + "秒");
+		TosoNow.Stime.setScore(4);
+		TosoNow.Smoney = TosoNow.main
+				.getScore(ChatColor.GOLD + "賞金" + ChatColor.WHITE + "：" + TosoNow.prize + "円");
+		TosoNow.Smoney.setScore(3);
+		TosoNow.tanka = TosoNow.main.getScore("賞金単価：" + ChatColor.DARK_GREEN + "1秒" + ChatColor.WHITE
+				+ TosoNow.moneytanka + ChatColor.DARK_GREEN + "円");
+		TosoNow.tanka.setScore(2);
+		TosoNow.Snull2 = TosoNow.main.getScore(" ");
+		TosoNow.Snull2.setScore(1);
+		TosoNow.Snull3 = TosoNow.main.getScore("---------------------------");
+		TosoNow.Snull3.setScore(0);
+		TosoNow.Snull5 = TosoNow.main.getScore("");
+		TosoNow.Snull5.setScore(-1);
+		TosoNow.Snull4 = TosoNow.main.getScore(ChatColor.AQUA + "create by ganma_");
+		TosoNow.Snull4.setScore(-2);
+		TosoNow.serverInformation = TosoNow.main.getScore(ChatColor.GOLD + "play the mc.zosukue.com");
+		TosoNow.serverInformation.setScore(-3);
 
 		for (Player p : Bukkit.getOnlinePlayers()) {
 
-			if (Minigames.jailCount.keySet().contains(p)) {
-				if (Minigames.jailCount.get(p) > 0) {
-					Minigames.jailCount.put(p, Minigames.jailCount.get(p) - 1);
+			if (TosoNow.jailCount.keySet().contains(p)) {
+				if (TosoNow.jailCount.get(p) > 0) {
+					TosoNow.jailCount.put(p, TosoNow.jailCount.get(p) - 1);
 				} else {
-					Minigames.jailCount.remove(p);
-					p.teleport(Minigames.jailL);
+					TosoNow.jailCount.remove(p);
+					p.teleport(TosoNow.jailL);
 					p.sendMessage(ChatColor.GRAY + "牢屋にテレポートしました");
 				}
 			}
-			if (Minigames.gameTime % 60 < 10) {
+			if (TosoNow.gameTime % 60 < 10) {
 				p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-						TextComponent.fromLegacyText(Minigames.gameTime / 60 + "：0" + Minigames.gameTime % 60));
+						TextComponent.fromLegacyText(TosoNow.gameTime / 60 + "：0" + TosoNow.gameTime % 60));
 			} else {
 				p.spigot().sendMessage(ChatMessageType.ACTION_BAR,
-						TextComponent.fromLegacyText(Minigames.gameTime / 60 + "：" + Minigames.gameTime % 60));
+						TextComponent.fromLegacyText(TosoNow.gameTime / 60 + "：" + TosoNow.gameTime % 60));
 			}
 		}
-		Minigames.gameTime--;
+		TosoNow.gameTime--;
 	}
 }
