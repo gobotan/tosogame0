@@ -118,9 +118,8 @@ public class GameSettingsManager {
 		if (loc == null)
 			return null;
 
-		return loc.getWorld().getName() + "," + String.format("%.5f", loc.getX()) + ""
-				+ String.format("%.5f", loc.getY()) + "," + String.format("%.5f", loc.getZ()) + ","
-				+ String.format("%.5f", loc.getYaw()) + "," + String.format("%.5f", loc.getPitch());
+		return loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw()
+				+ "," + loc.getPitch();
 	}
 
 	public enum KeyType {
