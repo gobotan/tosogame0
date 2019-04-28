@@ -91,18 +91,16 @@ public class GameTimeChangeListener implements Listener {
 
 	@EventHandler
 	public void actionBarDisplayer(GameTimeChangedEvent e) {
-		if (GameManager.getCurrentGameTime() % 60 < 10) {
-			JSONMessage msg = JSONMessage
-					.create(GameManager.getCurrentGameTime() / 60 + "：0" + GameManager.getCurrentGameTime() % 60);
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				msg.actionbar(p);
-			}
-		} else {
-			JSONMessage msg = JSONMessage
-					.create(GameManager.getCurrentGameTime() / 60 + "：" + GameManager.getCurrentGameTime() % 60);
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				msg.actionbar(p);
-			}
+		String msg = "";
+
+		int minutes = GameManager.getCurrentGameTime() / 60;
+		int seconds = GameManager.getCurrentGameTime() % 60;
+
+		msg = minutes + ":" + String.format("%02d", seconds); // 2桁で0埋め
+		JSONMessage actionBar = JSONMessage.create(msg);
+
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			actionBar.actionbar(p);
 		}
 	}
 }
