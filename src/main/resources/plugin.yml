@@ -8,6 +8,9 @@ commands:
     permission: tosonow.command.toso
   phone:
     description: phone command.
+    permission: tosonow.command.phone
 permissions:
   tosonow.command.toso:
     default: op
+  tosonow.command.phone:
+    default: true

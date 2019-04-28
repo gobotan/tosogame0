@@ -46,6 +46,7 @@ public final class TosoNow extends JavaPlugin implements Listener {
 		getCommand("toso").setExecutor(new TosoCommand());
 		getCommand("toso").setPermissionMessage(PREFIX + ChatColor.RED + "あなたはそのコマンドの権限を持っていません！");
 		getCommand("phone").setExecutor(new PhoneCommand());
+		getCommand("phone").setPermission(PREFIX + ChatColor.RED + "コマンドを実行する権限がありません。 運営に問い合わせてください。");
 
 		// Register Listeners
 		Bukkit.getPluginManager().registerEvents(new GameListeners(), this);
