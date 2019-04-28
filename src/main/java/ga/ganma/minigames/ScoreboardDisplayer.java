@@ -48,7 +48,7 @@ public class ScoreboardDisplayer {
 			obj.getScore(StringUtils.repeat("-", 20)).setScore(0);
 			obj.getScore("  ").setScore(-1);
 			obj.getScore(ChatColor.AQUA + "create by ganma_").setScore(-2);
-			obj.getScore(ChatColor.GOLD + "play the mc.zosukue.com").setScore(-3);
+			obj.getScore(ChatColor.GOLD + "play " + ChatColor.RED + "mc.zosukue.com").setScore(-3);
 
 			p.setScoreboard(board);
 		}
