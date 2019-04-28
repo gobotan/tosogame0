@@ -69,6 +69,8 @@ public class GameTimeChangeListener implements Listener {
 
 				p.sendMessage(ChatColor.GRAY + "ハンターボックスにテレポートしました。");
 				p.sendTitle(ChatColor.RED + "ハンター放出！", "逃走者を全員捕まえろ！", 20, 60, 40);
+
+				p.setFoodLevel(20);
 			}
 		}
 	}
