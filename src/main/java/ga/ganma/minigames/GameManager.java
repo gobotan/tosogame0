@@ -22,6 +22,8 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import org.bukkit.scoreboard.Team;
 
 import ga.ganma.minigames.GameSettingsManager.KeyType;
+import ga.ganma.minigames.event.GameFinishedEvent;
+import ga.ganma.minigames.event.GameStartedEvent;
 import ga.ganma.minigames.event.GameTimeChangedEvent;
 import ga.ganma.minigames.missions.Mission2;
 import ga.ganma.minigames.missions.Mission3;
@@ -108,10 +110,14 @@ public class GameManager {
 		FoodLevelTimers.runBothTask();
 
 		isRunningGame = true;
+
+		GameStartedEvent event = new GameStartedEvent(getHunters(), getRunners());
+		Bukkit.getPluginManager().callEvent(event);
 	}
 
 	public static void finishGame(FinishCause cause) {
-
+		GameFinishedEvent event = new GameFinishedEvent(cause);
+		Bukkit.getPluginManager().callEvent(event);
 	}
 
 	public static boolean isRunningGame() {

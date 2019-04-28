@@ -13,6 +13,7 @@ import ga.ganma.minigames.GameSettingsManager;
 import ga.ganma.minigames.GameSettingsManager.KeyType;
 import ga.ganma.minigames.TosoNow;
 import ga.ganma.minigames.event.GameTimeChangedEvent;
+import ga.ganma.minigames.event.HunterReleaseEvent;
 import me.rayzr522.jsonmessage.JSONMessage;
 
 public class GameTimeChangeListener implements Listener {
@@ -73,6 +74,9 @@ public class GameTimeChangeListener implements Listener {
 				p.setFoodLevel(20);
 			}
 		}
+
+		HunterReleaseEvent event = new HunterReleaseEvent(GameManager.getHunters());
+		Bukkit.getPluginManager().callEvent(event);
 	}
 
 	@EventHandler

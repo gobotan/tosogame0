@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -35,6 +36,7 @@ import ga.ganma.minigames.GameSettingsManager;
 import ga.ganma.minigames.GameSettingsManager.KeyType;
 import ga.ganma.minigames.TosoNow;
 import ga.ganma.minigames.event.GameTimeChangedEvent;
+import ga.ganma.minigames.event.PlayerArrestedEvent;
 
 public class GameListeners implements Listener {
 
@@ -62,6 +64,9 @@ public class GameListeners implements Listener {
 					} else {
 						e.setCancelled(true);
 					}
+
+					PlayerArrestedEvent event = new PlayerArrestedEvent(fromPlayer, byPlayer);
+					Bukkit.getPluginManager().callEvent(event);
 				}
 			}
 		}
