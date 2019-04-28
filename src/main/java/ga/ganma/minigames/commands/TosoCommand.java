@@ -3,6 +3,7 @@ package ga.ganma.minigames.commands;
 import static org.bukkit.Bukkit.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -24,9 +25,6 @@ import ga.ganma.minigames.inventories.SettingsInventoryController;
 
 public class TosoCommand implements CommandExecutor {
 
-	ArrayList<Player> randamhunter = new ArrayList<Player>();
-	Player player = null;
-
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) {
@@ -35,55 +33,109 @@ public class TosoCommand implements CommandExecutor {
 		}
 		Player p = (Player) sender;
 
-		if (args.length != 0) {
-			if (args[0].equalsIgnoreCase("start")) {
-				start(p);
-			} else if (args[0].equalsIgnoreCase("setting")) {
-				Inventory settingInv = SettingsInventoryController.generateInventory();
-				p.openInventory(settingInv);
-			} else if (args[0].equalsIgnoreCase("end") && GameManager.isRunningGame()) {
-				GameManager.setGameTime(10, false);
-			} else if (args[0].equalsIgnoreCase("tanka")) {
-				if (args.length == 2) {
-					int tanka = Integer.parseInt(args[1]);
-					GameManager.setPrizePerSecond(tanka);
-					getServer().broadcastMessage("賞金単価を1秒" + GameManager.getPrizePerSecond() + "円に変更しました");
-				}
-			} else if (args[0].equalsIgnoreCase("prize")) {
-				if (!GameManager.isRunningGame()) {
-					GameManager.givePrize();
-				}
-			} else if (args[0].equalsIgnoreCase("hunter") && !GameManager.isRunningGame()) {
-				if (args.length == 2) {
-					Player target = Bukkit.getPlayerExact(args[1]);
-					if (target != null) {
-						if (!GameManager.getHunters().contains(target)) {
-							GameManager.setPlayerType(target, PlayerType.HUNTER);
-							getServer().broadcastMessage("ハンターは" + target.getName() + "さんに決まりました！");
-						} else {
-							GameManager.setPlayerType(target, PlayerType.RUNNER);
-							getServer().broadcastMessage(target.getName() + "さんをハンターから削除しました。");
-
-							if (GameManager.getHunters().size() <= 0) {
-								getServer().broadcastMessage("現在ハンターが0人になったため、ゲームを開始できなくなりました。");
-							}
-						}
-					}
-				} else {
-					hunter();
-				}
-			} else if (args[0].equalsIgnoreCase("time")) {
-				if (args.length == 2) {
-					GameManager.setGameTime(Integer.parseInt(args[1]), false);
-				}
-			}
-		} else {
+		// 引数なし
+		if (args.length <= 0) {
 			p.sendMessage(ChatColor.GRAY + "/toso start と打つと逃走中がスタートします。");
 			p.sendMessage(ChatColor.GRAY + "/toso hunter と打つと打った人がハンターに立候補した人が決定します。");
 			p.sendMessage(ChatColor.GRAY + "/toso setting と打つと設定用のGUIが表示されます。");
 			p.sendMessage(ChatColor.GRAY + "/toso tanka  と打つと1秒あたりの賞金が設定できます。");
 			p.sendMessage(ChatColor.GRAY + "/toso prize と打つと勝者に賞金を渡せます。");
+			return true;
 		}
+
+		// toso start
+		if (args[0].equalsIgnoreCase("start")) {
+			start(p);
+			return true;
+		}
+
+		// toso setting(s)
+		if (args[0].equalsIgnoreCase("setting") || args[0].equalsIgnoreCase("settings")) {
+			Inventory settingInv = SettingsInventoryController.generateInventory();
+			p.openInventory(settingInv);
+			return true;
+		}
+
+		// toso end
+		if (args[0].equalsIgnoreCase("end") && GameManager.isRunningGame()) {
+			GameManager.setGameTime(10, false);
+			return true;
+		}
+
+		// toso tanka
+		if (args[0].equalsIgnoreCase("tanka")) {
+			if (args.length <= 1) {
+				p.sendMessage(ChatColor.RED + "値段を入力して下さい！");
+				return true;
+			}
+
+			int tanka = -1;
+			try {
+				tanka = Integer.parseInt(args[1]);
+			} catch (Exception e) {
+				p.sendMessage(ChatColor.RED + "正しい整数を入力してください。");
+				return true;
+			}
+
+			if (tanka <= 0) {
+				p.sendMessage(ChatColor.RED + "正の数を入力してください。");
+				return true;
+			}
+
+			GameManager.setPrizePerSecond(tanka);
+			getServer().broadcastMessage("賞金単価を1秒" + GameManager.getPrizePerSecond() + "円に変更しました");
+			return true;
+		}
+
+		if (args[0].equalsIgnoreCase("prize")) {
+			if (GameManager.isRunningGame()) {
+				p.sendMessage(ChatColor.RED + "現在ゲーム進行中のため賞金を与えることはできません！");
+				return true;
+			}
+
+			GameManager.givePrize();
+			return true;
+		}
+
+		if (args[0].equalsIgnoreCase("hunter") && !GameManager.isRunningGame()) {
+			Player target = null;
+			if (args.length == 2) {
+				target = Bukkit.getPlayerExact(args[1]);
+
+				if (target == null) {
+					p.sendMessage(ChatColor.YELLOW + args[1] + ChatColor.RED + "という名前のプレイヤーが見つかりませんでした。");
+					return true;
+				}
+			} else {
+				target = getRandomHunter();
+			}
+
+			if (target == null) {
+				p.sendMessage(ChatColor.RED + "条件に当てはまるプレイヤーが居ませんでした。");
+				return true;
+			}
+
+			if (!GameManager.getHunters().contains(target)) {
+				GameManager.setPlayerType(target, PlayerType.HUNTER);
+				getServer().broadcastMessage("ハンターは" + target.getName() + "さんに決まりました！");
+			} else {
+				GameManager.setPlayerType(target, PlayerType.RUNNER);
+				getServer().broadcastMessage(target.getName() + "さんをハンターから削除しました。");
+
+				if (GameManager.getHunters().size() <= 0) {
+					getServer().broadcastMessage("現在ハンターが0人になったため、ゲームを開始できなくなりました。");
+				}
+			}
+			return true;
+		}
+
+		if (args[0].equalsIgnoreCase("time")) {
+			if (args.length == 2) {
+				GameManager.setGameTime(Integer.parseInt(args[1]), false);
+			}
+			return true;
+		}
+
 		return true;
 	}
 
@@ -117,49 +169,27 @@ public class TosoCommand implements CommandExecutor {
 		GameManager.startGame();
 	}
 
-	public void hunter() {
-		Material block;
+	private Player getRandomHunter() {
 		Location loc;
 
-		for (Player pl : getServer().getOnlinePlayers()) {
-			loc = pl.getLocation().clone();
+		List<Player> targetList = new ArrayList<>();
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			loc = p.getLocation().clone();
 			loc.subtract(0, 1, 0);
 
-			block = loc.getBlock().getType();
-			if (block == Material.DIAMOND_BLOCK) {
-				randamhunter.add(pl);
+			if (loc.getBlock().getType() == Material.DIAMOND_BLOCK) {
+				targetList.add(p);
 			}
 		}
 
-		selectHunter();
-	}
-
-	public void selectHunter() {
-		if (!(randamhunter.isEmpty())) {
-			int size = randamhunter.size();
-			Random random = new Random();
-			int randomV = random.nextInt(size);
-			player = randamhunter.get(randomV);
-			randamhunter.clear();
-
-			GameManager.addHunter(player);
-
-			if (GameManager.getRunners().contains(player)) {
-				GameManager.setPlayerType(player, PlayerType.HUNTER);
-				getServer().broadcastMessage("ハンターは" + player.getName() + "さんに決まりました！");
-			} else if (player != null) {
-				GameManager.setPlayerType(player, PlayerType.RUNNER);
-
-				if (GameManager.getHunters().size() <= 0) {
-					getServer().broadcastMessage("現在ハンターが0人になったため、ゲームを開始できなくなりました。");
-				}
-			} else {
-				System.out.println("エラー");
-				System.out.println("プラグイン開発者にエラーしたことをお伝え下さい。");
-			}
-
-		} else {
-			Bukkit.broadcastMessage(ChatColor.RED + "ダイヤモンドブロックの上にまだ誰も乗っていません！");
+		if (targetList.isEmpty()) {
+			return null;
 		}
+
+		int randomNumber = new Random().nextInt(targetList.size());
+		Player hunter = targetList.get(randomNumber);
+		targetList.clear();
+
+		return hunter;
 	}
 }
