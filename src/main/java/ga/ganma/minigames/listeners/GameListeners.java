@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,35 +43,29 @@ public class GameListeners implements Listener {
 
 	@EventHandler
 	public void arrestedEvent(EntityDamageByEntityEvent e) {
-		boolean isHunter;
-		boolean isRunner;
-		if (GameManager.isRunningGame()) {
-			Entity ByEntity = e.getDamager();
-			Entity fromEntity = e.getEntity();
-			if (ByEntity instanceof Player) {
-				if (fromEntity instanceof Player) {
-					Player byPlayer = (Player) e.getDamager();
-					Player fromPlayer = (Player) e.getEntity();
-
-					isHunter = GameManager.getHunters().contains(byPlayer);
-					isRunner = GameManager.getRunners().contains(fromPlayer);
-					if (isHunter && isRunner) {
-						fromPlayer.sendMessage("あなたは確保されました。3秒後に牢屋へテレポートします。");
-						jailCount.put(fromPlayer, 3);
-						GameManager.setPlayerType(fromPlayer, PlayerType.JAILER);
-						e.setDamage(0d);
-					} else {
-						e.setCancelled(true);
-					}
-
-					PlayerArrestedEvent event = new PlayerArrestedEvent(fromPlayer, byPlayer);
-					Bukkit.getPluginManager().callEvent(event);
-				}
-			}
+		if (!GameManager.isRunningGame()) {
+			return;
 		}
-		if (e.getEntity() instanceof Player) {
-			((Player) e.getEntity()).damage(0d);
+		// Player check
+		if (!(e.getEntity() instanceof Player) || !(e.getDamager() instanceof Player)) {
+			return;
 		}
+		Player hunter = (Player) e.getDamager();
+		Player arrested = (Player) e.getEntity();
+
+		// hunter/runner check
+		if (!GameManager.getHunters().contains(hunter) || !GameManager.getRunners().contains(arrested)) {
+			e.setCancelled(true);
+			return;
+		}
+
+		arrested.sendMessage("あなたは確保されました。3秒後に牢屋へテレポートします。");
+		jailCount.put(arrested, 3);
+		GameManager.setPlayerType(arrested, PlayerType.JAILER);
+		e.setDamage(0d);
+
+		PlayerArrestedEvent event = new PlayerArrestedEvent(arrested, hunter);
+		Bukkit.getPluginManager().callEvent(event);
 	}
 
 	private HashMap<Player, Integer> jailCount = new HashMap<>();
